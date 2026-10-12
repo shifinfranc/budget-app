@@ -73,13 +73,27 @@ body{background:var(--bg);color:var(--ink);letter-spacing:.01em}
 @media(prefers-reduced-motion:no-preference){button,.card{transition:background-color .18s ease,transform .18s ease,box-shadow .18s ease}.quick button:active,.acct:active{transform:scale(.98)}}
 
 @media(prefers-reduced-motion:reduce){.account-manage-row,.acct{transition:none!important}}
+
+/* Long-press account reordering */
+#accountManage{position:relative;isolation:isolate;transition:background-color 220ms ease;border-radius:16px}
+#accountManage.reorder-mode::before{content:"";position:absolute;inset:-8px;border-radius:20px;background:rgba(30,40,60,.10);z-index:-1;animation:sectionDimIn 220ms ease both;pointer-events:none}
+@keyframes sectionDimIn{from{opacity:0}to{opacity:1}}
+.account-manage-row{position:relative;z-index:0;cursor:default;touch-action:pan-y;transform-origin:center;transition:transform 260ms cubic-bezier(.2,.8,.2,1),background-color 200ms ease,box-shadow 200ms ease,border-radius 200ms ease;will-change:transform}
+.account-manage-row .tx-icon,.account-manage-row .tx-main,.account-manage-row .edit-icon{transition:opacity 180ms ease}
+.account-manage-row.reorder-selected{z-index:4;transform:scale(1.035);background:#fff;border-radius:16px;box-shadow:0 12px 28px rgba(20,35,60,.18);padding-left:10px;padding-right:10px}
+#accountManage.reorder-mode .account-manage-row:not(.reorder-selected){opacity:.38;transition:opacity 220ms ease,transform 260ms cubic-bezier(.2,.8,.2,1)}
+#accountManage.reorder-mode .account-manage-row.reorder-selected{opacity:1}
+.account-manage-row .edit-icon{color:#171717;background:transparent;border:0;min-width:36px;min-height:36px;width:36px;height:36px;font-size:0;padding:7px}
+.account-manage-row .edit-icon svg{width:20px;height:20px;display:block}
+@media(prefers-reduced-motion:reduce){#accountManage,.account-manage-row,.account-manage-row .tx-icon,.account-manage-row .tx-main,.account-manage-row .edit-icon{transition:none!important;animation:none!important}}
+
 </style>
 </head>
 <body>
 <div class="app">
   <header class="top">
     <div class="brand"><span class="leaf">🌿</span> Budget</div>
-    <button class="iconbtn" id="settingsBtn" aria-label="Settings">⋮</button>
+    
   </header>
   <div class="accountbar">
     <div class="account-tabs" id="accountTabs"></div>
@@ -129,8 +143,8 @@ body{background:var(--bg);color:var(--ink);letter-spacing:.01em}
     </section>
 
     <section class="view" id="moreView">
-      <div class="card"><h2 class="section-title">Accounts</h2><p class="small account-order-hint">Press and hold the ≡ handle, then slide to reorder accounts.</p><div id="accountManage"></div></div>
-      <div class="card"><h2 class="section-title">Settings & tools</h2><button class="secondary" style="width:100%;margin-top:14px" id="settingsAdd">＋ Add currency account</button><button class="secondary" style="width:100%;margin-top:10px" id="exportBtn">⇩ Export data as JSON</button><button class="secondary" style="width:100%;margin-top:10px" id="importBtn">⇧ Import backup JSON</button><input id="importFile" type="file" accept=".json,application/json" hidden><button class="secondary danger" style="width:100%;margin-top:10px" id="clearBtn">Clear all app data</button><p class="small">Your data is stored in this browser on this device. Clearing browser data may remove it. Export a backup regularly. This prototype does not sync between devices.</p></div>
+      <div class="card"><h2 class="section-title">Settings</h2><p class="small account-order-hint">Press and hold an account, then slide to reorder.</p><div id="accountManage"></div></div>
+      <div class="card"><h2 class="section-title">Settings</h2><button class="secondary" style="width:100%;margin-top:14px" id="settingsAdd">＋ Add currency account</button><button class="secondary" style="width:100%;margin-top:10px" id="exportBtn">⇩ Export data as JSON</button><button class="secondary" style="width:100%;margin-top:10px" id="importBtn">⇧ Import backup JSON</button><input id="importFile" type="file" accept=".json,application/json" hidden><button class="secondary danger" style="width:100%;margin-top:10px" id="clearBtn">Clear all app data</button><p class="small">Your data is stored in this browser on this device. Clearing browser data may remove it. Export a backup regularly. This prototype does not sync between devices.</p></div>
     </section>
   </main>
 </div>
@@ -140,7 +154,7 @@ body{background:var(--bg);color:var(--ink);letter-spacing:.01em}
   <button data-view="transactions"><span>☷</span>Transactions</button>
   <button data-view="budgets"><span>◎</span>Budgets</button>
   <button data-view="reports"><span>▥</span>Reports</button>
-  <button data-view="more"><span>♙</span>Accounts</button>
+  <button data-view="more"><span>♙</span>Settings</button>
 </nav>
 <div class="toast" id="toast"></div>
 
@@ -190,22 +204,25 @@ function renderBudgets(){const a=active(),spent={};currentMonthTx(a).filter(t=>t
 function renderReports(){const a=active(),t=totals(a),net=t.income-t.expense;document.getElementById('reportCurrency').textContent=a.currency;document.getElementById('reportIncome').textContent=money(t.income,a.currency);document.getElementById('reportExpense').textContent=money(t.expense,a.currency);document.getElementById('reportNet').textContent=money(net,a.currency);document.getElementById('reportNet').className=net>=0?'income':'expense';const cats={};currentMonthTx(a).filter(x=>x.type==='expense').forEach(x=>cats[x.category]=(cats[x.category]||0)+x.amount);const rows=Object.entries(cats).sort((x,y)=>y[1]-x[1]);document.getElementById('reportCategories').innerHTML=rows.length?rows.map(([k,v])=>`<div class="reportline"><span>${esc(k)}</span><strong>${money(v,a.currency)}</strong></div>`).join(''):'<div class="empty">No expenses recorded this month.</div>'}
 function renderAccounts(){
  const host=document.getElementById('accountManage');
- host.innerHTML=state.accounts.map(a=>`<div class="account-manage-row" draggable="false" data-account-row="${esc(a.id)}"><button type="button" class="drag-handle" data-drag-handle="${esc(a.id)}" aria-label="Reorder ${esc(a.name)}" title="Press and slide to reorder">≡</button><div class="tx-icon">${currencyInfo(a.currency).flag}</div><div class="tx-main"><div class="tx-name">${esc(a.name)}</div><div class="tx-note">${esc(a.currency)} · Balance ${money(balance(a),a.currency)}</div></div><div class="account-actions"><button class="linkbtn edit-icon" data-edit-account="${esc(a.id)}" aria-label="Edit ${esc(a.name)}" title="Edit account">✎</button></div></div>`).join('');
- document.querySelectorAll('[data-edit-account]').forEach(b=>b.onclick=()=>openAccountModal(b.dataset.editAccount));
- let draggingId=null,dragRow=null,lastY=0,raf=0;
- const animateLayout=()=>{const rows=[...host.querySelectorAll('[data-account-row]')];const first=new Map(rows.map(r=>[r,r.getBoundingClientRect()]));return ()=>{for(const row of rows){const a=first.get(row),b=row.getBoundingClientRect();if(!a||!b)continue;const dy=a.top-b.top;if(dy){row.style.transition='none';row.style.transform=`translateY(${dy}px)`;requestAnimationFrame(()=>{row.style.transition='';row.style.transform=''})}}}};
- host.querySelectorAll('[data-drag-handle]').forEach(handle=>{
-   handle.addEventListener('pointerdown',e=>{e.preventDefault();draggingId=handle.dataset.dragHandle;dragRow=host.querySelector(`[data-account-row="${CSS.escape(draggingId)}"]`);if(!dragRow)return;lastY=e.clientY;dragRow.classList.add('dragging');handle.setPointerCapture?.(e.pointerId)});
-   handle.addEventListener('pointermove',e=>{if(!draggingId||!dragRow)return;e.preventDefault();lastY=e.clientY;if(raf)return;raf=requestAnimationFrame(()=>{raf=0;const rows=[...host.querySelectorAll('[data-account-row]')].filter(r=>r!==dragRow);let target=null;for(const row of rows){const rect=row.getBoundingClientRect();if(lastY<rect.top+rect.height/2){target=row;break}}if(target&&target!==dragRow.nextElementSibling){const animate=animateLayout();host.insertBefore(dragRow,target);animate()}else if(!target&&host.lastElementChild!==dragRow){const animate=animateLayout();host.appendChild(dragRow);animate()}})});
-   const finish=()=>{if(!draggingId||!dragRow)return;dragRow.classList.remove('dragging');dragRow.style.transform='';dragRow.style.transition='';const order=[...host.querySelectorAll('[data-account-row]')].map(r=>r.dataset.accountRow);state.accounts.sort((a,b)=>order.indexOf(a.id)-order.indexOf(b.id));save();renderTabs();draggingId=null;dragRow=null};
-   handle.addEventListener('pointerup',finish);handle.addEventListener('pointercancel',finish);handle.addEventListener('lostpointercapture',finish);
+ host.innerHTML=state.accounts.map(a=>`<div class="account-manage-row" data-account-row="${esc(a.id)}" aria-label="${esc(a.name)} account. Press and hold to reorder."><div class="tx-icon">${currencyInfo(a.currency).flag}</div><div class="tx-main"><div class="tx-name">${esc(a.name)}</div><div class="tx-note">${esc(a.currency)} · Balance ${money(balance(a),a.currency)}</div></div><div class="account-actions"><button class="linkbtn edit-icon" data-edit-account="${esc(a.id)}" aria-label="Edit ${esc(a.name)}" title="Edit account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L8 18l-4 1 1-4Z"/></svg></button></div></div>`).join('');
+ host.querySelectorAll('[data-edit-account]').forEach(b=>b.onclick=e=>{e.stopPropagation();openAccountModal(b.dataset.editAccount)});
+ let holdTimer=null,draggingId=null,dragRow=null,lastY=0,raf=0,pointerId=null,pressX=0,pressY=0,holdFired=false;
+ const rows=()=>[...host.querySelectorAll('[data-account-row]')];
+ const animateLayout=()=>{const list=rows();const first=new Map(list.map(r=>[r,r.getBoundingClientRect()]));return ()=>{for(const row of list){const a=first.get(row),b=row.getBoundingClientRect();if(!a||!b)continue;const dy=a.top-b.top;if(Math.abs(dy)>1){row.style.transition='none';row.style.transform=`translateY(${dy}px)`;requestAnimationFrame(()=>{row.style.transition='';row.style.transform='';})}}};};
+ const clearHold=()=>{if(holdTimer){clearTimeout(holdTimer);holdTimer=null}};
+ const finish=()=>{clearHold();if(!draggingId||!dragRow){host.classList.remove('reorder-mode');return}dragRow.classList.remove('reorder-selected');dragRow.style.transform='';dragRow.style.transition='';host.classList.remove('reorder-mode');const order=rows().map(r=>r.dataset.accountRow);state.accounts.sort((a,b)=>order.indexOf(a.id)-order.indexOf(b.id));save();renderTabs();draggingId=null;dragRow=null;pointerId=null;holdFired=false;};
+ rows().forEach(row=>{
+  row.addEventListener('pointerdown',e=>{if(e.target.closest('[data-edit-account]'))return;clearHold();pressX=e.clientX;pressY=e.clientY;lastY=e.clientY;pointerId=e.pointerId;holdFired=false;const id=row.dataset.accountRow;holdTimer=setTimeout(()=>{holdTimer=null;draggingId=id;dragRow=row;holdFired=true;host.classList.add('reorder-mode');row.classList.add('reorder-selected');row.style.touchAction='none';try{row.setPointerCapture(pointerId)}catch(_){}},360)});
+  row.addEventListener('pointermove',e=>{if(pointerId!==e.pointerId)return;if(!holdFired){if(Math.hypot(e.clientX-pressX,e.clientY-pressY)>9)clearHold();return}if(!draggingId||!dragRow)return;e.preventDefault();lastY=e.clientY;if(raf)return;raf=requestAnimationFrame(()=>{raf=0;const other=rows().filter(r=>r!==dragRow);let target=null;for(const r of other){const rect=r.getBoundingClientRect();if(lastY<rect.top+rect.height/2){target=r;break}}if(target&&target!==dragRow.nextElementSibling){const animate=animateLayout();host.insertBefore(dragRow,target);animate()}else if(!target&&host.lastElementChild!==dragRow){const animate=animateLayout();host.appendChild(dragRow);animate()}})});
+  const release=e=>{if(pointerId!==null&&e.pointerId!==pointerId)return;clearHold();if(holdFired)finish();else{pointerId=null;}};
+  row.addEventListener('pointerup',release);row.addEventListener('pointercancel',release);row.addEventListener('lostpointercapture',()=>{if(holdFired)finish()});
  });
 }
 function renderAll(){renderTabs();renderHome();renderTransactions();renderBudgets();renderReports();renderAccounts()}
 function showToast(msg){const el=document.getElementById('toast');el.textContent=msg;el.style.display='block';clearTimeout(showToast.timer);showToast.timer=setTimeout(()=>el.style.display='none',2600)}
 function navigate(view){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById(view+'View').classList.add('active');document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.view===view));if(view==='transactions')renderTransactions();window.scrollTo({top:0,behavior:'smooth'})}
 document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>navigate(b.dataset.view));
-document.getElementById('quickAdd').onclick=()=>openTransactionModal();document.getElementById('transactionAdd').onclick=()=>openTransactionModal();document.getElementById('quickBudget').onclick=()=>openBudgetModal();document.getElementById('budgetAdd').onclick=()=>openBudgetModal();document.getElementById('quickReports').onclick=()=>navigate('reports');document.getElementById('quickSavings').onclick=()=>showToast('Savings goals are planned for a future update.');document.getElementById('viewAll').onclick=()=>navigate('transactions');document.getElementById('searchTx').addEventListener('input',renderTransactions);document.getElementById('addAccountBtn').onclick=()=>openAccountModal();document.getElementById('settingsAdd').onclick=()=>openAccountModal();document.getElementById('settingsBtn').onclick=()=>navigate('more');
+document.getElementById('quickAdd').onclick=()=>openTransactionModal();document.getElementById('transactionAdd').onclick=()=>openTransactionModal();document.getElementById('quickBudget').onclick=()=>openBudgetModal();document.getElementById('budgetAdd').onclick=()=>openBudgetModal();document.getElementById('quickReports').onclick=()=>navigate('reports');document.getElementById('quickSavings').onclick=()=>showToast('Savings goals are planned for a future update.');document.getElementById('viewAll').onclick=()=>navigate('transactions');document.getElementById('searchTx').addEventListener('input',renderTransactions);document.getElementById('addAccountBtn').onclick=()=>openAccountModal();document.getElementById('settingsAdd').onclick=()=>openAccountModal();
 function openModal(title,body,submitText,mode){modalMode=mode;document.getElementById('modalTitle').textContent=title;document.getElementById('modalBody').innerHTML=body;document.getElementById('modalSubmit').textContent=submitText;document.getElementById('modalDeleteAccount').hidden=!String(mode).startsWith('editaccount:');document.getElementById('modalBackdrop').classList.add('show')}
 function closeModal(){document.getElementById('modalBackdrop').classList.remove('show')}
 document.getElementById('modalClose').onclick=closeModal;document.getElementById('modalDeleteAccount').onclick=()=>{if(modalMode.startsWith('editaccount:')&&deleteAccount(modalMode.split(':')[1]))closeModal()};document.getElementById('modalBackdrop').onclick=e=>{if(e.target.id==='modalBackdrop')closeModal()};
