@@ -231,8 +231,7 @@ function balance(a=active()){return a.opening+a.transactions.reduce((s,t)=>s+(t.
 function renderTabs(){
  const host=document.getElementById('accountTabs');
  const before=new Map([...host.querySelectorAll('[data-account]')].map(el=>[el.dataset.account,el.getBoundingClientRect()]));
- const visible=state.accounts.filter(a=>a.showInTabs!==false);
- const ordered=[...visible].sort((a,b)=>a.id===state.activeId?-1:b.id===state.activeId?1:state.accounts.indexOf(a)-state.accounts.indexOf(b));
+ const ordered=[...state.accounts].sort((a,b)=>a.id===state.activeId?-1:b.id===state.activeId?1:state.accounts.indexOf(a)-state.accounts.indexOf(b));
  host.innerHTML=ordered.map(a=>{const c=currencyInfo(a.currency);return `<button class="acct ${a.id===state.activeId?'active':''}" data-account="${esc(a.id)}"><span class="flag">${c.flag}</span><span><strong>${esc(a.name)}</strong><small>${esc(a.currency)}</small></span></button>`}).join('');
  const after=new Map([...host.querySelectorAll('[data-account]')].map(el=>[el.dataset.account,el.getBoundingClientRect()]));
  for(const el of host.querySelectorAll('[data-account]')){
@@ -256,36 +255,9 @@ function eyeSvg(open){
 }
 function renderAccounts(){
  const host=document.getElementById('accountManage');
- host.innerHTML=state.accounts.map(a=>{const shown=a.showInTabs!==false;return `<div class="account-manage-row" data-account-row="${esc(a.id)}"><div class="tx-icon">${currencyInfo(a.currency).flag}</div><div class="tx-main"><div class="tx-name">${esc(a.name)}</div><div class="tx-note">${esc(a.currency)} · Balance ${money(balance(a),a.currency)}</div></div><div class="account-actions"><button class="linkbtn view-account-icon ${shown?'eye-open':'eye-closed'}" data-toggle-account-visibility="${esc(a.id)}" aria-label="${shown?'Hide':'Show'} ${esc(a.name)} in account switcher" aria-pressed="${shown}" title="${shown?'Shown in':'Hidden from'} account switcher">${eyeSvg(shown)}</button><button class="linkbtn edit-icon" data-edit-account="${esc(a.id)}" aria-label="Settings for ${esc(a.name)}" title="Account settings"><img class="account-gear-image" alt="" aria-hidden="true" src="data:image/png;base64,${icon_b64}"></button><button class="linkbtn drag-handle" data-drag-account="${esc(a.id)}" aria-label="Reorder ${esc(a.name)}" title="Drag to reorder"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div></div>`}).join('');
+ host.innerHTML=state.accounts.map(a=>`<div class="account-manage-row" data-account-row="${esc(a.id)}"><div class="tx-icon">${currencyInfo(a.currency).flag}</div><div class="tx-main"><div class="tx-name">${esc(a.name)}</div><div class="tx-note">${esc(a.currency)} · Balance ${money(balance(a),a.currency)}</div></div><div class="account-actions"><button class="linkbtn edit-icon" data-edit-account="${esc(a.id)}" aria-label="Settings for ${esc(a.name)}" title="Account settings"><img class="account-gear-image" alt="" aria-hidden="true" src="data:image/png;base64,${icon_b64}"></button><button class="linkbtn drag-handle" data-drag-account="${esc(a.id)}" aria-label="Reorder ${esc(a.name)}" title="Drag to reorder"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div></div>`).join('');
  host.querySelectorAll('[data-edit-account]').forEach(b=>b.onclick=e=>{e.stopPropagation();openAccountModal(b.dataset.editAccount)});
- host.querySelectorAll('[data-toggle-account-visibility]').forEach(b=>b.onclick=e=>{
-   e.stopPropagation();
-   const id=b.dataset.toggleAccountVisibility;
-   const a=state.accounts.find(x=>x.id===id);
-   if(!a)return;
-   const currentlyShown=a.showInTabs!==false;
-   const shownCount=state.accounts.filter(x=>x.showInTabs!==false).length;
-   if(currentlyShown&&shownCount<=1){showToast('Keep at least one account visible in the account switcher.');return;}
-   const tab=document.querySelector(`#accountTabs [data-account="${CSS.escape(id)}"]`);
-   if(currentlyShown&&tab){
-     tab.classList.add('acct-hiding');
-     b.classList.add('eye-closing');
-     setTimeout(()=>{
-       a.showInTabs=false;
-       if(state.activeId===id){const next=state.accounts.find(x=>x.id!==id&&x.showInTabs!==false);if(next)state.activeId=next.id}
-       save();renderAll();showToast(`${a.name} hidden from account switcher`);
-     },190);
-   }else{
-     a.showInTabs=true;
-     save();
-     renderAll();
-     const newTab=document.querySelector(`#accountTabs [data-account="${CSS.escape(id)}"]`);
-     if(newTab)newTab.classList.add('acct-entering');
-     const newEye=document.querySelector(`[data-toggle-account-visibility="${CSS.escape(id)}"]`);
-     if(newEye){newEye.classList.add('eye-opening');setTimeout(()=>newEye.classList.remove('eye-opening'),280)}
-     showToast(`${a.name} shown in account switcher`);
-   }
- });
+
  const rows=()=>[...host.querySelectorAll('[data-account-row]')];
  let draggingId=null,dragRow=null,lastY=0,raf=0,pointerId=null;
  const animateLayout=()=>{const list=rows();const first=new Map(list.map(r=>[r,r.getBoundingClientRect()]));return ()=>{for(const row of list){const a=first.get(row),b=row.getBoundingClientRect();if(!a||!b)continue;const dy=a.top-b.top;if(Math.abs(dy)>1){row.style.transition='none';row.style.transform=`translateY(${dy}px)`;requestAnimationFrame(()=>{row.style.transition='';row.style.transform='';})}}};};
