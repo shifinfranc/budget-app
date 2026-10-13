@@ -166,15 +166,12 @@ body{background:var(--bg);color:var(--ink);letter-spacing:.01em}
       <div class="card"><div class="field"><label for="searchTx">Search transactions</label><input id="searchTx" placeholder="Search category or note"></div><div id="allTransactions"></div></div>
     </section>
 
-    <section class="view" id="budgetsView">
-      <div class="section-head"><h2 class="section-title">Monthly budgets</h2><button class="secondary" id="budgetAdd">＋ Set limit</button></div>
+    <section class="view" id="insightsView">
+      <div class="section-head"><h2 class="section-title">Reports</h2><span class="pill" id="reportCurrency">CAD</span></div>
+      <div class="card"><div class="reportline"><span>Income this month</span><strong class="income" id="reportIncome"></strong></div><div class="reportline"><span>Expenses this month</span><strong class="expense" id="reportExpense"></strong></div><div class="reportline"><span>Net cash flow</span><strong id="reportNet"></strong></div><hr style="border:0;border-top:1px solid var(--line)"><h3 class="section-title">Top spending categories</h3><div id="reportCategories"></div></div>
+      <div class="section-head" style="margin-top:22px"><h2 class="section-title">Monthly budgets</h2><button class="secondary" id="budgetAdd">＋ Set limit</button></div>
       <div class="card"><div class="subtle">Budget limits for <strong id="budgetAccountName"></strong></div><div id="budgetList"></div></div>
       <div class="card"><h3 class="section-title">How budgets work</h3><p class="small">Set a spending limit for each category. Budget tracks expenses in the currently selected account and currency.</p></div>
-    </section>
-
-    <section class="view" id="reportsView">
-      <div class="section-head"><h2 class="section-title">Monthly report</h2><span class="pill" id="reportCurrency">CAD</span></div>
-      <div class="card"><div class="reportline"><span>Income this month</span><strong class="income" id="reportIncome"></strong></div><div class="reportline"><span>Expenses this month</span><strong class="expense" id="reportExpense"></strong></div><div class="reportline"><span>Net cash flow</span><strong id="reportNet"></strong></div><hr style="border:0;border-top:1px solid var(--line)"><h3 class="section-title">Top spending categories</h3><div id="reportCategories"></div></div>
     </section>
 
     <section class="view" id="moreView">
@@ -187,8 +184,7 @@ body{background:var(--bg);color:var(--ink);letter-spacing:.01em}
 <nav class="nav" aria-label="Main navigation">
   <button class="active" data-view="home"><span>⌂</span>Home</button>
   <button data-view="transactions"><span>☷</span>Transactions</button>
-  <button data-view="budgets"><span>◎</span>Budgets</button>
-  <button data-view="reports"><span>▥</span>Reports</button>
+  <button data-view="insights"><span>▥</span>Reports</button>
   <button data-view="more"><span>♙</span>Accounts</button>
 </nav>
 <div class="toast" id="toast"></div>
@@ -259,7 +255,7 @@ function eyeSvg(open){
  ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>'
  : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3l18 18"/><path d="M10.6 10.7a2 2 0 0 0 2.7 2.7"/><path d="M9.9 5.3A11.7 11.7 0 0 1 12 5c6.4 0 10 7 10 7a15 15 0 0 1-3.1 3.8"/><path d="M6.2 6.3C3.5 8.1 2 12 2 12s3.6 7 10 7c1.1 0 2.1-.2 3-.5"/></svg>';
 }
-function gearSvg(){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z"/><path d="m19.4 15 .1.1 1.1.9-1.2 2.1-1.4-.5a7.8 7.8 0 0 1-1.5.9l-.2 1.5h-2.4l-.5-1.4a7.8 7.8 0 0 1-1.7 0l-.8 1.2-2.1-1.2.5-1.4a7.8 7.8 0 0 1-.9-1.5l-1.5-.2v-2.4l1.4-.5a7.8 7.8 0 0 1 0-1.7L7 9.5l1.2-2.1 1.4.5a7.8 7.8 0 0 1 1.5-.9l.2-1.5h2.4l.5 1.4a7.8 7.8 0 0 1 1.7 0l.8-1.2 2.1 1.2-.5 1.4a7.8 7.8 0 0 1 .9 1.5l1.5.2v2.4l-1.4.5a7.8 7.8 0 0 1 0 1.6Z" transform="translate(-1 -1)"/></svg>'}
+function gearSvg(){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.7 2.8h4.6l.55 2.05c.55.17 1.07.39 1.55.67l1.95-.85 2.3 3.98-1.52 1.45c.08.58.08 1.16 0 1.74l1.52 1.45-2.3 3.98-1.95-.85c-.48.28-1 .5-1.55.67L14.3 19.2H9.7l-.55-2.05a7.2 7.2 0 0 1-1.55-.67l-1.95.85-2.3-3.98 1.52-1.45a6.6 6.6 0 0 1 0-1.74L3.35 8.71l2.3-3.98 1.95.85c.48-.28 1-.5 1.55-.67Z"/><circle cx="12" cy="11.6" r="3.05"/></svg>'}
 function renderAccounts(){
  const host=document.getElementById('accountManage');
  if(!host) return;
@@ -279,9 +275,9 @@ function renderAccounts(){
 }
 function renderAll(){renderTabs();renderHome();renderTransactions();renderBudgets();renderReports();renderAccounts()}
 function showToast(msg){const el=document.getElementById('toast');el.textContent=msg;el.style.display='block';clearTimeout(showToast.timer);showToast.timer=setTimeout(()=>el.style.display='none',2600)}
-function navigate(view){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById(view+'View').classList.add('active');document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.view===view));if(view==='transactions')renderTransactions();if(view==='more')renderAccounts();window.scrollTo({top:0,behavior:'smooth'})}
+function navigate(view,scrollTarget=null){if(view==='budgets'||view==='reports')view='insights';document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById(view+'View').classList.add('active');document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.view===view));if(view==='transactions')renderTransactions();if(view==='more')renderAccounts();window.scrollTo({top:0,behavior:'smooth'});if(scrollTarget)setTimeout(()=>document.getElementById(scrollTarget)?.scrollIntoView({behavior:'smooth',block:'start'}),100)}
 document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>navigate(b.dataset.view));
-document.getElementById('quickAdd').onclick=()=>openTransactionModal();document.getElementById('transactionAdd').onclick=()=>openTransactionModal();document.getElementById('quickBudget').onclick=()=>openBudgetModal();document.getElementById('budgetAdd').onclick=()=>openBudgetModal();document.getElementById('quickReports').onclick=()=>navigate('reports');document.getElementById('quickSavings').onclick=()=>showToast('Savings goals are planned for a future update.');document.getElementById('viewAll').onclick=()=>navigate('transactions');document.getElementById('searchTx').addEventListener('input',renderTransactions);document.getElementById('addAccountBtn').onclick=()=>openAccountModal();document.getElementById('editActiveAccount').onclick=()=>openAccountModal(state.activeId);
+document.getElementById('quickAdd').onclick=()=>openTransactionModal();document.getElementById('transactionAdd').onclick=()=>openTransactionModal();document.getElementById('quickBudget').onclick=()=>openBudgetModal();document.getElementById('budgetAdd').onclick=()=>openBudgetModal();document.getElementById('quickReports').onclick=()=>navigate('insights');document.getElementById('quickSavings').onclick=()=>showToast('Savings goals are planned for a future update.');document.getElementById('viewAll').onclick=()=>navigate('transactions');document.getElementById('searchTx').addEventListener('input',renderTransactions);document.getElementById('addAccountBtn').onclick=()=>openAccountModal();document.getElementById('editActiveAccount').onclick=()=>openAccountModal(state.activeId);
 function openModal(title,body,submitText,mode){modalMode=mode;document.getElementById('modalTitle').textContent=title;document.getElementById('modalBody').innerHTML=body;document.getElementById('modalSubmit').textContent=submitText;document.getElementById('modalBackdrop').classList.add('show')}
 function closeModal(){document.getElementById('modalBackdrop').classList.remove('show')}
 document.getElementById('modalClose').onclick=closeModal;document.getElementById('modalBackdrop').onclick=e=>{if(e.target.id==='modalBackdrop')closeModal()};
