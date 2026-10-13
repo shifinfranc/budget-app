@@ -87,6 +87,20 @@ body{background:var(--bg);color:var(--ink);letter-spacing:.01em}
 .account-manage-row .edit-icon svg{width:20px;height:20px;display:block}
 @media(prefers-reduced-motion:reduce){#accountManage,.account-manage-row,.account-manage-row .tx-icon,.account-manage-row .tx-main,.account-manage-row .edit-icon{transition:none!important;animation:none!important}}
 
+
+/* Account reorder handle and matching edit modal actions */
+.account-actions{display:flex;align-items:center;gap:4px;flex-shrink:0}
+.drag-handle{width:40px;height:40px;min-width:40px;min-height:40px;padding:8px;display:grid;place-items:center;flex-shrink:0;border:0;border-radius:12px;background:transparent;color:#17191f;touch-action:none;cursor:grab}
+.drag-handle svg{display:block}
+.drag-handle:active,.drag-handle.dragging-handle{cursor:grabbing;background:#e3e9f8;color:#17191f}
+.account-manage-row{touch-action:pan-y;transition:transform 240ms cubic-bezier(.2,.8,.2,1),background-color 180ms ease;will-change:transform}
+.account-manage-row.dragging{touch-action:none;opacity:1;background:transparent;box-shadow:none;z-index:2;position:relative}
+.account-manage-row.dragging .tx-icon,.account-manage-row.dragging .tx-main,.account-manage-row.dragging .edit-icon{opacity:1}
+#accountManage.reorder-mode{position:relative}
+#accountManage.reorder-mode::before{content:none}
+#accountManage.reorder-mode .account-manage-row{opacity:1}
+.modal-actions .primary,.modal-actions .delete-account-btn{flex:1 1 0!important;width:0;min-width:0;min-height:48px;padding:12px 8px;display:flex;align-items:center;justify-content:center;border-radius:13px;font-weight:750}
+.modal-actions .delete-account-btn{background:#fde8e8;color:#a21c1c;border:0;white-space:normal}
 </style>
 </head>
 <body>
@@ -161,7 +175,7 @@ body{background:var(--bg);color:var(--ink);letter-spacing:.01em}
 <div class="modal-backdrop" id="modalBackdrop">
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <div class="modalhead"><h2 id="modalTitle">Add transaction</h2><button class="close" id="modalClose" aria-label="Close">×</button></div>
-    <form id="modalForm"><div id="modalBody"></div><div class="modal-actions"><button class="primary" type="submit" id="modalSubmit">Save</button><button class="delete-account-btn" type="button" id="modalDeleteAccount" hidden>Delete</button></div></form>
+    <form id="modalForm"><div id="modalBody"></div><div class="modal-actions"><button class="primary" type="submit" id="modalSubmit">Save</button><button class="delete-account-btn" type="button" id="modalDeleteAccount" hidden>Delete account</button></div></form>
   </div>
 </div>
 
@@ -204,18 +218,16 @@ function renderBudgets(){const a=active(),spent={};currentMonthTx(a).filter(t=>t
 function renderReports(){const a=active(),t=totals(a),net=t.income-t.expense;document.getElementById('reportCurrency').textContent=a.currency;document.getElementById('reportIncome').textContent=money(t.income,a.currency);document.getElementById('reportExpense').textContent=money(t.expense,a.currency);document.getElementById('reportNet').textContent=money(net,a.currency);document.getElementById('reportNet').className=net>=0?'income':'expense';const cats={};currentMonthTx(a).filter(x=>x.type==='expense').forEach(x=>cats[x.category]=(cats[x.category]||0)+x.amount);const rows=Object.entries(cats).sort((x,y)=>y[1]-x[1]);document.getElementById('reportCategories').innerHTML=rows.length?rows.map(([k,v])=>`<div class="reportline"><span>${esc(k)}</span><strong>${money(v,a.currency)}</strong></div>`).join(''):'<div class="empty">No expenses recorded this month.</div>'}
 function renderAccounts(){
  const host=document.getElementById('accountManage');
- host.innerHTML=state.accounts.map(a=>`<div class="account-manage-row" data-account-row="${esc(a.id)}" aria-label="${esc(a.name)} account. Press and hold to reorder."><div class="tx-icon">${currencyInfo(a.currency).flag}</div><div class="tx-main"><div class="tx-name">${esc(a.name)}</div><div class="tx-note">${esc(a.currency)} · Balance ${money(balance(a),a.currency)}</div></div><div class="account-actions"><button class="linkbtn edit-icon" data-edit-account="${esc(a.id)}" aria-label="Edit ${esc(a.name)}" title="Edit account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L8 18l-4 1 1-4Z"/></svg></button></div></div>`).join('');
+ host.innerHTML=state.accounts.map(a=>`<div class="account-manage-row" data-account-row="${esc(a.id)}"><div class="tx-icon">${currencyInfo(a.currency).flag}</div><div class="tx-main"><div class="tx-name">${esc(a.name)}</div><div class="tx-note">${esc(a.currency)} · Balance ${money(balance(a),a.currency)}</div></div><div class="account-actions"><button class="linkbtn edit-icon" data-edit-account="${esc(a.id)}" aria-label="Edit ${esc(a.name)}" title="Edit account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L8 18l-4 1 1-4Z"/></svg></button><button class="linkbtn drag-handle" data-drag-account="${esc(a.id)}" aria-label="Reorder ${esc(a.name)}" title="Drag to reorder"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div></div>`).join('');
  host.querySelectorAll('[data-edit-account]').forEach(b=>b.onclick=e=>{e.stopPropagation();openAccountModal(b.dataset.editAccount)});
- let holdTimer=null,draggingId=null,dragRow=null,lastY=0,raf=0,pointerId=null,pressX=0,pressY=0,holdFired=false;
  const rows=()=>[...host.querySelectorAll('[data-account-row]')];
+ let draggingId=null,dragRow=null,lastY=0,raf=0,pointerId=null;
  const animateLayout=()=>{const list=rows();const first=new Map(list.map(r=>[r,r.getBoundingClientRect()]));return ()=>{for(const row of list){const a=first.get(row),b=row.getBoundingClientRect();if(!a||!b)continue;const dy=a.top-b.top;if(Math.abs(dy)>1){row.style.transition='none';row.style.transform=`translateY(${dy}px)`;requestAnimationFrame(()=>{row.style.transition='';row.style.transform='';})}}};};
- const clearHold=()=>{if(holdTimer){clearTimeout(holdTimer);holdTimer=null}};
- const finish=()=>{clearHold();if(!draggingId||!dragRow){host.classList.remove('reorder-mode');return}dragRow.classList.remove('reorder-selected');dragRow.style.transform='';dragRow.style.transition='';host.classList.remove('reorder-mode');const order=rows().map(r=>r.dataset.accountRow);state.accounts.sort((a,b)=>order.indexOf(a.id)-order.indexOf(b.id));save();renderTabs();draggingId=null;dragRow=null;pointerId=null;holdFired=false;};
- rows().forEach(row=>{
-  row.addEventListener('pointerdown',e=>{if(e.target.closest('[data-edit-account]'))return;clearHold();pressX=e.clientX;pressY=e.clientY;lastY=e.clientY;pointerId=e.pointerId;holdFired=false;const id=row.dataset.accountRow;holdTimer=setTimeout(()=>{holdTimer=null;draggingId=id;dragRow=row;holdFired=true;host.classList.add('reorder-mode');row.classList.add('reorder-selected');row.style.touchAction='none';try{row.setPointerCapture(pointerId)}catch(_){}},360)});
-  row.addEventListener('pointermove',e=>{if(pointerId!==e.pointerId)return;if(!holdFired){if(Math.hypot(e.clientX-pressX,e.clientY-pressY)>9)clearHold();return}if(!draggingId||!dragRow)return;e.preventDefault();lastY=e.clientY;if(raf)return;raf=requestAnimationFrame(()=>{raf=0;const other=rows().filter(r=>r!==dragRow);let target=null;for(const r of other){const rect=r.getBoundingClientRect();if(lastY<rect.top+rect.height/2){target=r;break}}if(target&&target!==dragRow.nextElementSibling){const animate=animateLayout();host.insertBefore(dragRow,target);animate()}else if(!target&&host.lastElementChild!==dragRow){const animate=animateLayout();host.appendChild(dragRow);animate()}})});
-  const release=e=>{if(pointerId!==null&&e.pointerId!==pointerId)return;clearHold();if(holdFired)finish();else{pointerId=null;}};
-  row.addEventListener('pointerup',release);row.addEventListener('pointercancel',release);row.addEventListener('lostpointercapture',()=>{if(holdFired)finish()});
+ const finish=()=>{if(!dragRow)return;dragRow.classList.remove('dragging');dragRow.style.transform='';dragRow.style.transition='';host.classList.remove('reorder-mode');const order=rows().map(r=>r.dataset.accountRow);state.accounts.sort((a,b)=>order.indexOf(a.id)-order.indexOf(b.id));save();renderTabs();draggingId=null;dragRow=null;pointerId=null;};
+ host.querySelectorAll('[data-drag-account]').forEach(handle=>{
+  handle.addEventListener('pointerdown',e=>{e.preventDefault();draggingId=handle.dataset.dragAccount;dragRow=host.querySelector(`[data-account-row="${CSS.escape(draggingId)}"]`);if(!dragRow)return;pointerId=e.pointerId;lastY=e.clientY;dragRow.classList.add('dragging');handle.classList.add('dragging-handle');host.classList.add('reorder-mode');try{handle.setPointerCapture(pointerId)}catch(_){};});
+  handle.addEventListener('pointermove',e=>{if(pointerId!==e.pointerId||!dragRow)return;e.preventDefault();lastY=e.clientY;if(raf)return;raf=requestAnimationFrame(()=>{raf=0;const other=rows().filter(r=>r!==dragRow);let target=null;for(const r of other){const rect=r.getBoundingClientRect();if(lastY<rect.top+rect.height/2){target=r;break}}if(target&&target!==dragRow.nextElementSibling){const animate=animateLayout();host.insertBefore(dragRow,target);animate()}else if(!target&&host.lastElementChild!==dragRow){const animate=animateLayout();host.appendChild(dragRow);animate()}})});
+  const release=e=>{if(pointerId!==e.pointerId)return;handle.classList.remove('dragging-handle');finish()};handle.addEventListener('pointerup',release);handle.addEventListener('pointercancel',release);handle.addEventListener('lostpointercapture',e=>{if(dragRow&&pointerId===e.pointerId){handle.classList.remove('dragging-handle');finish()}});
  });
 }
 function renderAll(){renderTabs();renderHome();renderTransactions();renderBudgets();renderReports();renderAccounts()}
