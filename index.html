@@ -139,7 +139,7 @@ body{background:var(--bg);color:var(--ink);letter-spacing:.01em}
 
 /* Refined iconography and persistent home-tile reordering */
 .nav button .nav-icon{display:table;margin:0 auto 3px;padding:4px 14px;border-radius:18px;font-size:20px;line-height:1.2}.nav-icon svg{display:block;width:20px;height:20px}
-.qicon svg{width:24px;height:24px;display:block}.home-head-actions{display:flex;align-items:center;gap:6px}.home-drag-handle{border:0;background:#ffffffb8;color:#303443;width:32px;height:32px;min-width:32px;border-radius:10px;display:grid;place-items:center;padding:6px;touch-action:none;cursor:grab;flex-shrink:0}.home-drag-handle svg{width:19px;height:19px;display:block}.balance .home-drag-handle{background:#ffffff24;color:#fff}.home-quick-tile{position:relative;padding-top:0}.quick-tile-head{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;margin:0 0 1px;padding:0 2px}.quick-tile-head .home-drag-handle{background:#e9eaf2}.home-tile-dragging{opacity:.94;z-index:8;position:relative;box-shadow:0 12px 28px rgba(20,35,60,.14);transform:scale(1.012);border-radius:22px}.home-tile-placeholder{border:1.5px dashed #aebde0;border-radius:22px;background:#f7f8fc;min-height:90px;margin-bottom:16px}.home-tile-dragging .home-drag-handle{cursor:grabbing;background:#dce5fb;color:#193d78}.home-head-actions .subtle{white-space:nowrap}.spending-month{border-color:#dfe1eb;background:#f7f7fb;color:#303443;white-space:nowrap}.home-head-actions .month{flex-shrink:0}.quick .qicon{font-size:0}.quick .home-drag-handle{min-height:32px;height:32px;width:32px;min-width:32px;padding:6px;display:grid;align-items:center;justify-content:center;border-radius:10px;background:#e9eaf2;color:#303443;box-shadow:none;font-size:0}.quick #quickAdd{background:#dce5fb;color:#193d78}.quick #quickBudget{background:#d9eee4;color:#164f3b}.quick #quickReports{background:#f7e4ce;color:#74451c}.quick #quickSavings{background:#eee0f6;color:#5c347a}
+.qicon svg{width:24px;height:24px;display:block}.home-head-actions{display:flex;align-items:center;gap:6px}.balance .home-quick-tile{position:relative;padding-top:0}.quick-tile-head{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;margin:0 0 1px;padding:0 2px}.quick-tile-head .home-tile-dragging .home-head-actions .subtle{white-space:nowrap}.spending-month{border-color:#dfe1eb;background:#f7f7fb;color:#303443;white-space:nowrap}.home-head-actions .month{flex-shrink:0}.quick .qicon{font-size:0}.quick .quick #quickAdd{background:#dce5fb;color:#193d78}.quick #quickBudget{background:#d9eee4;color:#164f3b}.quick #quickReports{background:#f7e4ce;color:#74451c}.quick #quickSavings{background:#eee0f6;color:#5c347a}
 
 </style>
 </head>
@@ -156,7 +156,7 @@ body{background:var(--bg);color:var(--ink);letter-spacing:.01em}
   <main>
     <section class="view active" id="homeView">
       <div class="card balance">
-        <div class="bal-top"><div class="muted-white">Total Balance</div><div class="home-head-actions"><button class="home-drag-handle" data-home-drag="balance" aria-label="Reorder balance tile" title="Drag to reorder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 7h14M5 12h14M5 17h14"/></svg></button><button class="month" id="monthBtn">▦ <span id="monthLabel"></span></button></div></div>
+        <div class="bal-top"><div class="muted-white">Total Balance</div><div class="home-head-actions"><button class="month" id="monthBtn">▦ <span id="monthLabel"></span></button></div></div>
         <div class="amount" id="balanceAmount">CA$0.00 <span class="currency-code">CAD</span></div>
         <div class="stats">
           <div class="stat"><div class="stat-icon">↑</div><div><div class="stat-label">Income</div><div class="stat-value" id="incomeAmount">CA$0.00</div></div></div>
@@ -164,17 +164,17 @@ body{background:var(--bg);color:var(--ink);letter-spacing:.01em}
         </div>
       </div>
       <div class="card">
-        <div class="section-head"><h2 class="section-title">Spending by Category</h2><div class="home-head-actions"><button class="home-drag-handle" data-home-drag="spending" aria-label="Reorder spending tile" title="Drag to reorder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 7h14M5 12h14M5 17h14"/></svg></button></div></div>
+        <div class="section-head"><h2 class="section-title">Spending by Category</h2><div class="home-head-actions"></div></div>
         <div class="chartarea"><div class="donut" id="donut"><div class="donut-center" id="donutCenter">$0<small>spent</small></div></div><div class="legend" id="legend"></div></div>
       </div>
-      <div class="quick home-quick-tile" data-home-tile="quick"><div class="quick-tile-head"><span class="subtle">Quick actions</span><button class="home-drag-handle" data-home-drag="quick" aria-label="Reorder quick actions tile" title="Drag to reorder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 7h14M5 12h14M5 17h14"/></svg></button></div>
+      <div class="quick home-quick-tile" data-home-tile="quick"><div class="quick-tile-head"><span class="subtle">Quick actions</span></div>
         <button id="quickAdd"><span class="qicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg></span>Add Transaction</button>
         <button id="quickBudget"><span class="qicon">◎</span>Set Budget</button>
         <button id="quickReports"><span class="qicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5h16"/><rect x="5.5" y="12" width="3" height="5.5" rx=".8"/><rect x="10.5" y="7.5" width="3" height="10" rx=".8"/><rect x="15.5" y="4" width="3" height="13.5" rx=".8"/></svg></span>View Reports</button>
         <button id="quickSavings"><span class="qicon">♧</span>Savings Goals</button>
       </div>
       <div class="card">
-        <div class="section-head"><h2 class="section-title">Recent Transactions</h2><div class="home-head-actions"><button class="linkbtn" id="viewAll">View all ›</button><button class="home-drag-handle" data-home-drag="recent" aria-label="Reorder recent transactions tile" title="Drag to reorder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 7h14M5 12h14M5 17h14"/></svg></button></div></div>
+        <div class="section-head"><h2 class="section-title">Recent Transactions</h2><div class="home-head-actions"><button class="linkbtn" id="viewAll">View all ›</button></div></div>
         <div id="recentTransactions"></div>
       </div>
     </section>
@@ -242,7 +242,7 @@ function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&l
 function monthKey(d=new Date()){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')}
 function currentMonthTx(a=active()){return a.transactions.filter(t=>t.date&&t.date.slice(0,7)===selectedMonth)}
 function totals(a=active()){const tx=currentMonthTx(a);return {income:tx.filter(t=>t.type==='income').reduce((s,t)=>s+t.amount,0),expense:tx.filter(t=>t.type==='expense').reduce((s,t)=>s+t.amount,0)}}
-function balance(a=active()){return a.opening+a.transactions.reduce((s,t)=>s+(t.type==='income'?t.amount:-t.amount),0)}
+function balance(a=active(),asOfMonth=null){const tx=asOfMonth?a.transactions.filter(t=>t.date&&t.date.slice(0,7)<=asOfMonth):a.transactions;return a.opening+tx.reduce((s,t)=>s+(t.type==='income'?t.amount:-t.amount),0)}
 function renderTabs(animateIds=[]){
  const host=document.getElementById('accountTabs');
  const before=new Map([...host.querySelectorAll('[data-account]')].map(el=>[el.dataset.account,el.getBoundingClientRect()]));
@@ -263,10 +263,10 @@ function renderTabs(animateIds=[]){
 }
 function monthDate(key=selectedMonth){const [y,m]=key.split('-').map(Number);return new Date(y,m-1,1)}
 function monthLabel(key=selectedMonth){return monthDate(key).toLocaleDateString(undefined,{month:'short',year:'numeric'})}
-function renderHome(){const a=active(),t=totals(a);document.getElementById('balanceAmount').innerHTML=`${money(balance(a),a.currency)} <span class="currency-code">${esc(a.currency)}</span>`;document.getElementById('incomeAmount').textContent=money(t.income,a.currency);document.getElementById('expenseAmount').textContent=money(t.expense,a.currency);document.getElementById('monthLabel').textContent=monthLabel();document.getElementById('donutCenter').innerHTML=`${money(t.expense,a.currency)}<small>spent</small>`;
+function renderHome(){const a=active(),t=totals(a);document.getElementById('balanceAmount').innerHTML=`${money(balance(a,selectedMonth),a.currency)} <span class="currency-code">${esc(a.currency)}</span>`;document.getElementById('incomeAmount').textContent=money(t.income,a.currency);document.getElementById('expenseAmount').textContent=money(t.expense,a.currency);document.getElementById('monthLabel').textContent=monthLabel();document.getElementById('donutCenter').innerHTML=`${money(t.expense,a.currency)}<small>spent</small>`;
 const cats={};currentMonthTx(a).filter(x=>x.type==='expense').forEach(x=>cats[x.category]=(cats[x.category]||0)+x.amount);const rows=Object.entries(cats).sort((x,y)=>y[1]-x[1]);let start=0,stops=[];if(rows.length){rows.forEach(([k,v],i)=>{const end=start+(t.expense?v/t.expense*100:0);stops.push(`${COLORS[i%COLORS.length]} ${start}% ${end}%`);start=end});if(start<100)stops.push(`#edf2ef ${start}% 100%`)}document.getElementById('donut').style.background=rows.length?`conic-gradient(${stops.join(',')})`:'conic-gradient(#edf2ef 0 100%)';document.getElementById('legend').innerHTML=rows.length?rows.slice(0,5).map(([k,v],i)=>`<div class="legend-row"><span class="dot" style="background:${COLORS[i%COLORS.length]}"></span><span class="legend-name">${esc(k)}</span><span class="legend-value">${money(v,a.currency)}</span></div>`).join(''):'<div class="empty">No expenses for this month.</div>';
 const recent=[...a.transactions].sort((x,y)=>y.date.localeCompare(x.date)||((y.created||0)-(x.created||0))).slice(0,4);document.getElementById('recentTransactions').innerHTML=recent.length?recent.map(txHtml).join(''):'<div class="empty">No transactions yet.<br>Tap “Add Transaction” to get started.</div>';wireTransactionRows(document.getElementById('recentTransactions'))}
-function openMonthPicker(){const [currentYear,currentMonth]=selectedMonth.split('-').map(Number);const years=new Set([new Date().getFullYear()]);active().transactions.forEach(t=>{if(t.date)years.add(Number(t.date.slice(0,4)))});for(let y=new Date().getFullYear()-10;y<=new Date().getFullYear()+1;y++)years.add(y);const yearOptions=[...years].filter(Number.isFinite).sort((a,b)=>b-a).map(y=>`<option value="${y}" ${y===currentYear?'selected':''}>${y}</option>`).join('');const months=Array.from({length:12},(_,i)=>`<option value="${i+1}" ${i+1===currentMonth?'selected':''}>${new Date(2020,i,1).toLocaleDateString(undefined,{month:'long'})}</option>`).join('');openModal('Choose month and year',`<div class="field"><label for="periodMonth">Month</label><select id="periodMonth">${months}</select></div><div class="field"><label for="periodYear">Year</label><select id="periodYear">${yearOptions}</select></div><p class="small">This selection updates the Total Balance income and expenses and Spending by Category together.</p>`,'Apply month','monthpicker')}
+function openMonthPicker(){const [currentYear,currentMonth]=selectedMonth.split('-').map(Number);const years=new Set([new Date().getFullYear()]);active().transactions.forEach(t=>{if(t.date)years.add(Number(t.date.slice(0,4)))});for(let y=new Date().getFullYear()-10;y<=new Date().getFullYear()+1;y++)years.add(y);const yearOptions=[...years].filter(Number.isFinite).sort((a,b)=>b-a).map(y=>`<option value="${y}" ${y===currentYear?'selected':''}>${y}</option>`).join('');const months=Array.from({length:12},(_,i)=>`<option value="${i+1}" ${i+1===currentMonth?'selected':''}>${new Date(2020,i,1).toLocaleDateString(undefined,{month:'long'})}</option>`).join('');openModal('Choose month and year',`<div class="field"><label for="periodMonth">Month</label><select id="periodMonth">${months}</select></div><div class="field"><label for="periodYear">Year</label><select id="periodYear">${yearOptions}</select></div><p class="small">This selection shows the account balance at the end of that month, plus income, expenses, and Spending by Category for the selected month.</p>`,'Apply month','monthpicker')}
 function txHtml(t){const inc=t.type==='income';return `<div class="transaction" role="button" tabindex="0" data-transaction-id="${esc(t.id)}" aria-label="Edit or delete ${esc(t.category)} transaction"><div class="tx-icon">${ICONS[t.category]||'•'}</div><div class="tx-main"><div class="tx-name">${esc(t.category)}</div><div class="tx-note">${esc(t.note|| (inc?'Income':'Expense'))}</div></div><div class="tx-right"><div class="tx-amount ${inc?'income':'expense'}">${inc?'+':'−'}${money(t.amount,t.currency)}</div><div class="tx-date">${esc(new Date(t.date+'T12:00:00').toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'}))}</div></div></div>`}
 function wireTransactionRows(host){host.querySelectorAll('[data-transaction-id]').forEach(row=>{const open=()=>openTransactionModal(row.dataset.transactionId);row.addEventListener('click',open);row.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();open()}})})}
 function renderTransactions(){const a=active(),q=(document.getElementById('searchTx').value||'').toLowerCase();const tx=[...a.transactions].filter(t=>(t.category+' '+t.note).toLowerCase().includes(q)).sort((x,y)=>y.date.localeCompare(x.date));document.getElementById('allTransactions').innerHTML=tx.length?tx.map(txHtml).join(''):'<div class="empty">No matching transactions.</div>';wireTransactionRows(document.getElementById('allTransactions'))}
@@ -295,26 +295,6 @@ function renderAccounts(){
   const release=e=>{if(pointerId!==e.pointerId)return;handle.classList.remove('dragging-handle');finish()};handle.addEventListener('pointerup',release);handle.addEventListener('pointercancel',release);handle.addEventListener('lostpointercapture',e=>{if(dragRow&&pointerId===e.pointerId){handle.classList.remove('dragging-handle');finish()}});
  });
 }
-function initHomeTileReorder(){
- const home=document.getElementById('homeView');
- const balanceTile=home.querySelector('.card.balance');
- const spendingTile=[...home.querySelectorAll(':scope > .card')].find(el=>el.querySelector('#donut'));
- const quickTile=home.querySelector('.quick');
- const recentTile=[...home.querySelectorAll(':scope > .card')].find(el=>el.querySelector('#recentTransactions'));
- const tiles={balance:balanceTile,spending:spendingTile,quick:quickTile,recent:recentTile};
- Object.entries(tiles).forEach(([id,el])=>{if(el){el.dataset.homeTile=id;el.classList.add('home-reorder-tile')}});
- const saved=Array.isArray(state.homeTileOrder)?state.homeTileOrder:[];
- const order=['balance','spending','quick','recent'].sort((a,b)=>{const ai=saved.indexOf(a),bi=saved.indexOf(b);return (ai<0?99:ai)-(bi<0?99:bi)});
- order.forEach(id=>{if(tiles[id])home.appendChild(tiles[id])});
- let dragged=null,pointerId=null,lastY=0,raf=0;
- const getTiles=()=>[...home.querySelectorAll(':scope > [data-home-tile]')];
- const finish=()=>{if(!dragged)return;dragged.classList.remove('home-tile-dragging');dragged.style.transform='';state.homeTileOrder=getTiles().map(el=>el.dataset.homeTile);save();dragged=null;pointerId=null;};
- home.querySelectorAll('[data-home-drag]').forEach(handle=>{
-  handle.addEventListener('pointerdown',e=>{e.preventDefault();const id=handle.dataset.homeDrag;dragged=tiles[id];if(!dragged)return;pointerId=e.pointerId;lastY=e.clientY;dragged.classList.add('home-tile-dragging');try{handle.setPointerCapture(pointerId)}catch(_){};});
-  handle.addEventListener('pointermove',e=>{if(!dragged||e.pointerId!==pointerId)return;e.preventDefault();lastY=e.clientY;if(raf)return;raf=requestAnimationFrame(()=>{raf=0;const others=getTiles().filter(el=>el!==dragged);let target=null;for(const el of others){const r=el.getBoundingClientRect();if(lastY<r.top+r.height/2){target=el;break}}if(target)home.insertBefore(dragged,target);else home.appendChild(dragged);});});
-  const release=e=>{if(!dragged||e.pointerId!==pointerId)return;finish()};handle.addEventListener('pointerup',release);handle.addEventListener('pointercancel',release);handle.addEventListener('lostpointercapture',release);
- });
-}
 function renderAll(){renderTabs();renderHome();renderTransactions();renderBudgets();renderReports();renderAccounts()}
 function showToast(msg){const el=document.getElementById('toast');el.textContent=msg;el.style.display='block';clearTimeout(showToast.timer);showToast.timer=setTimeout(()=>el.style.display='none',2600)}
 function navigate(view,scrollTarget=null){if(view==='budgets'||view==='reports')view='insights';document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById(view+'View').classList.add('active');document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.view===view));if(view==='transactions')renderTransactions();if(view==='more')renderAccounts();window.scrollTo({top:0,behavior:'smooth'});if(scrollTarget)setTimeout(()=>document.getElementById(scrollTarget)?.scrollIntoView({behavior:'smooth',block:'start'}),100)}
@@ -336,7 +316,7 @@ document.getElementById('exportBtn').onclick=()=>{const blob=new Blob([JSON.stri
 document.getElementById('importBtn').onclick=()=>document.getElementById('importFile').click();document.getElementById('importFile').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const x=JSON.parse(await f.text());if(!Array.isArray(x.accounts)||!x.accounts.length)throw Error();if(!confirm('Replace current Budget data with this backup?'))return;state=x;state.accounts.forEach(a=>{if(typeof a.showInToggler!=='boolean')a.showInToggler=true});if(!state.accounts.some(a=>a.showInToggler))state.accounts.forEach(a=>a.showInToggler=true);if(!state.accounts.some(a=>a.id===state.activeId&&a.showInToggler))state.activeId=state.accounts.find(a=>a.showInToggler).id;save();renderAll();showToast('Backup imported')}catch(err){showToast('That file is not a valid Budget backup.')}e.target.value=''};
 document.getElementById('clearBtn').onclick=()=>{if(confirm('Delete all Budget accounts and transactions from this browser? This cannot be undone.')){state=structuredClone(DEFAULT);save();renderAll();showToast('App data cleared')}};
 document.getElementById('monthBtn').onclick=openMonthPicker;
-initHomeTileReorder();
+
 renderAll();
 </script>
 </body>
