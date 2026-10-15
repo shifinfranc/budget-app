@@ -171,11 +171,25 @@ body{background:var(--bg);color:var(--ink);letter-spacing:.01em}
 .account-manage-row .account-actions .pen-icon{order:2}
 .account-manage-row .account-actions .drag-handle{order:3}
 /* Keep the donut chart anchored to the same horizontal position for both category views. */
-.chartarea{display:grid;grid-template-columns:138px minmax(0,1fr);align-items:center;gap:18px;width:100%;}
+.chartarea{display:grid;grid-template-columns:138px minmax(0,1fr);align-items:start;gap:18px;width:100%;}
 .chartarea .donut{width:138px;height:138px;flex:none;justify-self:start;}
 .chartarea .legend{min-width:0;width:100%;}
-@media(min-width:600px){.chartarea{grid-template-columns:160px minmax(0,1fr);gap:18px}.chartarea .donut{width:160px;height:160px}}
+@media(min-width:600px){.chartarea{grid-template-columns:160px minmax(0,1fr);gap:18px;align-items:start}.chartarea .donut{width:160px;height:160px}}
 @media(max-width:380px){.chartarea{grid-template-columns:112px minmax(0,1fr);gap:10px}.chartarea .donut{width:112px;height:112px}}
+
+/* Keep both category charts the same distance below their shared header; never vertically centre by legend height. */
+.category-chart-stage,.category-chart-stage .chartarea{align-items:start}
+.category-chart-stage .donut{align-self:start;margin-top:0}
+/* Transactions view: fixed page chrome and search; only the transaction list scrolls. */
+.app.transactions-mode{height:100dvh;min-height:0;overflow:hidden;display:flex;flex-direction:column;padding-bottom:calc(84px + env(safe-area-inset-bottom))}
+.app.transactions-mode>.top,.app.transactions-mode>.accountbar{flex:0 0 auto}
+.app.transactions-mode>main{flex:1 1 auto;min-height:0;overflow:hidden;display:flex;flex-direction:column}
+.app.transactions-mode #transactionsView.active{display:flex;flex:1 1 auto;flex-direction:column;min-height:0;overflow:hidden}
+#transactionsView>.section-head{flex:0 0 auto;margin-bottom:12px}
+#transactionsView>.card{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;overflow:hidden;margin-bottom:0}
+#transactionsView .field{flex:0 0 auto;margin-top:0}
+#allTransactions{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding-right:2px}
+@media(max-height:620px){.app.transactions-mode>.top{padding-top:8px;padding-bottom:8px}.app.transactions-mode .accountbar{margin-bottom:10px}.app.transactions-mode #transactionsView .card{padding:12px}}
 </style>
 </head>
 <body>
@@ -357,7 +371,7 @@ function renderAccounts(){
 }
 function renderAll(){renderTabs();renderHome();renderTransactions();renderBudgets();renderReports();renderAccounts()}
 function showToast(msg){const el=document.getElementById('toast');el.textContent=msg;el.style.display='block';clearTimeout(showToast.timer);showToast.timer=setTimeout(()=>el.style.display='none',2600)}
-function navigate(view,scrollTarget=null){if(view==='budgets'||view==='reports')view='insights';document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById(view+'View').classList.add('active');document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.view===view));if(view==='transactions')renderTransactions();if(view==='more')renderAccounts();window.scrollTo({top:0,behavior:'smooth'});if(scrollTarget)setTimeout(()=>document.getElementById(scrollTarget)?.scrollIntoView({behavior:'smooth',block:'start'}),100)}
+function navigate(view,scrollTarget=null){if(view==='budgets'||view==='reports')view='insights';document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById(view+'View').classList.add('active');document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.view===view));document.querySelector('.app').classList.toggle('transactions-mode',view==='transactions');document.body.style.overflow=view==='transactions'?'hidden':'';if(view==='transactions')renderTransactions();if(view==='more')renderAccounts();if(view!=='transactions')window.scrollTo({top:0,behavior:'smooth'});if(scrollTarget)setTimeout(()=>document.getElementById(scrollTarget)?.scrollIntoView({behavior:'smooth',block:'start'}),100)}
 document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>navigate(b.dataset.view));
 document.getElementById('quickAdd').onclick=()=>openTransactionModal();document.getElementById('transactionAdd').onclick=()=>openTransactionModal();document.getElementById('quickBudget').onclick=()=>openBudgetModal();document.getElementById('budgetAdd').onclick=()=>openBudgetModal();document.getElementById('quickReports').onclick=()=>navigate('insights');document.getElementById('quickSavings').onclick=()=>showToast('Savings goals are planned for a future update.');document.getElementById('viewAll').onclick=()=>navigate('transactions');document.getElementById('searchTx').addEventListener('input',renderTransactions);document.getElementById('addAccountBtn').onclick=()=>openAccountModal();document.getElementById('toggleAccountControls').onclick=()=>{const host=document.getElementById('accountManage');const btn=document.getElementById('toggleAccountControls');const hidden=host.classList.toggle('account-controls-hidden');btn.setAttribute('aria-pressed',String(hidden));btn.setAttribute('aria-label',hidden?'Show account controls':'Hide account controls');btn.title=hidden?'Show account controls':'Hide account controls';};
 function openModal(title,body,submitText,mode){modalMode=mode;document.getElementById('modalTitle').textContent=title;document.getElementById('modalBody').innerHTML=body;document.getElementById('modalSubmit').textContent=submitText;document.getElementById('modalBackdrop').classList.add('show')}
