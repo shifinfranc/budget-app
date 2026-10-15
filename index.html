@@ -197,6 +197,10 @@ body{background:var(--bg);color:var(--ink);letter-spacing:.01em}
 #allTransactions::-webkit-scrollbar{width:6px}
 #allTransactions::-webkit-scrollbar-track{background:transparent;border-radius:99px}
 #allTransactions::-webkit-scrollbar-thumb{background:#c5c7ce;border-radius:99px}
+/* Keep transaction values clear of the scrollbar track. */
+#allTransactions .transaction{padding-right:10px}
+#allTransactions .tx-right{margin-right:5px;flex:0 0 auto}
+#allTransactions .tx-amount,#allTransactions .tx-date{padding-right:2px}
 .transaction-month-heading{position:sticky;top:0;z-index:1;padding:10px 4px 8px;margin:0 0 2px;background:#fff;color:#667085;font-size:12px;font-weight:750;letter-spacing:.25px;border-bottom:1px solid #ececf2}
 
 </style>
