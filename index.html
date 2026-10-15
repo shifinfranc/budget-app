@@ -71,14 +71,14 @@ body{background:var(--bg);color:var(--ink);letter-spacing:.01em}
 .app-select-trigger{width:100%;min-height:49px;display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:left;border:1px solid #dfe1eb;border-radius:16px;padding:13px 14px;background:#fdfdff;color:var(--ink);font:inherit;cursor:pointer}
 .app-select-trigger:focus-visible{outline:2px solid #8aa7ef;outline-offset:1px}
 .app-select-trigger .app-select-value{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
-.app-select-trigger .app-select-caret{font-size:15px;color:#626779;flex:none;transition:transform .16s ease}
+.app-select-trigger .app-select-caret{font-size:30px;line-height:1;color:#626779;flex:none;transition:transform .16s ease;display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px}
 .app-select.open .app-select-trigger .app-select-caret{transform:rotate(180deg)}
 .app-select-menu{position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:1200;display:none;max-height:min(280px,42vh);overflow-y:auto;padding:6px;background:#f7f7fb;border:1px solid #e1e3eb;border-radius:16px;box-shadow:0 10px 28px #20243a24}
 .app-select.open .app-select-menu{display:block}
 .app-select-option{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;min-height:42px;padding:10px 12px;border:0;border-radius:11px;background:transparent;color:#191c24;text-align:left;font:inherit;font-size:14px;cursor:pointer}
-.app-select-option[aria-selected="true"]{background:#dce5fb;color:#23477f;font-weight:700}
+.app-select-option[aria-selected="true"]{background:#dce5fb;color:#191c24;font-weight:600}
 .app-select-option:focus-visible,.app-select-option:hover{outline:0;background:#e9eaf2}
-.app-select-option[aria-selected="true"]:after{content:'✓';font-weight:800;flex:none}
+.app-select-option[aria-selected="true"]:after{content:'';display:block;width:9px;height:9px;border-radius:50%;background:#000;flex:0 0 9px;margin:0 3px}
 
 .pill{background:#dce5fb;color:#23477f;border-radius:10px;padding:5px 8px}
 .progress{height:10px;background:#e9eaf2;border-radius:99px}
@@ -195,11 +195,11 @@ body{background:var(--bg);color:var(--ink);letter-spacing:.01em}
       <div class="category-carousel" id="categoryCarousel" aria-label="Category summaries. Swipe left or right to switch between spending and earnings.">
         <div class="category-track" id="categoryTrack">
           <div class="card category-slide" aria-label="Spending by Category">
-            <div class="section-head"><h2 class="section-title">Spending by Category</h2><button class="category-swipe-hint" type="button" aria-label="Show earnings by category" title="Show earnings by category" onclick="setCategorySlide(1,true)"><span aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14 M13 6l6 6-6 6"/></svg></span></button></div>
+            <div class="section-head"><h2 class="section-title">Spending by Category</h2><button class="category-swipe-hint" type="button" aria-label="Show earnings by category" title="Show earnings by category" onclick="setCategorySlide(1,true)"><span aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14 M13 6l6 6-6 6"/></svg></span></button></div>
             <div class="chartarea"><div class="donut" id="donut"><div class="donut-center" id="donutCenter">$0<small>spent</small></div></div><div class="legend" id="legend"></div></div>
           </div>
           <div class="card category-slide" aria-label="Earnings by Category">
-            <div class="section-head"><button class="category-swipe-hint" type="button" aria-label="Back to spending by category" title="Back to spending by category" onclick="setCategorySlide(0,true)"><span aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5 M11 6l-6 6 6 6"/></svg></span></button><h2 class="section-title">Earnings by Category</h2></div>
+            <div class="section-head"><button class="category-swipe-hint" type="button" aria-label="Back to spending by category" title="Back to spending by category" onclick="setCategorySlide(0,true)"><span aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5 M11 6l-6 6 6 6"/></svg></span></button><h2 class="section-title">Earnings by Category</h2></div>
             <div class="chartarea"><div class="donut" id="earningsDonut"><div class="donut-center" id="earningsDonutCenter">$0<small>earned</small></div></div><div class="legend" id="earningsLegend"></div></div>
           </div>
         </div>
