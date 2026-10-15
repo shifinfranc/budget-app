@@ -30,7 +30,7 @@ body{background:var(--bg);color:var(--ink);letter-spacing:.01em}
 .category-carousel{overflow:hidden;margin-bottom:14px;border-radius:26px;touch-action:pan-y;position:relative}
 .category-track{display:flex;width:100%;transform:translateX(0);transition:transform 340ms cubic-bezier(.22,.8,.25,1);will-change:transform}
 .category-slide{flex:0 0 100%;width:100%;min-width:100%;margin-bottom:0;box-sizing:border-box}
-.category-swipe-hint{display:inline-flex;align-items:center;justify-content:center;flex:0 0 38px;width:38px;height:38px;border:0;border-radius:12px;background:#e4ebfb;color:#173b70;line-height:1;flex-shrink:0;padding:0;cursor:pointer;align-self:center}.category-swipe-hint svg{display:block;width:26px;height:26px;stroke:currentColor;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.category-swipe-hint:focus-visible{outline:3px solid #159cf5;outline-offset:2px}
+.category-swipe-hint{display:inline-flex;align-items:center;justify-content:center;flex:0 0 38px;width:38px;height:38px;border:0;border-radius:12px;background:#e4ebfb;color:#173b70;line-height:1;flex-shrink:0;padding:0;cursor:pointer;align-self:center}.category-swipe-hint span{display:block;font-family:Arial,sans-serif;font-size:30px;font-weight:800;line-height:1;transform:translateY(-1px)}.category-swipe-hint:focus-visible{outline:3px solid #159cf5;outline-offset:2px}
 @media(prefers-reduced-motion:reduce){.category-track{transition:none}}
 .card{background:#fff;border:1px solid #e8e9f0;border-radius:26px;padding:20px;margin-bottom:14px;box-shadow:0 1px 2px #20243a08}
 .balance{background:#dce5fb;color:#1a2948;border:0;padding:23px;box-shadow:none}
@@ -180,11 +180,11 @@ body{background:var(--bg);color:var(--ink);letter-spacing:.01em}
       <div class="category-carousel" id="categoryCarousel" aria-label="Category summaries. Swipe left or right to switch between spending and earnings.">
         <div class="category-track" id="categoryTrack">
           <div class="card category-slide" aria-label="Spending by Category">
-            <div class="section-head"><h2 class="section-title">Spending by Category</h2><button class="category-swipe-hint" type="button" aria-label="Show earnings by category" title="Show earnings by category" onclick="setCategorySlide(1,true)"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></button></div>
+            <div class="section-head"><h2 class="section-title">Spending by Category</h2><button class="category-swipe-hint" type="button" aria-label="Show earnings by category" title="Show earnings by category" onclick="setCategorySlide(1,true)"><span aria-hidden="true">&gt;</span></button></div>
             <div class="chartarea"><div class="donut" id="donut"><div class="donut-center" id="donutCenter">$0<small>spent</small></div></div><div class="legend" id="legend"></div></div>
           </div>
           <div class="card category-slide" aria-label="Earnings by Category">
-            <div class="section-head"><button class="category-swipe-hint" type="button" aria-label="Back to spending by category" title="Back to spending by category" onclick="setCategorySlide(0,true)"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M19 12H5m6 7-7-7 7-7"/></svg></button><h2 class="section-title">Earnings by Category</h2></div>
+            <div class="section-head"><button class="category-swipe-hint" type="button" aria-label="Back to spending by category" title="Back to spending by category" onclick="setCategorySlide(0,true)"><span aria-hidden="true">&lt;</span></button><h2 class="section-title">Earnings by Category</h2></div>
             <div class="chartarea"><div class="donut" id="earningsDonut"><div class="donut-center" id="earningsDonutCenter">$0<small>earned</small></div></div><div class="legend" id="earningsLegend"></div></div>
           </div>
         </div>
