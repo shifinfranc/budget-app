@@ -27,6 +27,11 @@ body{background:var(--bg);color:var(--ink);letter-spacing:.01em}
 .acct{min-width:126px;background:#e9eaf2;color:#303443;border-radius:18px;padding:12px 14px;transition:background .18s ease,transform .18s ease}
 .acct.active{background:#d9e2ff;color:#173b70;box-shadow:inset 0 0 0 1px #b8c8f3}
 .addacct{flex:0 0 48px;border:0;border-radius:16px;background:#e9eaf2;color:#303443}
+.category-carousel{overflow:hidden;margin-bottom:14px;border-radius:26px;touch-action:pan-y;position:relative}
+.category-track{display:flex;width:100%;transform:translateX(0);transition:transform 340ms cubic-bezier(.22,.8,.25,1);will-change:transform}
+.category-slide{flex:0 0 100%;width:100%;min-width:100%;margin-bottom:0;box-sizing:border-box}
+.category-swipe-hint{font-size:20px;letter-spacing:1px;color:#8b93a5;line-height:1;flex-shrink:0}
+@media(prefers-reduced-motion:reduce){.category-track{transition:none}}
 .card{background:#fff;border:1px solid #e8e9f0;border-radius:26px;padding:20px;margin-bottom:14px;box-shadow:0 1px 2px #20243a08}
 .balance{background:#dce5fb;color:#1a2948;border:0;padding:23px;box-shadow:none}
 .balance:after{background:#ffffff40;width:220px;height:220px;right:-95px;top:-105px}
@@ -172,9 +177,17 @@ body{background:var(--bg);color:var(--ink);letter-spacing:.01em}
           <div class="stat"><div class="stat-icon">↓</div><div><div class="stat-label">Expenses</div><div class="stat-value" id="expenseAmount">CA$0.00</div></div></div>
         </div>
       </div>
-      <div class="card">
-        <div class="section-head"><h2 class="section-title">Spending by Category</h2><div class="home-head-actions"></div></div>
-        <div class="chartarea"><div class="donut" id="donut"><div class="donut-center" id="donutCenter">$0<small>spent</small></div></div><div class="legend" id="legend"></div></div>
+      <div class="category-carousel" id="categoryCarousel" aria-label="Category summaries. Swipe left or right to switch between spending and earnings.">
+        <div class="category-track" id="categoryTrack">
+          <div class="card category-slide" aria-label="Spending by Category">
+            <div class="section-head"><h2 class="section-title">Spending by Category</h2><span class="category-swipe-hint" aria-hidden="true">‹ ›</span></div>
+            <div class="chartarea"><div class="donut" id="donut"><div class="donut-center" id="donutCenter">$0<small>spent</small></div></div><div class="legend" id="legend"></div></div>
+          </div>
+          <div class="card category-slide" aria-label="Earnings by Category">
+            <div class="section-head"><h2 class="section-title">Earnings by Category</h2><span class="category-swipe-hint" aria-hidden="true">‹ ›</span></div>
+            <div class="chartarea"><div class="donut" id="earningsDonut"><div class="donut-center" id="earningsDonutCenter">$0<small>earned</small></div></div><div class="legend" id="earningsLegend"></div></div>
+          </div>
+        </div>
       </div>
       <div class="quick home-quick-tile" data-home-tile="quick"><div class="quick-tile-head"><span class="subtle">Quick actions</span></div>
         <button id="quickAdd"><span class="qicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg></span>Add Transaction</button>
@@ -272,8 +285,20 @@ function renderTabs(animateIds=[]){
 }
 function monthDate(key=selectedMonth){const [y,m]=key.split('-').map(Number);return new Date(y,m-1,1)}
 function monthLabel(key=selectedMonth){return monthDate(key).toLocaleDateString(undefined,{month:'short',year:'numeric'})}
+let categorySlideIndex=0;
+function renderOneCategoryChart(a,type,amount,donutId,centerId,legendId){
+ const cats={};currentMonthTx(a).filter(x=>x.type===type).forEach(x=>cats[x.category]=(cats[x.category]||0)+x.amount);
+ const rows=Object.entries(cats).sort((x,y)=>y[1]-x[1]);let start=0,stops=[];
+ if(rows.length){rows.forEach(([k,v],i)=>{const end=start+(amount?v/amount*100:0);stops.push(`${COLORS[i%COLORS.length]} ${start}% ${end}%`);start=end});if(start<100)stops.push(`#edf2ef ${start}% 100%`)}
+ document.getElementById(donutId).style.background=rows.length?`conic-gradient(${stops.join(',')})`:'conic-gradient(#edf2ef 0 100%)';
+ document.getElementById(centerId).innerHTML=`${money(amount,a.currency)}<small>${type==='income'?'earned':'spent'}</small>`;
+ document.getElementById(legendId).innerHTML=rows.length?rows.slice(0,8).map(([k,v],i)=>`<div class="legend-row"><span class="dot" style="background:${COLORS[i%COLORS.length]}"></span><span class="legend-name">${esc(k)}</span><span class="legend-value">${money(v,a.currency)}</span></div>`).join(''):`<div class="empty">No ${type==='income'?'income':'expenses'} for this month.</div>`;
+}
+function renderCategoryCharts(a,t){renderOneCategoryChart(a,'expense',t.expense,'donut','donutCenter','legend');renderOneCategoryChart(a,'income',t.income,'earningsDonut','earningsDonutCenter','earningsLegend');setCategorySlide(categorySlideIndex,false)}
+function setCategorySlide(index,animate=true){categorySlideIndex=index?1:0;const track=document.getElementById('categoryTrack');if(track){if(!animate)track.style.transition='none';track.style.transform=`translateX(-${categorySlideIndex*100}%)`;if(!animate)requestAnimationFrame(()=>{track.style.transition=''})}}
+function wireCategorySwipe(){const carousel=document.getElementById('categoryCarousel');if(!carousel)return;let startX=0,startY=0;carousel.addEventListener('touchstart',e=>{if(!e.touches.length)return;startX=e.touches[0].clientX;startY=e.touches[0].clientY},{passive:true});carousel.addEventListener('touchend',e=>{if(!e.changedTouches.length)return;const dx=e.changedTouches[0].clientX-startX,dy=e.changedTouches[0].clientY-startY;if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy)*1.2)setCategorySlide(dx<0?1:0,true)},{passive:true});carousel.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')setCategorySlide(0,true);if(e.key==='ArrowRight')setCategorySlide(1,true)});carousel.tabIndex=0}
 function renderHome(){const a=active(),t=totals(a);document.getElementById('balanceAmount').innerHTML=`${money(balance(a,selectedMonth),a.currency)} <span class="currency-code">${esc(a.currency)}</span>`;document.getElementById('incomeAmount').textContent=money(t.income,a.currency);document.getElementById('expenseAmount').textContent=money(t.expense,a.currency);document.getElementById('monthLabel').textContent=monthLabel();document.getElementById('donutCenter').innerHTML=`${money(t.expense,a.currency)}<small>spent</small>`;
-const cats={};currentMonthTx(a).filter(x=>x.type==='expense').forEach(x=>cats[x.category]=(cats[x.category]||0)+x.amount);const rows=Object.entries(cats).sort((x,y)=>y[1]-x[1]);let start=0,stops=[];if(rows.length){rows.forEach(([k,v],i)=>{const end=start+(t.expense?v/t.expense*100:0);stops.push(`${COLORS[i%COLORS.length]} ${start}% ${end}%`);start=end});if(start<100)stops.push(`#edf2ef ${start}% 100%`)}document.getElementById('donut').style.background=rows.length?`conic-gradient(${stops.join(',')})`:'conic-gradient(#edf2ef 0 100%)';document.getElementById('legend').innerHTML=rows.length?rows.slice(0,5).map(([k,v],i)=>`<div class="legend-row"><span class="dot" style="background:${COLORS[i%COLORS.length]}"></span><span class="legend-name">${esc(k)}</span><span class="legend-value">${money(v,a.currency)}</span></div>`).join(''):'<div class="empty">No expenses for this month.</div>';
+renderCategoryCharts(a,t);
 const recent=[...a.transactions].sort((x,y)=>y.date.localeCompare(x.date)||((y.created||0)-(x.created||0))).slice(0,4);document.getElementById('recentTransactions').innerHTML=recent.length?recent.map(txHtml).join(''):'<div class="empty">No transactions yet.<br>Tap “Add Transaction” to get started.</div>';wireTransactionRows(document.getElementById('recentTransactions'))}
 function openMonthPicker(){const [currentYear,currentMonth]=selectedMonth.split('-').map(Number);const earliest= Math.min(currentYear,...active().transactions.filter(t=>t.date).map(t=>Number(t.date.slice(0,4))),new Date().getFullYear()-10);const latest=new Date().getFullYear();const yearOptions=Array.from({length:Math.max(1,latest-earliest+1)},(_,i)=>latest-i).map(y=>`<option value="${y}" ${y===currentYear?'selected':''}>${y}</option>`).join('');const months=Array.from({length:12},(_,i)=>`<option value="${i+1}" ${i+1===currentMonth?'selected':''}>${new Date(2020,i,1).toLocaleDateString(undefined,{month:'long'})}</option>`).join('');openModal('Choose month and year',`<div class="field"><label for="periodMonth">Month</label><select id="periodMonth">${months}</select></div><div class="field"><label for="periodYear">Year</label><select id="periodYear">${yearOptions}</select></div><p class="small">Choose any month and year to view the end-of-month balance and that month’s income, expenses, and category spending.</p>`,'Apply month','monthpicker');const m=document.getElementById('modalBackdrop');m.classList.add('show');m.style.display='flex';m.style.zIndex='1000';} 
 function txHtml(t){const inc=t.type==='income';return `<div class="transaction" role="button" tabindex="0" data-transaction-id="${esc(t.id)}" aria-label="Edit or delete ${esc(t.category)} transaction"><div class="tx-icon">${ICONS[t.category]||'•'}</div><div class="tx-main"><div class="tx-name">${esc(t.category)}</div><div class="tx-note">${esc(t.note|| (inc?'Income':'Expense'))}</div></div><div class="tx-right"><div class="tx-amount ${inc?'income':'expense'}">${inc?'+':'−'}${money(t.amount,t.currency)}</div><div class="tx-date">${esc(new Date(t.date+'T12:00:00').toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'}))}</div></div></div>`}
@@ -286,7 +311,7 @@ function eyeSvg(open){
  ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>'
  : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3l18 18"/><path d="M10.6 10.7a2 2 0 0 0 2.7 2.7"/><path d="M9.9 5.3A11.7 11.7 0 0 1 12 5c6.4 0 10 7 10 7a15 15 0 0 1-3.1 3.8"/><path d="M6.2 6.3C3.5 8.1 2 12 2 12s3.6 7 10 7c1.1 0 2.1-.2 3-.5"/></svg>';
 }
-function gearSvg(){const pts=[];const profile=[[-30,8.0],[-22,8.0],[-18,9.8],[-13,10.0],[13,10.0],[18,9.8],[22,8.0],[30,8.0]];for(let tooth=0;tooth<6;tooth++){const base=tooth*60;for(const [off,r] of profile){const a=(base+off-30)*Math.PI/180;pts.push(`${(12+r*Math.cos(a)).toFixed(3)},${(12+r*Math.sin(a)).toFixed(3)}`)}}return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="${pts.join(' ')}"/><circle cx="12" cy="12" r="3.15"/></svg>`}
+function gearSvg(){const pts=[];for(let tooth=0;tooth<8;tooth++){const base=tooth*45;[[-18,8.1],[-10,8.1],[-10,10.1],[10,10.1],[10,8.1],[18,8.1]].forEach(([off,r])=>{const a=(base+off-22.5)*Math.PI/180;pts.push(`${(12+r*Math.cos(a)).toFixed(3)},${(12+r*Math.sin(a)).toFixed(3)}`)});}return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="${pts.join(' ')}"/><circle cx="12" cy="12" r="3.15"/></svg>`}
 function renderAccounts(){
  const host=document.getElementById('accountManage');
  if(!host) return;
@@ -326,6 +351,7 @@ document.getElementById('importBtn').onclick=()=>document.getElementById('import
 document.getElementById('clearBtn').onclick=()=>{if(confirm('Delete all Budget accounts and transactions from this browser? This cannot be undone.')){state=structuredClone(DEFAULT);save();renderAll();showToast('App data cleared')}};
 document.getElementById('monthBtn').addEventListener('click',e=>{e.preventDefault();e.stopPropagation();openMonthPicker()});
 
+wireCategorySwipe();
 renderAll();
 </script>
 </body>
