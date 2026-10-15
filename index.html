@@ -72,7 +72,7 @@ body{background:var(--bg);color:var(--ink);letter-spacing:.01em}
 .app-select-trigger:focus-visible{outline:2px solid #8aa7ef;outline-offset:1px}
 .app-select-trigger .app-select-value{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
 .app-select-trigger .app-select-caret{color:#626779;flex:none;transition:transform .16s ease;display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px}
-.app-select.open .app-select-trigger .app-select-caret{transform:none}
+.app-select.open .app-select-trigger .app-select-caret{transform:rotate(180deg)}
 .app-select-menu{position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:1200;display:none;max-height:min(280px,42vh);overflow-y:auto;padding:6px;background:#f7f7fb;border:1px solid #e1e3eb;border-radius:16px;box-shadow:0 10px 28px #20243a24}
 .app-select.open .app-select-menu{display:block}
 .app-select-option{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;min-height:42px;padding:10px 12px;border:0;border-radius:11px;background:transparent;color:#191c24;text-align:left;font:inherit;font-size:14px;cursor:pointer}
@@ -374,7 +374,7 @@ function enhanceSelect(select){
   const wrap=document.createElement('div');wrap.className='app-select';
   const trigger=document.createElement('button');trigger.type='button';trigger.className='app-select-trigger';trigger.setAttribute('aria-haspopup','listbox');trigger.setAttribute('aria-expanded','false');
   const value=document.createElement('span');value.className='app-select-value';
-  const caret=document.createElement('span');caret.className='app-select-caret';caret.setAttribute('aria-hidden','true');caret.innerHTML='<svg viewBox="0 0 24 30" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 12l6-6 6 6"/><path d="M6 18l6 6 6-6"/></svg>';trigger.append(value,caret);
+  const caret=document.createElement('span');caret.className='app-select-caret';caret.setAttribute('aria-hidden','true');caret.innerHTML='<svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>';trigger.append(value,caret);
   const menu=document.createElement('div');menu.className='app-select-menu';menu.setAttribute('role','listbox');
   select.parentNode.insertBefore(wrap,select);wrap.append(trigger,menu,select);select.classList.add('select-native-hidden');
   function refresh(){value.textContent=select.selectedOptions[0]?.textContent?.trim()||'Choose an option';menu.innerHTML='';Array.from(select.options).forEach((opt,index)=>{const b=document.createElement('button');b.type='button';b.className='app-select-option';b.setAttribute('role','option');b.setAttribute('aria-selected',String(index===select.selectedIndex));b.textContent=opt.textContent.trim();b.disabled=opt.disabled;b.onclick=()=>{select.selectedIndex=index;select.dispatchEvent(new Event('change',{bubbles:true}));refresh();closeAllSelects();trigger.focus()};menu.appendChild(b)});}
