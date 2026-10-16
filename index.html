@@ -990,3 +990,28 @@ button:focus-visible,input:focus,select:focus,textarea:focus,.focus-ring,.app-se
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bindGear);else bindGear();
 })();
 </script>
+
+
+<style id="gear-tile-final-circle-toggle-state">
+/* Gear control: standard circular tile; black while controls are hidden, grey while visible. */
+#toggleAccountControls, .accounts-header-actions #toggleAccountControls, .accounts-header-edit#toggleAccountControls {
+  width:38px!important;height:38px!important;min-width:38px!important;min-height:38px!important;
+  aspect-ratio:1/1!important;box-sizing:border-box!important;flex:0 0 38px!important;
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  padding:0!important;border-radius:50%!important;
+  background:#050505!important;color:#D8D8D8!important;border:1px solid #444!important;
+  box-shadow:none!important;transform:none!important;
+  transition:background-color 180ms ease,color 180ms ease,border-color 180ms ease!important;
+  animation:none!important;
+}
+#toggleAccountControls[aria-pressed="false"] {
+  background:#383838!important;color:#F0F0F0!important;border-color:#666!important;
+}
+#toggleAccountControls[aria-pressed="true"] {
+  background:#050505!important;color:#D8D8D8!important;border-color:#444!important;
+}
+#toggleAccountControls:active {transform:none!important;background:#050505!important}
+#toggleAccountControls.gear-feedback {animation:none!important}
+#toggleAccountControls svg {width:21px!important;height:21px!important;min-width:21px!important;min-height:21px!important;display:block!important;margin:0!important;stroke:currentColor!important;fill:none!important}
+@media(prefers-reduced-motion:reduce){#toggleAccountControls{transition:none!important}}
+</style>
