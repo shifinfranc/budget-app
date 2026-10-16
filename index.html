@@ -655,3 +655,16 @@ html,body,.app,button,input,select,textarea{font-family:Inter,-apple-system,Blin
 .quick{gap:8px!important;margin-bottom:12px!important}
 @media(max-width:390px){.quick button,.quick button:nth-child(n){min-height:54px!important;padding:8px 4px!important}.transaction-month-heading{font-size:12px!important}}
 </style>
+<style id="home-actions-category-circles-icon-alignment">
+/* Remove the complete Quick Actions section from Home without disturbing its other features. */
+.home-quick-tile,.quick.home-quick-tile{display:none!important}
+/* Use circular tiles for category icons and centre their glyphs precisely. */
+.tx-icon,.category-icon,.legend-icon,.icon-tile,.icon-container,.action-icon,.tool-icon,.setting-icon,.stat-icon{border-radius:50%!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;text-align:center!important;flex-shrink:0}
+.tx-icon svg,.category-icon svg,.legend-icon svg,.icon-tile svg,.icon-container svg,.action-icon svg,.tool-icon svg,.setting-icon svg,.stat-icon svg{display:block;margin:auto}
+/* Centre account flags in their circular holders without recolouring or filtering the flags. */
+.acct .flag{width:34px!important;height:34px!important;min-width:34px;display:inline-flex!important;align-items:center!important;justify-content:center!important;text-align:center!important;border-radius:50%!important;line-height:1!important;flex-shrink:0;filter:none!important;opacity:1!important}
+/* Add and gear controls inherit the app's default monochrome icon styling. */
+.accounts-header-add,.accounts-header-edit,.addacct,.account-gear-image,.edit-icon .account-gear-image{color:var(--lavender,#D8D5DE)!important;background:transparent!important;border-color:transparent!important}
+.accounts-header-add svg,.accounts-header-edit svg,.addacct svg,.account-gear-image svg,.edit-icon svg{stroke:currentColor!important;color:inherit!important}
+.accounts-header-add,.accounts-header-edit{display:inline-flex!important;align-items:center!important;justify-content:center!important;border-radius:50%!important}
+</style>
