@@ -1251,3 +1251,38 @@ button:focus-visible,input:focus,select:focus,textarea:focus,.focus-ring,.app-se
 #allTransactions .transaction-month-heading + .transaction{margin-top:0!important}
 #allTransactions .transaction + .transaction-month-heading{margin-top:8px!important}
 </style>
+
+
+<style id="user-request-black-transaction-tiles-and-month-divider-alignment">
+/* Use the same pure-black icon tile across the full transaction list and recent transactions. */
+.tx-icon,.recent-transactions .tx-icon,.recent-list .tx-icon,.recent-transaction .tx-icon,.recent-item .tx-icon,
+#recentTransactions .tx-icon,.transaction-row .tx-icon,.tx-row .tx-icon,
+.tx-icon-wrap,.recent-transactions .tx-icon-wrap,.recent-list .tx-icon-wrap {
+  background:#000!important; background-image:none!important; border:1px solid #242424!important;
+  box-shadow:none!important; border-radius:50%!important;
+}
+.tx-icon svg,.recent-transactions .tx-icon svg,.recent-list .tx-icon svg,.recent-transaction .tx-icon svg,
+.recent-item .tx-icon svg,#recentTransactions .tx-icon svg,.transaction-row .tx-icon svg,.tx-row .tx-icon svg {
+  color:#E5E5E5!important; stroke:#E5E5E5!important; fill:none!important;
+}
+/* Keep icon tile and transaction text vertically centred on each row. */
+.transaction-row,.tx-row,.transaction-item,.recent-transaction,.recent-item,.recent-list-item {
+  align-items:center!important;
+}
+.tx-main,.tx-info,.transaction-info,.recent-transaction .tx-main,.recent-item .tx-main {
+  align-self:center!important; min-width:0;
+}
+/* Month label is centred vertically between the thin divider lines. */
+.transaction-month-heading {
+  display:flex!important; align-items:center!important; justify-content:center!important;
+  position:sticky!important; z-index:5!important; background:#111116!important;
+  text-align:center!important; line-height:1.25!important; min-height:34px!important;
+  padding:8px 4px!important; border:0!important;
+}
+.transaction-month-heading:before,.transaction-month-heading:after {
+  content:""!important; display:block!important; height:1px!important; background:#444!important;
+  flex:1 1 0!important; min-width:12px!important;
+}
+.transaction-month-heading:before { margin-right:10px!important; }
+.transaction-month-heading:after { margin-left:10px!important; }
+</style>
