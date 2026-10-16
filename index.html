@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#087348">
+<meta name="theme-color" content="#09090B">
 <title>Budget — Personal Finance</title>
 <style>
 :root{--green:#087348;--green2:#119765;--mint:#eaf7f0;--ink:#172b24;--muted:#708078;--line:#e5eee9;--bg:#f6faf8;--red:#e84b63;--white:#fff;--shadow:0 4px 18px #143c2a0b}
@@ -378,6 +378,35 @@ body{letter-spacing:-.015em!important}
 svg{stroke-width:1.7}
 @media(max-width:390px){.app{padding-left:14px!important;padding-right:14px!important}.card{padding:15px!important}.quick{gap:6px!important}.quick button,.quick button:nth-child(n){min-height:72px!important}.acct{min-width:105px!important;padding:9px!important}}
 
+
+/* Monochrome black / white / grey theme override */
+:root{--green:#D4D4D8!important;--green2:#A1A1AA!important;--mint:#27272A!important;--ink:#F4F4F5!important;--muted:#A1A1AA!important;--line:#3F3F46!important;--bg:#09090B!important;--red:#D4D4D8!important;--white:#18181B!important;--surface:#18181B!important;--surface-raised:#27272A!important;--accent:#E4E4E7!important;--accent-pressed:#A1A1AA!important;--lavender:#E4E4E7!important;--muted-text:#A1A1AA!important;--income:#E4E4E7!important;--expense:#A1A1AA!important;--warning:#D4D4D8!important;--info:#A1A1AA!important;--shadow:none!important}
+html,body,.app{background:#09090B!important;color:#F4F4F5!important}
+.app{box-shadow:none!important}
+.card,.modal,.accountbar,.nav,.toast,.field input,.field select,.month,.month-year-picker,.month-picker,.dropdown-menu,.menu,.popover{background:#18181B!important;color:#F4F4F5!important;border-color:#3F3F46!important;box-shadow:none!important}
+.brand,.iconbtn,.addacct,.nav button.active,.section-title,.tx-name,.stat-value,.amount,.currency-code,.legend-value,.donut-center,.primary,.secondary,.linkbtn,.pill,.month-year-nav button,.month-grid button{color:#F4F4F5!important}
+.leaf,.acct,.stat-icon,.tx-icon,.qicon,.category-swipe-hint,.month-year-nav button,.month-grid button,.secondary,.pill{background:#27272A!important;border-color:#3F3F46!important;color:#E4E4E7!important}
+.acct.active,.month-grid button.selected,.month-grid button[aria-pressed="true"],.nav button.active{background:#3F3F46!important;border-color:#D4D4D8!important;color:#FFFFFF!important;box-shadow:none!important}
+.balance{background:linear-gradient(145deg,#27272A,#18181B)!important;border:1px solid #3F3F46!important;color:#F4F4F5!important}
+.balance:after{background:#FFFFFF08!important}
+.month{background:#27272A!important;color:#E4E4E7!important;border-color:#52525B!important}
+.stat-label,.subtle,.tx-note,.tx-date,.donut-center small,.empty{color:#A1A1AA!important}
+.income,.expense,.tx-amount.income,.tx-amount.expense{color:#D4D4D8!important}
+.primary{background:#D4D4D8!important;color:#09090B!important;border-color:#E4E4E7!important}
+.primary:active{background:#A1A1AA!important}
+.progress{background:#3F3F46!important}.progress div{background:#D4D4D8!important}
+.donut{background:conic-gradient(#F4F4F5 0 14%,#D4D4D8 14% 27%,#A1A1AA 27% 40%,#71717A 40% 53%,#52525B 53% 66%,#E4E4E7 66% 79%,#3F3F46 79% 90%,#A1A1AA 90% 100%)!important}
+.donut:after{background:#18181B!important}
+.legend-row .dot,.dot{background:#D4D4D8!important;box-shadow:none!important}
+.legend-row:nth-child(2) .dot{background:#A1A1AA!important}.legend-row:nth-child(3) .dot{background:#E4E4E7!important}.legend-row:nth-child(4) .dot{background:#71717A!important}.legend-row:nth-child(5) .dot{background:#52525B!important}.legend-row:nth-child(6) .dot{background:#D4D4D8!important}.legend-row:nth-child(7) .dot{background:#A1A1AA!important}.legend-row:nth-child(8) .dot{background:#3F3F46!important}
+.category-chart-stage svg path{stroke:#09090B!important}
+.nav{background:#09090BEE!important;border-top-color:#27272A!important}.nav button{color:#A1A1AA!important}.nav button.active{color:#F4F4F5!important}
+.modal-backdrop{background:#000000B8!important}.modal{background:#18181B!important}
+.field input,.field select{background:#18181B!important;border-color:#3F3F46!important;color:#F4F4F5!important}
+.home-quick-tile,.quick[data-home-tile="quick"]{display:none!important}
+/* Preserve original country flags and their natural colours. */
+.flag,.acct .flag,button .flag{filter:none!important;color:initial!important}
+
 </style>
 </head>
 <body>
@@ -405,12 +434,6 @@ svg{stroke-width:1.7}
         <div class="category-chart-stage" id="categoryChartStage">
           <div class="chartarea"><div class="donut" id="donut"><svg class="donut-segments" id="donutSegments" viewBox="0 0 100 100" aria-hidden="true"></svg><div class="donut-center" id="donutCenter">$0<small>spent</small></div></div><div class="legend" id="legend"></div></div>
         </div>
-      </div>
-      <div class="quick home-quick-tile" data-home-tile="quick"><div class="quick-tile-head"><span class="subtle">Quick actions</span></div>
-        <button id="quickAdd"><span class="qicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg></span>Add Transaction</button>
-        <button id="quickBudget"><span class="qicon">◎</span>Set Budget</button>
-        <button id="quickReports"><span class="qicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5h16"/><rect x="5.5" y="12" width="3" height="5.5" rx=".8"/><rect x="10.5" y="7.5" width="3" height="10" rx=".8"/><rect x="15.5" y="4" width="3" height="13.5" rx=".8"/></svg></span>View Reports</button>
-        <button id="quickSavings"><span class="qicon">♧</span>Savings Goals</button>
       </div>
       <div class="card">
         <div class="section-head"><h2 class="section-title">Recent Transactions</h2><div class="home-head-actions"><button class="linkbtn" id="viewAll">View all ›</button></div></div>
