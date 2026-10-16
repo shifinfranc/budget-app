@@ -828,6 +828,28 @@ input[type="search"], input[placeholder*="Search" i], input[id*="search" i], .se
 }
 </style>
 
+
+<style id="final-month-heading-left-aligned-clean">
+/* Month headings remain sticky, left-aligned, and vertically balanced within their separator row. */
+#allTransactions .transaction-month-heading, .transaction-month-heading {
+  display:block!important; box-sizing:border-box!important; width:100%!important;
+  position:sticky!important; top:0!important; z-index:5!important;
+  text-align:left!important; justify-content:initial!important; align-items:initial!important;
+  min-height:34px!important; height:auto!important; line-height:18px!important;
+  padding:8px 0!important; margin:0!important;
+  color:#A9A9A9!important; background:#111116!important; background-color:#111116!important;
+  border:0!important; border-bottom:1px solid #353535!important; border-radius:0!important;
+  box-shadow:none!important; white-space:normal!important;
+}
+/* Remove the decorative divider lines inserted inside the month label row. */
+#allTransactions .transaction-month-heading::before,
+#allTransactions .transaction-month-heading::after,
+.transaction-month-heading::before, .transaction-month-heading::after {
+  content:none!important; display:none!important; width:0!important; height:0!important;
+  border:0!important; background:none!important; box-shadow:none!important;
+}
+</style>
+
 </body>
 </html>
 <style id="latest-reference-polish">
