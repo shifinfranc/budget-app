@@ -301,6 +301,41 @@ button svg[stroke="#000"],button svg[stroke="#000000"],button svg[stroke="#111"]
 .app-select-trigger,.field input,.field select{background:#211A30!important;color:#F5F3FF!important;border-color:#30263F!important}
 button:focus-visible,[role="button"]:focus-visible{outline-color:#BBA4FF!important}
 
+
+/* Reference-led refinement: monochrome iconography, violet-only chart palette, compact premium tiles. */
+:root{--chart-violet-1:#8B5CF6;--chart-violet-2:#A78BFA;--chart-violet-3:#BBA4FF;--chart-violet-4:#7C3AED;--chart-violet-5:#6D28D9;--chart-violet-6:#C4B5FD;--chart-violet-7:#9F7AEA;--chart-violet-8:#DDD6FE}
+.app{max-width:720px;background:#0D0B14!important;padding-left:18px!important;padding-right:18px!important}
+.top{padding-top:16px;padding-bottom:14px}
+.card{background:#12101a!important;border:1px solid #292238!important;border-radius:21px!important;padding:16px!important;margin-bottom:12px!important;box-shadow:0 8px 24px #00000018!important}
+.balance{background:linear-gradient(135deg,#5425a7 0%,#3b197f 58%,#21133d 100%)!important;border:1px solid #7044bd!important;padding:20px!important;border-radius:22px!important}
+.balance:after{background:#c4b5fd12!important;width:220px;height:220px}
+.amount{font-size:clamp(33px,7.7vw,38px)!important;font-weight:650!important;letter-spacing:-1px!important;color:#fff!important}
+.month,.home-head-actions .month{background:#2b2040!important;border:1px solid #6d45a4!important;color:#f5f3ff!important;font-size:12px!important;font-weight:600!important;min-height:34px!important;padding:6px 9px!important;border-radius:11px!important}
+.stat-icon{background:#30204a!important;color:#f5f3ff!important;border:1px solid #69449c!important}
+.stat-label{color:#d4c9eb!important}.stat-value{color:#fff!important}
+.acct{background:#171321!important;border:1px solid #30263f!important;border-radius:14px!important;min-width:108px!important;padding:9px 10px!important;color:#c6bfd6!important}
+.acct.active{background:#28183f!important;border:1px solid #a78bfa!important;color:#fff!important;box-shadow:inset 0 0 0 1px #8b5cf622!important}
+.flag{filter:none!important;opacity:1!important}
+.quick{grid-template-columns:repeat(4,minmax(0,1fr));gap:7px!important;margin-bottom:10px!important}
+.quick button,.quick button:nth-child(n){display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:7px;min-height:78px!important;padding:9px 5px!important;background:#15121e!important;border:1px solid #30263f!important;border-radius:16px!important;color:#f5f3ff!important;font-size:11px!important;font-weight:500!important;box-shadow:none!important}
+.quick button:first-of-type{background:#241638!important;border-color:#7048a9!important}
+.quick .qicon{display:grid;place-items:center;flex:0 0 32px!important;width:32px!important;height:32px!important;margin:0!important;background:#2b2040!important;color:#d8c7ff!important;border:1px solid #493663!important;border-radius:10px!important;font-size:20px!important}
+.quick .qicon svg{width:21px;height:21px;stroke:currentColor!important;fill:none!important;stroke-width:1.7!important}
+.tx-icon{background:#211a30!important;border:1px solid #392b50!important;color:#d8c7ff!important;border-radius:11px!important}
+.tx-icon:not(:has(svg)){font-family:Inter,system-ui,sans-serif!important;font-size:19px!important;font-weight:500!important;color:#d8c7ff!important;filter:none!important}
+/* Make category symbols deliberately monochrome; country flags are excluded from this rule. */
+.tx-icon img,.qicon img{filter:grayscale(1)!important}
+.nav{background:#100d17f5!important;border-top:1px solid #30263f!important;padding-top:8px!important;box-shadow:0 -8px 24px #00000020!important}
+.nav button{color:#817991!important}.nav button.active{color:#bba4ff!important}.nav button.active span{background:#2b2040!important;color:#bba4ff!important}
+button svg,input+svg,svg{stroke:currentColor}
+button svg{color:inherit}
+.edit-icon,.view-account-icon,.drag-handle,.accounts-header-edit,.accounts-header-add,.account-gear-image,.data-action,.month-picker-yearbtn,.close,.category-swipe-hint{color:#c4b5fd!important}
+.edit-icon svg,.view-account-icon svg,.drag-handle svg,.accounts-header-edit svg,.accounts-header-add svg,.account-gear-image svg,.data-action svg,.month-picker-yearbtn svg,.nav svg{stroke:currentColor!important}
+/* Category chart and legend use violet shades only, while income/expense amounts retain semantic colours. */
+.dot{border:0!important}
+.legend-row .dot{background:var(--chart-violet-1)!important}
+@media(max-width:380px){.quick{gap:5px!important}.quick button,.quick button:nth-child(n){min-height:70px!important;padding:7px 3px!important;font-size:10px!important}.quick .qicon{width:29px!important;height:29px!important;flex-basis:29px!important}.app{padding-left:14px!important;padding-right:14px!important}}
+
 </style>
 </head>
 <body>
@@ -388,8 +423,8 @@ const CURRENCIES={
  AED:{name:'UAE dirham',symbol:'د.إ',flag:'🇦🇪',digits:2},
  JPY:{name:'Japanese yen',symbol:'¥',flag:'🇯🇵',digits:0},
 };
-const COLORS=['#8B5CF6','#BBA4FF','#38BDF8','#10B981','#F59E0B','#F43F5E','#6D28D9','#A78BFA'];
-const ICONS={Rent:'⌂',Groceries:'🛒',Transport:'🚗',Entertainment:'🎮',Bills:'⚡',Health:'✚',Shopping:'🛍',Salary:'▣',Freelance:'✦',Other:'•••',Savings:'♧'};
+const COLORS=['#8B5CF6','#A78BFA','#BBA4FF','#7C3AED','#6D28D9','#C4B5FD','#9F7AEA','#DDD6FE'];
+const ICONS={Rent:'⌂',Groceries:'▤',Transport:'↗',Entertainment:'▷',Bills:'ϟ',Health:'+',Shopping:'◇',Salary:'▣',Freelance:'✦',Other:'•••',Savings:'♧'};
 const DEFAULT={activeId:'canada',accounts:[
 {id:'canada',name:'Canada',currency:'CAD',opening:0,transactions:[],budgets:{Rent:1200,Groceries:500,Transport:250,Bills:200,Entertainment:150}},
 {id:'india',name:'India',currency:'INR',opening:0,transactions:[],budgets:{Rent:20000,Groceries:10000,Transport:5000,Bills:4000,Entertainment:3000}}
