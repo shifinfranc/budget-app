@@ -850,6 +850,49 @@ input[type="search"], input[placeholder*="Search" i], input[id*="search" i], .se
 }
 </style>
 
+
+<style id="month-separator-final-layout-fix">
+/* Month headers occupy a dedicated, opaque row: text is left-aligned and vertically centred
+   between the top and bottom divider lines, so neither labels nor transactions overlap. */
+#allTransactions .transaction-month-heading,
+.transaction-month-heading {
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  box-sizing:border-box!important;
+  position:sticky!important;
+  top:0!important;
+  z-index:20!important;
+  width:100%!important;
+  min-height:54px!important;
+  height:54px!important;
+  padding:0 0 0 0!important;
+  margin:0!important;
+  line-height:1.2!important;
+  text-align:left!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  color:#A9A9A9!important;
+  background:#111116!important;
+  background-color:#111116!important;
+  border-top:1px solid #353535!important;
+  border-bottom:1px solid #353535!important;
+  border-left:0!important;
+  border-right:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  opacity:1!important;
+}
+#allTransactions .transaction-month-heading::before,
+#allTransactions .transaction-month-heading::after,
+.transaction-month-heading::before,
+.transaction-month-heading::after {
+  content:none!important; display:none!important;
+}
+#allTransactions .transaction-month-heading + .transaction,
+.transaction-month-heading + .transaction { margin-top:0!important; }
+</style>
+
 </body>
 </html>
 <style id="latest-reference-polish">
@@ -1307,4 +1350,30 @@ button:focus-visible,input:focus,select:focus,textarea:focus,.focus-ring,.app-se
 }
 .transaction-month-heading:before { margin-right:10px!important; }
 .transaction-month-heading:after { margin-left:10px!important; }
+</style>
+
+<style id="final-force-pure-black-transaction-icon-tiles">
+/* Final override: the icon TILE itself must be pure black in both transaction lists. */
+#recentTransactions .transaction .tx-icon,
+#allTransactions .transaction .tx-icon,
+#recentTransactions .tx-icon,
+#allTransactions .tx-icon,
+.transaction .tx-icon,
+.transaction:nth-child(3n+1) .tx-icon,
+.transaction:nth-child(3n+2) .tx-icon,
+.transaction:nth-child(3n) .tx-icon {
+  background:#000000!important; background-color:#000000!important; background-image:none!important;
+  border:0!important; box-shadow:none!important; outline:0!important;
+  border-radius:50%!important; filter:none!important; opacity:1!important;
+}
+#recentTransactions .transaction .tx-icon *,
+#allTransactions .transaction .tx-icon *,
+#recentTransactions .tx-icon *,
+#allTransactions .tx-icon *,
+.transaction .tx-icon * {
+  opacity:1!important; filter:none!important;
+}
+#recentTransactions .transaction .tx-icon,
+#allTransactions .transaction .tx-icon,
+.transaction .tx-icon {color:#E5E5E5!important}
 </style>
