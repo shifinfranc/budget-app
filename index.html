@@ -1142,3 +1142,14 @@ button:focus-visible,input:focus,select:focus,textarea:focus,.focus-ring,.app-se
 .nav button.active > span:not(.nav-icon):not(.nav-more-icon){font-size:12px!important;font-weight:750!important;color:#fff!important}
 .nav button:not(.active) > span:not(.nav-icon):not(.nav-more-icon){font-size:12px!important;font-weight:500!important}
 </style>
+
+<style id="minimal-home-tools-logos-and-inline-month-separators">
+/* Make the header brand mark minimal: no filled tile, just a small clean glyph. */
+.brand{gap:8px!important;font-size:24px!important;font-weight:650!important;letter-spacing:-.65px!important}
+.brand .leaf{width:25px!important;height:25px!important;min-width:25px!important;min-height:25px!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;padding:0!important;margin:0!important;background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;font-size:18px!important;line-height:1!important;filter:grayscale(1)!important}
+/* Keep the Home and Tools navigation marks simple, small, and outline-only. */
+.nav button[data-view="home"] svg,.nav button[data-view="insights"] svg{width:21px!important;height:21px!important;min-width:21px!important;min-height:21px!important;max-width:21px!important;max-height:21px!important;stroke-width:1.65!important;fill:none!important;filter:none!important}
+.nav button[data-view="home"] .nav-icon,.nav button[data-view="insights"] .nav-icon{border-color:transparent!important;box-shadow:none!important}
+/* Month headings are plain text separators, sharing the transaction list's background. */
+.transaction-month-heading{background:transparent!important;background-color:transparent!important;box-shadow:none!important;border:0!important;border-bottom:0!important;border-radius:0!important;color:#A9A9A9!important;font-size:12px!important;font-weight:500!important;letter-spacing:0!important;padding:10px 0 7px!important;margin:0!important}
+</style>
