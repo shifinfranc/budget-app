@@ -671,6 +671,36 @@ renderAll();
 }
 </style>
 
+
+<style id="app-standardized-typography-scale">
+/* App-wide typography system: predictable roles, sizes and line heights. */
+:root{--type-body:14px;--type-secondary:12px;--type-label:12px;--type-control:14px;--type-section:16px;--type-title:18px;--type-display:36px;}
+html,body,.app,body *{font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important;}
+body,.app{font-size:var(--type-body)!important;line-height:1.45;}
+/* Main navigation, standard text, account names, descriptions and list content */
+nav,.nav,.tab,.tab-label,.nav-label,.account-name,.acct-name,.account-title,.setting-row,.tool-row,.report-row,.budget-row,.category-name,.legend-row,.transaction,.tx-name,.tx-amount,.form-row,.modal-body,.sheet-body,.dialog-body,.empty-state,.helper-text{font-size:var(--type-body)!important;line-height:1.4;}
+/* Section headers and card titles */
+.section-title,.card-title,.panel-title,.modal-title,.sheet-title,.dialog-title,.page-title,.accounts-title{font-size:var(--type-section)!important;line-height:1.3!important;font-weight:600!important;letter-spacing:-.2px!important;}
+/* Secondary metadata, hints, dates, notes and labels */
+.muted,.subtle,.small,.hint,.helper,.description,.tx-note,.tx-date,.stat-label,.field-label,.form-label,.setting-description,.account-meta,.legend-label,.donut-center small,.caption,.eyebrow{font-size:var(--type-secondary)!important;line-height:1.4!important;font-weight:400;}
+/* Controls and buttons */
+button,input,select,textarea,.btn,.month,.select-control,.dropdown-trigger,.filter-button,.tab-button{font-size:var(--type-control)!important;line-height:1.35!important;}
+button{font-weight:550;}
+input,select,textarea{font-weight:400;}
+/* Transaction labels and values share one consistent size */
+.tx-name,.tx-amount,.transaction .name,.transaction .amount{font-size:13px!important;line-height:1.35!important;}
+.tx-note,.tx-date,.transaction-month-heading{font-size:12px!important;line-height:1.35!important;}
+.transaction-month-heading{font-weight:600!important;}
+/* Account management list uses the same base text scale */
+.account-manage-row,.account-manage-row *:not(svg):not(path):not(img):not(.tx-icon){font-size:var(--type-body);} 
+.account-manage-row .tx-icon{font-size:20px!important;}
+/* Keep only the brand and the primary balance intentionally larger */
+.brand{font-size:24px!important;line-height:1.2!important;font-weight:650!important;}
+.amount{font-size:clamp(32px,8vw,36px)!important;line-height:1.12!important;font-weight:650!important;}
+.month-picker-year{font-size:24px!important;line-height:1.2!important;}
+/* Small-screen layouts retain the same scale instead of shrinking labels unpredictably. */
+@media(max-width:390px){body,.app{font-size:14px!important}.section-title,.card-title,.panel-title,.modal-title,.sheet-title,.dialog-title,.page-title,.accounts-title{font-size:16px!important}.tx-name,.tx-amount{font-size:13px!important}.tx-note,.tx-date,.muted,.subtle,.small,.hint,.helper,.description,.stat-label,.field-label,.form-label{font-size:12px!important}}
+</style>
 </body>
 </html>
 <style id="latest-reference-polish">
