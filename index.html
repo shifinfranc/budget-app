@@ -633,6 +633,44 @@ renderAll();
 .acct .flag,.flag, .acct img { border-radius:0 !important; }
 </style>
 
+<style id="category-icons-and-accounts-centering-final-fix">
+/* Higher-specificity correction: category icons are .tx-icon elements inside transactions. */
+.transaction .tx-icon,
+.transaction:nth-child(3n+1) .tx-icon,
+.transaction:nth-child(3n+2) .tx-icon,
+.transaction:nth-child(3n) .tx-icon,
+.account-manage-row .tx-icon {
+  width:38px!important;height:38px!important;min-width:38px!important;min-height:38px!important;
+  box-sizing:border-box!important;aspect-ratio:1/1!important;flex:0 0 38px!important;
+  border-radius:50%!important;display:flex!important;align-items:center!important;justify-content:center!important;
+  padding:0!important;line-height:1!important;text-align:center!important;overflow:hidden!important;
+  background:#24222B!important;border:1px solid #302E38!important;color:#D8D5DE!important;
+}
+.transaction .tx-icon svg,.transaction .tx-icon img,.account-manage-row .tx-icon svg,.account-manage-row .tx-icon img {
+  display:block!important;width:19px!important;height:19px!important;max-width:19px!important;max-height:19px!important;
+  margin:0!important;object-fit:contain!important;flex:0 0 auto!important;
+}
+.transaction .tx-icon:not(:has(svg)):not(:has(img)) {font-size:18px!important;font-weight:500!important}
+/* Keep flags colourful and centred in circular holders in both account selectors and Accounts management. */
+.acct .flag {
+  width:34px!important;height:34px!important;min-width:34px!important;min-height:34px!important;box-sizing:border-box!important;
+  aspect-ratio:1/1!important;border-radius:50%!important;display:flex!important;align-items:center!important;justify-content:center!important;
+  padding:0!important;margin:0!important;line-height:1!important;text-align:center!important;flex:0 0 34px!important;
+  font-size:20px!important;filter:none!important;opacity:1!important;
+}
+.account-manage-row .tx-icon {font-size:20px!important;filter:none!important;color:inherit!important}
+.account-manage-row .tx-icon:not(:has(svg)):not(:has(img)){font-family:system-ui,sans-serif!important}
+/* Standardise Accounts tab action icons to the app's understated monochrome style and consistent sizing. */
+.accounts-header-add,.accounts-header-edit,.account-manage-row .view-account-icon,.account-manage-row .edit-icon,.account-manage-row .drag-handle {
+  width:36px!important;height:36px!important;min-width:36px!important;min-height:36px!important;box-sizing:border-box!important;
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;padding:0!important;
+  border-radius:50%!important;background:transparent!important;border:1px solid transparent!important;color:#D8D5DE!important;
+}
+.accounts-header-add svg,.accounts-header-edit svg,.account-manage-row .view-account-icon svg,.account-manage-row .edit-icon svg,.account-manage-row .drag-handle svg {
+  width:20px!important;height:20px!important;display:block!important;margin:0!important;stroke:currentColor!important;color:inherit!important;
+}
+</style>
+
 </body>
 </html>
 <style id="latest-reference-polish">
