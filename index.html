@@ -758,6 +758,29 @@ button svg,.nav svg,.iconbtn svg,.linkbtn svg,.stat-icon svg,.qicon svg,.categor
 @media(max-width:380px){.nav{padding-left:6px!important;padding-right:6px!important;gap:2px!important}.nav button{font-size:10px!important;gap:3px!important}}
 </style>
 
+
+<style id="final-user-fixes-chart-chevron-navigation-settings">
+/* Remove the unwanted circular line across the centre of the donut chart. */
+.donut-segments{overflow:visible!important;border:0!important;outline:0!important;box-shadow:none!important}
+.donut-segments circle,.donut-segments path{stroke:none!important;stroke-width:0!important;filter:none!important}
+.donut:before,.donut-center:before,.donut-center:after{border:0!important;outline:0!important;box-shadow:none!important}
+.donut:after{border:0!important;outline:0!important;box-shadow:none!important}
+/* Earnings/spending carousel chevron and its tile use the standard neutral palette. */
+.category-swipe-hint,#categorySlideButton,.category-swipe-hint span{background:#202020!important;background-image:none!important;color:#D8D8D8!important;border:1px solid #444!important;box-shadow:none!important;border-radius:50%!important}
+.category-swipe-hint svg,#categorySlideButton svg{color:#D8D8D8!important;stroke:#D8D8D8!important;fill:none!important}
+/* Selected navigation item: larger, bolder icon and label with neutral active styling. */
+.nav button{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:4px!important;text-align:center!important}
+.nav button.active{color:#FFFFFF!important;font-weight:750!important}
+.nav button.active span,.nav button.active .nav-label,.nav button.active .label{font-size:12px!important;font-weight:750!important;line-height:1.2!important;color:#FFFFFF!important}
+.nav button.active svg,.nav button.active .nav-icon,.nav button.active .nav-more-icon{width:23px!important;height:23px!important;stroke:#FFFFFF!important;color:#FFFFFF!important;stroke-width:2.3!important}
+.nav button.active>span,.nav button.active>.nav-icon,.nav button.active>.nav-more-icon{background:#303030!important;border-radius:12px!important}
+/* Settings icons: prevent black fills inside glyphs; use clean monochrome outlines. */
+#settings svg,.settings svg,.setting-icon svg,.data-action svg,.data-action span svg{fill:none!important;stroke:#D8D8D8!important;color:#D8D8D8!important}
+#settings svg path,#settings svg circle,#settings svg rect,#settings svg line,#settings svg polyline,#settings svg polygon,
+.settings svg path,.setting-icon svg path,.data-action svg path,.data-action svg circle,.data-action svg rect,.data-action svg line,.data-action svg polyline,.data-action svg polygon{fill:none!important;stroke:currentColor!important}
+.data-action,.secondary.data-action{color:#D8D8D8!important}
+</style>
+
 </body>
 </html>
 <style id="latest-reference-polish">
