@@ -905,3 +905,41 @@ button,.btn,.button,.primary,.primary-btn,.action-btn,.fab,.secondary,.linkbtn,.
 button:focus-visible,input:focus,select:focus,textarea:focus,.focus-ring,.app-select-option:focus-visible{outline-color:#888!important;box-shadow:0 0 0 2px #7773!important}
 /* Preserve semantic income/expense text colours; only decorative UI and charts are grayscale. */
 </style>
+
+<style id="navigation-home-icon-and-category-chevron-final">
+/* Navigation: reserve a fixed icon row so every icon, including Home, stays the same size. */
+.nav{align-items:stretch!important}
+.nav button{min-height:62px!important;gap:4px!important;padding:4px 2px!important;justify-content:flex-start!important;align-items:center!important;overflow:visible!important}
+.nav button>span,.nav button>.nav-icon,.nav button>.nav-more-icon{
+  box-sizing:border-box!important;flex:0 0 36px!important;width:36px!important;height:36px!important;min-width:36px!important;min-height:36px!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;align-self:center!important;
+  margin:0 auto!important;padding:0!important;border-radius:50%!important;background:transparent!important;border:1px solid transparent!important;
+  line-height:1!important;transform:none!important;overflow:hidden!important
+}
+.nav button>span:not(.nav-icon):not(.nav-more-icon){font-size:24px!important;font-weight:600!important;letter-spacing:0!important}
+.nav button>span svg,.nav button>.nav-icon svg,.nav button>.nav-more-icon svg{
+  display:block!important;width:22px!important;height:22px!important;min-width:22px!important;min-height:22px!important;max-width:22px!important;max-height:22px!important;
+  margin:0!important;flex:0 0 22px!important;transform:none!important
+}
+.nav button.active>span,.nav button.active>.nav-icon,.nav button.active>.nav-more-icon{
+  flex-basis:36px!important;width:36px!important;height:36px!important;min-width:36px!important;min-height:36px!important;
+  background:#353535!important;border:1px solid #555!important;border-radius:50%!important;color:#FFFFFF!important;
+  align-items:center!important;justify-content:center!important;margin:0 auto!important;padding:0!important
+}
+.nav button.active>span:not(.nav-icon):not(.nav-more-icon){font-size:27px!important;font-weight:750!important;line-height:1!important}
+.nav button.active>span svg,.nav button.active>.nav-icon svg,.nav button.active>.nav-more-icon svg{width:23px!important;height:23px!important;min-width:23px!important;min-height:23px!important;max-width:23px!important;max-height:23px!important}
+.nav button.active{font-weight:750!important;font-size:12px!important;line-height:1.2!important;color:#FFFFFF!important}
+/* Category carousel chevron: one standard 38px circle only; inner span is transparent and unbordered. */
+.category-swipe-hint,#categorySlideButton{
+  box-sizing:border-box!important;width:38px!important;height:38px!important;min-width:38px!important;min-height:38px!important;flex:0 0 38px!important;
+  padding:0!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  background:#202020!important;border:1px solid #444!important;border-radius:50%!important;box-shadow:none!important
+}
+.category-swipe-hint span,#categorySlideButton span{
+  box-sizing:border-box!important;width:100%!important;height:100%!important;min-width:0!important;min-height:0!important;
+  padding:0!important;margin:0!important;display:flex!important;align-items:center!important;justify-content:center!important;
+  background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;outline:0!important
+}
+.category-swipe-hint svg,#categorySlideButton svg{width:20px!important;height:20px!important;max-width:20px!important;max-height:20px!important;display:block!important;margin:0!important;color:#D8D8D8!important;stroke:#D8D8D8!important;stroke-width:2!important;fill:none!important}
+@media(max-width:380px){.nav button{min-height:60px!important}.nav button>span,.nav button>.nav-icon,.nav button>.nav-more-icon,.nav button.active>span,.nav button.active>.nav-icon,.nav button.active>.nav-more-icon{width:36px!important;height:36px!important;min-width:36px!important;min-height:36px!important}}
+</style>
