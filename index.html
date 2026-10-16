@@ -621,3 +621,23 @@ renderAll();
 </script>
 </body>
 </html>
+<style id="latest-reference-polish">
+/* Refine typography to the compact, crisp fintech style in the latest reference. */
+html,body,.app,button,input,select,textarea{font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important}
+.brand{font-weight:650!important;letter-spacing:-.55px!important}
+.section-title{font-size:16px!important;font-weight:600!important;letter-spacing:-.2px!important}
+.tx-name{font-weight:600!important;font-size:13px!important;letter-spacing:-.12px!important}
+.tx-note{font-size:12px!important;font-weight:400!important;letter-spacing:0!important}
+.tx-amount{font-size:13px!important;font-weight:600!important;font-variant-numeric:tabular-nums}
+.tx-date{font-size:11px!important;font-weight:400!important;letter-spacing:0!important}
+/* Month separators use the same dark surface, type scale, and border system as the app. */
+.transaction-month-heading{background:#111116!important;color:#D8B4FE!important;font-size:13px!important;font-weight:600!important;letter-spacing:-.1px!important;padding:10px 4px 8px!important;border-bottom:1px solid #302E38!important}
+/* Keep the month-picker year consistent with the rest of the app's typography. */
+.month-picker-year{font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important;font-size:24px!important;font-weight:650!important;letter-spacing:-.45px!important;color:#F7F6FA!important}
+.month-picker-yearbtn{color:#D8B4FE!important}
+/* Remove only the decorative quick-action icons; keep every action and its handler. */
+.quick .qicon{display:none!important}
+.quick button,.quick button:nth-child(n){display:flex!important;align-items:center!important;justify-content:center!important;text-align:center!important;min-height:58px!important;padding:10px 6px!important;font-size:12px!important;font-weight:550!important;line-height:1.3!important}
+.quick{gap:8px!important;margin-bottom:12px!important}
+@media(max-width:390px){.quick button,.quick button:nth-child(n){min-height:54px!important;padding:8px 4px!important}.transaction-month-heading{font-size:12px!important}}
+</style>
