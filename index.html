@@ -1404,3 +1404,22 @@ button:focus-visible,input:focus,select:focus,textarea:focus,.focus-ring,.app-se
 #allTransactions .transaction + .transaction-month-heading,
 .transaction + .transaction-month-heading { margin-top:0!important; }
 </style>
+
+<style id="compact-month-tile-boundary-fix">
+/* Compact month separator tiles; divider borders sit exactly on the tile edges. */
+#allTransactions .transaction-month-heading,
+.transaction-month-heading {
+  box-sizing:border-box!important;
+  display:flex!important; align-items:center!important; justify-content:flex-start!important;
+  height:38px!important; min-height:38px!important; max-height:38px!important;
+  padding:0 0 0 0!important; margin:0!important; line-height:18px!important;
+  border-top:1px solid #353535!important; border-bottom:1px solid #353535!important;
+  background:#111116!important; background-color:#111116!important;
+  position:sticky!important; top:0!important; z-index:20!important;
+  text-align:left!important; overflow:hidden!important; white-space:nowrap!important;
+}
+#allTransactions .transaction-month-heading::before,
+#allTransactions .transaction-month-heading::after,
+.transaction-month-heading::before,
+.transaction-month-heading::after { content:none!important; display:none!important; }
+</style>
