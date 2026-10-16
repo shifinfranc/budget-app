@@ -943,3 +943,50 @@ button:focus-visible,input:focus,select:focus,textarea:focus,.focus-ring,.app-se
 .category-swipe-hint svg,#categorySlideButton svg{width:20px!important;height:20px!important;max-width:20px!important;max-height:20px!important;display:block!important;margin:0!important;color:#D8D8D8!important;stroke:#D8D8D8!important;stroke-width:2!important;fill:none!important}
 @media(max-width:380px){.nav button{min-height:60px!important}.nav button>span,.nav button>.nav-icon,.nav button>.nav-more-icon,.nav button.active>span,.nav button.active>.nav-icon,.nav button.active>.nav-more-icon{width:36px!important;height:36px!important;min-width:36px!important;min-height:36px!important}}
 </style>
+
+
+<style id="gear-animation-and-rectangular-dropdown-fix">
+/* Gear tile: reverse the visual sequence—brief black press state, then neutral grey as controls reveal. */
+#toggleAccountControls{
+  background:#303030!important;color:#D8D8D8!important;border:1px solid #555!important;
+  border-radius:11px!important;transition:background-color 220ms ease,color 220ms ease,transform 180ms ease!important;
+  transform-origin:center;animation:none;
+}
+#toggleAccountControls:active{background:#050505!important;transform:scale(.96)!important}
+#toggleAccountControls.gear-feedback{animation:gearBlackThenGrey 360ms ease-out both!important}
+@keyframes gearBlackThenGrey{
+  0%,35%{background-color:#050505;color:#FFFFFF;transform:scale(.96)}
+  100%{background-color:#303030;color:#D8D8D8;transform:scale(1)}
+}
+#toggleAccountControls svg{width:21px!important;height:21px!important;stroke:currentColor!important;fill:none!important}
+@media(prefers-reduced-motion:reduce){#toggleAccountControls,#toggleAccountControls.gear-feedback{animation:none!important;transition:none!important}}
+/* Dropdown list windows use a normal rounded rectangle, not pill-shaped corners. */
+.app-select-menu{
+  border-radius:12px!important;overflow:hidden!important;
+  background:#1B1B1B!important;border:1px solid #454545!important;
+  box-shadow:0 12px 28px #0009!important;
+}
+.app-select-option{border-radius:0!important;background:transparent!important;color:#E5E5E5!important;}
+.app-select-option:hover,.app-select-option:focus-visible{background:#303030!important;color:#FFFFFF!important;}
+.app-select-option[aria-selected="true"]{background:#383838!important;color:#FFFFFF!important;}
+.app-select-option[aria-selected="true"]:after{background:#D0D0D0!important;}
+.app-select-trigger{border-radius:10px!important;}
+/* Native dropdown controls and select menus match the app's standard corner radius. */
+.field select,select,.dropdown-menu,.dropdown-list,[role="listbox"]:not(.app-select-menu){border-radius:10px!important;}
+</style>
+<script id="gear-feedback-animation">
+(()=>{
+ const bindGear=()=>{
+  const btn=document.getElementById('toggleAccountControls');
+  if(!btn||btn.dataset.gearFeedbackBound==='1')return;
+  btn.dataset.gearFeedbackBound='1';
+  btn.addEventListener('click',()=>{
+   btn.classList.remove('gear-feedback');
+   void btn.offsetWidth;
+   btn.classList.add('gear-feedback');
+   window.setTimeout(()=>btn.classList.remove('gear-feedback'),380);
+  });
+ };
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bindGear);else bindGear();
+})();
+</script>
