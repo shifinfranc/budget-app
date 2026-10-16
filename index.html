@@ -463,7 +463,7 @@ const CURRENCIES={
  AED:{name:'UAE dirham',symbol:'د.إ',flag:'🇦🇪',digits:2},
  JPY:{name:'Japanese yen',symbol:'¥',flag:'🇯🇵',digits:0},
 };
-const COLORS=['#8B5CF6','#A78BFA','#BBA4FF','#7C3AED','#6D28D9','#C4B5FD','#9F7AEA','#DDD6FE'];
+const COLORS=['#F5F5F5','#D8D8D8','#BDBDBD','#A0A0A0','#888888','#707070','#595959','#414141'];
 const ICONS={Rent:'⌂',Groceries:'▤',Transport:'↗',Entertainment:'▷',Bills:'ϟ',Health:'+',Shopping:'◇',Salary:'▣',Freelance:'✦',Other:'•••',Savings:'♧'};
 const DEFAULT={activeId:'canada',accounts:[
 {id:'canada',name:'Canada',currency:'CAD',opening:0,transactions:[],budgets:{Rent:1200,Groceries:500,Transport:250,Bills:200,Entertainment:150}},
@@ -795,4 +795,31 @@ button[style*="#7C3AED"],button[style*="#8B5CF6"],button[style*="#A855F7"],
 button[style*="#9333EA"],button[style*="#6D28D9"],button[style*="violet"],button[style*="purple"]{
  background:#303030!important;color:#F5F5F5!important;border-color:#666!important;
 }
+</style>
+
+
+<style id="strict-grayscale-final-override">
+/* Strict monochrome pass: neutralize all remaining purple/violet UI surfaces, charts and states. */
+:root{
+ --primary:#D8D8D8!important;--primary-color:#D8D8D8!important;--accent:#D8D8D8!important;--accent-color:#D8D8D8!important;
+ --accent-pressed:#BDBDBD!important;--brand:#F5F5F5!important;--purple:#BDBDBD!important;--violet:#BDBDBD!important;
+ --lavender:#D0D0D0!important;--green:#D8D8D8!important;--green2:#A0A0A0!important;--chart-violet-1:#F5F5F5!important;--chart-violet-2:#D8D8D8!important;
+ --chart-violet-3:#BDBDBD!important;--chart-violet-4:#A0A0A0!important;--chart-violet-5:#888888!important;--chart-violet-6:#707070!important;--chart-violet-7:#595959!important;--chart-violet-8:#414141!important;
+}
+.card,.tile,.panel,.account-card,.setting-card,.stat-icon,.quick button,.quick button:first-of-type,.quick .qicon,.tx-icon,.acct,.acct.active,.nav button.active span,.month,.home-head-actions .month,.month-picker-month.selected-month,.month-grid button.selected,.month-grid button[aria-pressed="true"],.app-select-option[aria-selected="true"],.pill,.primary,.primary:active,.progress div,.balance,.balance:after{background-color:#202020!important;background-image:none!important;border-color:#4A4A4A!important;box-shadow:none!important}
+.balance{background:#171717!important;border-color:#444!important}
+.month-picker-month.selected-month,.month-picker-month.current-month.selected-month,.month-grid button.selected,.month-grid button[aria-pressed="true"],.app-select-option[aria-selected="true"],.acct.active,.nav button.active span{background:#353535!important;color:#FFFFFF!important;border-color:#777!important}
+.month,.home-head-actions .month,.month-picker-month,.month-grid button,.month-year-nav button{background:#1B1B1B!important;color:#F0F0F0!important;border-color:#444!important}
+button,.btn,.button,.primary,.primary-btn,.action-btn,.fab,.secondary,.linkbtn,.tab,.nav button,.iconbtn,.addacct,.accounts-header-add,.accounts-header-edit,.account-gear-image,.edit-icon,.view-account-icon,.drag-handle,.data-action,.month-picker-yearbtn,.app-select-trigger,.field input,.field select,textarea{background-image:none!important}
+button,.btn,.button,.primary,.primary-btn,.action-btn,.fab,.secondary,.linkbtn,.tab,.nav button,.iconbtn,.addacct,.accounts-header-add,.accounts-header-edit,.account-gear-image,.edit-icon,.view-account-icon,.drag-handle,.data-action,.month-picker-yearbtn,.app-select-trigger{color:#D8D8D8!important;border-color:#444!important}
+.card,.tile,.panel,.account-card,.setting-card,.quick button,.transaction,.legend-row,.reportline,.modal,.app-select-menu,.app-select-trigger,.field input,.field select{border-color:#383838!important}
+.donut{background:conic-gradient(#F5F5F5 0 14%,#D8D8D8 14% 28%,#BDBDBD 28% 42%,#A0A0A0 42% 56%,#888888 56% 70%,#707070 70% 82%,#595959 82% 92%,#414141 92% 100%)!important}
+.donut:after{background:#111111!important}
+.donut-segments circle,.donut-segments path{stroke:#BDBDBD!important}
+.legend-row .dot,.dot{background:#BDBDBD!important}
+.legend-row:nth-child(2) .dot{background:#D8D8D8!important}.legend-row:nth-child(3) .dot{background:#A0A0A0!important}.legend-row:nth-child(4) .dot{background:#888888!important}.legend-row:nth-child(5) .dot{background:#707070!important}.legend-row:nth-child(6) .dot{background:#595959!important}.legend-row:nth-child(7) .dot{background:#414141!important}.legend-row:nth-child(8) .dot{background:#F5F5F5!important}
+.progress div{background:#BDBDBD!important}
+[style*="#8B5CF6"],[style*="#A78BFA"],[style*="#BBA4FF"],[style*="#7C3AED"],[style*="#6D28D9"],[style*="#C4B5FD"],[style*="#9F7AEA"],[style*="#A855F7"],[style*="#9333EA"],[style*="#C084FC"],[style*="#D8B4FE"],[style*="violet"],[style*="purple"]{border-color:#4A4A4A!important;box-shadow:none!important}
+button:focus-visible,input:focus,select:focus,textarea:focus,.focus-ring,.app-select-option:focus-visible{outline-color:#888!important;box-shadow:0 0 0 2px #7773!important}
+/* Preserve semantic income/expense text colours; only decorative UI and charts are grayscale. */
 </style>
