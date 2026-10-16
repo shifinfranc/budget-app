@@ -424,9 +424,7 @@ svg{stroke-width:1.7}
     </section>
 
     <section class="view" id="insightsView">
-      <div class="section-head"><h2 class="section-title">Reports</h2><span class="pill" id="reportCurrency">CAD</span></div>
-      <div class="card"><div class="reportline"><span id="reportIncomeLabel">Income</span><strong class="income" id="reportIncome"></strong></div><div class="reportline"><span id="reportExpenseLabel">Expenses</span><strong class="expense" id="reportExpense"></strong></div><div class="reportline"><span>Net cash flow</span><strong id="reportNet"></strong></div><hr style="border:0;border-top:1px solid var(--line)"><h3 class="section-title">Top spending categories</h3><div id="reportCategories"></div></div>
-      <div class="section-head" style="margin-top:22px"><h2 class="section-title">Monthly budgets</h2><button class="secondary" id="budgetAdd">＋ Set limit</button></div>
+      <div class="section-head"><h2 class="section-title">Monthly budgets</h2><button class="secondary" id="budgetAdd">＋ Set limit</button></div>
       <div class="card"><div class="subtle">Budget limits for <strong id="budgetAccountName"></strong></div><div id="budgetList"></div></div>
       <div class="card"><h3 class="section-title">How budgets work</h3><p class="small">Set a spending limit for each category. Budget tracks expenses in the currently selected account and currency.</p></div>
     </section>
@@ -570,7 +568,7 @@ function renderAccounts(){
   const release=e=>{if(pointerId!==e.pointerId)return;handle.classList.remove('dragging-handle');finish()};handle.addEventListener('pointerup',release);handle.addEventListener('pointercancel',release);handle.addEventListener('lostpointercapture',e=>{if(dragRow&&pointerId===e.pointerId){handle.classList.remove('dragging-handle');finish()}});
  });
 }
-function renderAll(){renderTabs();renderHome();renderTransactions();renderBudgets();renderReports();renderAccounts()}
+function renderAll(){renderTabs();renderHome();renderTransactions();renderBudgets();renderAccounts()}
 function showToast(msg){const el=document.getElementById('toast');el.textContent=msg;el.style.display='block';clearTimeout(showToast.timer);showToast.timer=setTimeout(()=>el.style.display='none',2600)}
 function navigate(view,scrollTarget=null){if(view==='budgets'||view==='reports')view='insights';document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById(view+'View').classList.add('active');document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.view===view));document.querySelector('.app').classList.toggle('transactions-mode',view==='transactions');document.body.style.overflow=view==='transactions'?'hidden':'';if(view==='transactions')renderTransactions();if(view==='more')renderAccounts();if(view!=='transactions')window.scrollTo({top:0,behavior:'smooth'});if(scrollTarget)setTimeout(()=>document.getElementById(scrollTarget)?.scrollIntoView({behavior:'smooth',block:'start'}),100)}
 document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>navigate(b.dataset.view));
@@ -735,4 +733,14 @@ html,body,.app,button,input,select,textarea{font-family:Inter,-apple-system,Blin
 .accounts-header-add,.accounts-header-edit,.addacct,.account-gear-image,.edit-icon .account-gear-image{color:var(--lavender,#D8D5DE)!important;background:transparent!important;border-color:transparent!important}
 .accounts-header-add svg,.accounts-header-edit svg,.addacct svg,.account-gear-image svg,.edit-icon svg{stroke:currentColor!important;color:inherit!important}
 .accounts-header-add,.accounts-header-edit{display:inline-flex!important;align-items:center!important;justify-content:center!important;border-radius:50%!important}
+</style>
+
+<style id="user-requested-month-picker-and-tools-cleanup">
+/* Month/year control uses the app's neutral default tile styling, in a pill shape. */
+.month,.home-head-actions .month{background:var(--surface,#211a30)!important;color:var(--ink,#f7f6fa)!important;border:1px solid var(--line,#302e38)!important;border-radius:999px!important;min-height:34px!important;padding:6px 12px!important;font-size:12px!important;font-weight:550!important;box-shadow:none!important;}
+/* Only the selected month is highlighted. The current month remains a default-style tile. */
+.month-picker-month{border:1px solid transparent!important;border-radius:999px!important;background:var(--surface,#1b1a21)!important;color:var(--ink,#f7f6fa)!important;font-size:14px!important;font-weight:500!important;min-height:42px!important;}
+.month-picker-month.current-month{background:var(--surface,#1b1a21)!important;color:var(--ink,#f7f6fa)!important;border-color:var(--line,#302e38)!important;font-weight:500!important;}
+.month-picker-month.selected-month,.month-picker-month.current-month.selected-month{background:var(--accent,#7c3aed)!important;color:#fff!important;border-color:var(--accent,#7c3aed)!important;font-weight:650!important;}
+.month-picker-month:focus-visible{outline:2px solid var(--lavender,#c4b5fd)!important;outline-offset:2px!important;}
 </style>
