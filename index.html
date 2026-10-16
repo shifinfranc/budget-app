@@ -960,6 +960,70 @@ input[type="search"], input[placeholder*="Search" i], input[id*="search" i], .se
 }
 </style>
 
+
+<style id="final-lighter-icon-outline-centered-and-uniform-transaction-dividers">
+/* Icon circles: a clearly visible, lighter grey outline; center the icon glyph without padding offsets. */
+#recentTransactions .transaction .tx-icon,
+#allTransactions .transaction .tx-icon,
+#recentTransactions .tx-icon,
+#allTransactions .tx-icon,
+.transaction .tx-icon,
+.tx-list .tx-icon,
+.transaction-list .tx-icon {
+  width:44px!important; height:44px!important; min-width:44px!important; min-height:44px!important;
+  flex:0 0 44px!important; box-sizing:border-box!important;
+  display:flex!important; align-items:center!important; justify-content:center!important;
+  padding:0!important; margin:0!important;
+  border:1.5px solid #858585!important; border-radius:50%!important;
+  background:#000!important; background-image:none!important; box-shadow:none!important;
+  line-height:1!important; text-align:center!important; overflow:hidden!important;
+}
+#recentTransactions .transaction .tx-icon svg,
+#allTransactions .transaction .tx-icon svg,
+.transaction .tx-icon svg,
+.tx-icon svg {
+  display:block!important; position:static!important;
+  width:20px!important; height:20px!important; min-width:20px!important; min-height:20px!important;
+  padding:0!important; margin:0!important; border:0!important; background:transparent!important;
+  flex:none!important; line-height:1!important; transform:none!important;
+}
+#recentTransactions .transaction .tx-icon img,
+#allTransactions .transaction .tx-icon img,
+.transaction .tx-icon img { display:block!important; width:20px!important; height:20px!important; object-fit:contain!important; margin:0!important; padding:0!important; }
+
+/* One consistent 1px divider per boundary. Month headings use only a bottom line,
+   preventing adjacent top/bottom borders from stacking into a thicker stroke. */
+#allTransactions .transaction-month-heading,
+#recentTransactions .transaction-month-heading,
+.transaction-month-heading,
+.month-heading,
+.month-separator {
+  border-top:0!important;
+  border-bottom:1px solid #383838!important;
+  border-left:0!important; border-right:0!important;
+  box-shadow:none!important; outline:0!important;
+  background-image:none!important;
+}
+#allTransactions .transaction-month-heading::before,
+#allTransactions .transaction-month-heading::after,
+#recentTransactions .transaction-month-heading::before,
+#recentTransactions .transaction-month-heading::after,
+.transaction-month-heading::before,
+.transaction-month-heading::after,
+.month-heading::before,.month-heading::after,
+.month-separator::before,.month-separator::after {
+  content:none!important; display:none!important; border:0!important; box-shadow:none!important;
+}
+/* Transaction rows share the same subtle divider weight and colour. */
+#allTransactions .transaction,
+#recentTransactions .transaction,
+.transaction-list .transaction,
+.tx-list .transaction {
+  border-top:0!important;
+  border-bottom:1px solid #383838!important;
+  box-shadow:none!important; outline:0!important;
+}
+</style>
 </body>
 </html>
 <style id="latest-reference-polish">
