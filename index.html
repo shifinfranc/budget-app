@@ -336,6 +336,48 @@ button svg{color:inherit}
 .legend-row .dot{background:var(--chart-violet-1)!important}
 @media(max-width:380px){.quick{gap:5px!important}.quick button,.quick button:nth-child(n){min-height:70px!important;padding:7px 3px!important;font-size:10px!important}.quick .qicon{width:29px!important;height:29px!important;flex-basis:29px!important}.app{padding-left:14px!important;padding-right:14px!important}}
 
+
+/* Reference-inspired monochrome black + violet design system */
+:root{
+ --green:#A855F7;--green2:#7C3AED;--mint:#242329;--ink:#F7F6FA;--muted:#A4A1AD;--line:#302E38;--bg:#09090D;--red:#FB7185;--white:#111116;
+ --surface:#111116;--surface-raised:#1B1A21;--accent:#9333EA;--accent-pressed:#7E22CE;--lavender:#C4B5FD;--muted-text:#777480;--income:#34D399;--expense:#FB7185;--warning:#FBBF24;--info:#7DD3FC;--shadow:0 10px 28px #0005;
+}
+html,body{background:#09090D!important;color:#F7F6FA!important;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important}
+body{letter-spacing:-.015em!important}
+.app{background:#09090D!important;color:#F7F6FA!important;max-width:720px!important;padding-left:18px!important;padding-right:18px!important}
+.top{padding-top:16px!important;padding-bottom:14px!important}
+.brand{color:#F7F6FA!important;font-size:25px!important;font-weight:700!important;letter-spacing:-.7px!important}
+.leaf{background:transparent!important;border:0!important;color:#B68AFF!important}
+.iconbtn{color:#E9E5F2!important;background:#19181F!important;border:1px solid #302E38!important}
+.accountbar{border:0!important;background:transparent!important;box-shadow:none!important;padding:0!important;gap:8px!important}
+.acct{background:#17161D!important;color:#D1CFD8!important;border:1px solid #2C2A34!important;border-radius:15px!important;min-width:116px!important;padding:10px 11px!important}
+.acct.active{background:linear-gradient(135deg,#2B1747,#21152F)!important;color:#fff!important;border:1px solid #A855F7!important;box-shadow:0 0 0 1px #A855F733 inset!important}
+.acct strong{color:inherit!important}.acct small{color:#AAA6B5!important}.flag{filter:none!important}
+.addacct{background:#17161D!important;color:#E9E5F2!important;border:1px solid #2C2A34!important;border-radius:13px!important}
+.card{background:#111116!important;color:#F7F6FA!important;border:1px solid #292731!important;border-radius:20px!important;box-shadow:0 8px 24px #0002!important}
+.balance{background:radial-gradient(ellipse at 100% 0%,#8B2FEA 0%,#5121A6 35%,#171020 78%,#111016 100%)!important;border:1px solid #58318A!important;color:#fff!important;position:relative!important}
+.balance:after{background:radial-gradient(circle,#C084FC22,transparent 70%)!important}
+.muted-white,.stat-label{color:#D7CDE7!important}.amount{color:#fff!important;font-weight:650!important;letter-spacing:-1.2px!important}.currency-code{color:#E9D5FF!important}
+.month{background:#2B1B40!important;color:#E9D5FF!important;border:1px solid #633C8A!important;border-radius:11px!important;font-size:12px!important;font-weight:600!important;padding:7px 9px!important;min-height:32px!important}
+.stat-icon{background:#2B2440!important;color:#D8B4FE!important}.stat+.stat{border-left-color:#FFFFFF30!important}.stat-label{color:#D0C7DC!important}.stat-value{color:#fff!important}
+.section-title{color:#F7F6FA!important;font-size:17px!important;font-weight:650!important;letter-spacing:-.3px!important}
+.subtle,.small,.tx-note,.tx-date,.donut-center small{color:#96929F!important}
+.chartarea{gap:14px!important}.donut{background:conic-gradient(#A855F7 0 18%,#9333EA 18% 34%,#7C3AED 34% 49%,#6D28D9 49% 63%,#8B5CF6 63% 78%,#C4B5FD 78% 89%,#4C1D95 89% 100%)!important}.donut:after{background:#111116!important}.donut-center{color:#F7F6FA!important}.legend-row{color:#D7D4DE!important}.legend-value{color:#F7F6FA!important}.dot{box-shadow:0 0 0 1px #FFFFFF10}
+/* All chart/category markers use a restrained violet scale. */
+.legend-row .dot{background:#A78BFA!important}
+.legend-row:nth-child(2) .dot{background:#A855F7!important}.legend-row:nth-child(3) .dot{background:#9333EA!important}.legend-row:nth-child(4) .dot{background:#7C3AED!important}.legend-row:nth-child(5) .dot{background:#6D28D9!important}.legend-row:nth-child(6) .dot{background:#C4B5FD!important}.legend-row:nth-child(7) .dot{background:#8B5CF6!important}.legend-row:nth-child(8) .dot{background:#4C1D95!important}
+.quick{gap:8px!important}.quick button,.quick button:nth-child(n){background:#141319!important;border:1px solid #2C2A34!important;color:#EAE7F0!important;border-radius:15px!important;min-height:78px!important;padding:10px 5px!important;font-size:12px!important;font-weight:550!important}.quick button:first-of-type{background:linear-gradient(145deg,#6725B7,#37145F)!important;border-color:#8B5CF6!important;color:#fff!important}.quick .qicon{background:#24202D!important;color:#C4B5FD!important;border-radius:11px!important}
+.transaction{border-bottom-color:#292731!important;color:#F7F6FA!important}.transaction:active{background:#1B1A21!important}.tx-icon,.transaction:nth-child(3n+1) .tx-icon,.transaction:nth-child(3n+2) .tx-icon,.transaction:nth-child(3n) .tx-icon{background:#24222B!important;color:#D8D5DE!important;border:1px solid #302E38!important}.tx-name{color:#F7F6FA!important}.income{color:#34D399!important}.expense{color:#FB7185!important}
+.nav{background:#111116F5!important;border-top:1px solid #302E38!important;box-shadow:0 -8px 24px #0006!important;backdrop-filter:blur(18px)!important}.nav button{color:#8F8B99!important}.nav button.active{color:#D8B4FE!important;font-weight:650!important}.nav button.active span{background:#2B1B40!important;color:#D8B4FE!important;border-radius:13px!important}
+.primary{background:linear-gradient(135deg,#A855F7,#7C3AED)!important;color:#fff!important;border:1px solid #C084FC33!important;border-radius:13px!important;font-weight:650!important}.primary:active{background:#7E22CE!important}.secondary,.linkbtn{background:#1B1A21!important;color:#D8B4FE!important;border:1px solid #302E38!important;border-radius:12px!important}.linkbtn{background:transparent!important;border:0!important}.danger{color:#FB7185!important}
+.field label{color:#B4B0BD!important}.field input,.field select,.app-select-trigger{background:#1B1A21!important;border:1px solid #302E38!important;color:#F7F6FA!important;border-radius:12px!important}.field input::placeholder{color:#777480!important}.field input:focus,.field select:focus,.app-select-trigger:focus-visible{outline:2px solid #A855F7!important;outline-offset:2px}.app-select-trigger .app-select-caret{color:#C4B5FD!important}.app-select-menu{background:#1B1A21!important;border:1px solid #383342!important;box-shadow:0 14px 35px #000A!important}.app-select-option{color:#F7F6FA!important}.app-select-option[aria-selected="true"]{background:#30203F!important;color:#fff!important}.app-select-option[aria-selected="true"]:after{background:#C4B5FD!important}.app-select-option:focus-visible,.app-select-option:hover{background:#302E38!important}
+.pill{background:#2B1B40!important;color:#D8B4FE!important;border:1px solid #49305F!important}.progress{background:#292631!important}.progress div{background:linear-gradient(90deg,#7C3AED,#C084FC)!important}.reportline{color:#B4B0BD!important}.reportline strong{color:#F7F6FA!important}
+.modal-backdrop{background:#000C!important;backdrop-filter:blur(8px)!important}.modal{background:#111116!important;color:#F7F6FA!important;border:1px solid #302E38!important;border-radius:22px!important;box-shadow:0 24px 80px #000A!important}.modalhead h2{color:#F7F6FA!important}.close{background:#24222B!important;color:#D8B4FE!important;border:1px solid #383342!important}.modal-actions .delete-account-btn,.transaction-delete{background:#351923!important;color:#FDA4AF!important;border:1px solid #7F1D3A!important}.account-manage-row{border-bottom-color:#302E38!important}.edit-icon,.view-account-icon,.drag-handle{color:#D1CDD8!important;background:transparent!important}.account-order-hint{color:#96929F!important}.toast{background:#2B1B40!important;color:#F7F6FA!important;border:1px solid #633C8A!important}
+.drag-handle:active{background:#292631!important}.transaction-delete{border-radius:12px!important}.empty{color:#96929F!important}.month-grid button,.month-year-nav button{color:#F7F6FA!important;background:#1B1A21!important;border-color:#302E38!important}.month-grid button.selected,.month-grid button[aria-pressed="true"]{background:#7C3AED!important;color:#fff!important}
+/* Monochrome outline icon treatment; preserve country flags and semantic income/expense colours. */
+svg{stroke-width:1.7}
+@media(max-width:390px){.app{padding-left:14px!important;padding-right:14px!important}.card{padding:15px!important}.quick{gap:6px!important}.quick button,.quick button:nth-child(n){min-height:72px!important}.acct{min-width:105px!important;padding:9px!important}}
+
 </style>
 </head>
 <body>
