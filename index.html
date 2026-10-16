@@ -619,6 +619,20 @@ selectObserver.observe(document.body,{childList:true,subtree:true});enhanceAllSe
 wireCategorySwipe();
 renderAll();
 </script>
+
+<style id="round-icon-tiles-pill-text-tiles">
+/* Round all icon containers into circles, while keeping country flags untouched. */
+.leaf,.iconbtn,.stat-icon,.tx-icon,.quick .qicon,.category-swipe-hint,.nav button span,.accounts-header-add,.accounts-header-edit,.edit-icon,.view-account-icon,.drag-handle,.close,.month-picker-yearbtn,.icon-tile,.icon-container,.action-icon,.category-icon,.legend-icon,.tool-icon,.setting-icon { border-radius:50% !important; }
+/* Keep icon glyphs centred and contained in their circular tiles. */
+.stat-icon,.tx-icon,.quick .qicon,.category-swipe-hint,.nav button span,.accounts-header-add,.accounts-header-edit,.edit-icon,.view-account-icon,.drag-handle,.close,.icon-tile,.icon-container,.action-icon,.category-icon,.legend-icon,.tool-icon,.setting-icon { display:inline-flex; align-items:center; justify-content:center; }
+/* Text-led controls use capsule ends, matching the reference's pill-shaped controls. */
+.month,.primary,.secondary,.pill,.app-select-trigger,.app-select-menu,.app-select-option,.acct,.addacct,.quick button,.nav button.active,.filter-chip,.filter-btn,.tab-button,.date-chip,.report-tab,.transaction-filter button,.modal-actions button,.linkbtn { border-radius:999px !important; }
+/* Keep large content cards rounded, but not pill-shaped. */
+.card,.balance,.modal,.accountbar,.category-carousel { border-radius:22px !important; }
+/* Account flags and their surrounding account layout remain unchanged. */
+.acct .flag,.flag, .acct img { border-radius:0 !important; }
+</style>
+
 </body>
 </html>
 <style id="latest-reference-polish">
