@@ -789,6 +789,27 @@ button svg,.nav svg,.iconbtn svg,.linkbtn svg,.stat-icon svg,.qicon svg,.categor
 .transaction::before,.transaction::after{border-radius:0!important;}
 .transaction-month-heading{color:#A9A9A9!important;background:transparent!important;border-radius:0!important;border-bottom:1px solid #302E38!important;font-weight:500!important;}
 </style>
+
+<style id="search-pill-and-home-icon-standardization">
+/* Standard pill shape for search fields and search controls throughout the app. */
+input[type="search"], input[placeholder*="Search" i], input[id*="search" i], .search input, .search-input, .search-field input, .search-tab, .search-btn, button[aria-label*="search" i] {
+  border-radius:999px!important;
+}
+input[type="search"], input[placeholder*="Search" i], input[id*="search" i], .search input, .search-input, .search-field input {
+  min-height:42px!important; padding-left:15px!important; padding-right:15px!important;
+}
+/* Home glyph uses the same compact size and stroke weight in selected and idle states. */
+.nav button[aria-label*="home" i] svg, .nav button[data-view="home"] svg, .nav button#navHome svg, .nav button.home svg, .nav button:first-child svg {
+  width:22px!important;height:22px!important;min-width:22px!important;min-height:22px!important;max-width:22px!important;max-height:22px!important;
+  stroke-width:1.8!important;fill:none!important;transform:none!important;
+}
+.nav button[aria-label*="home" i] .nav-icon, .nav button[data-view="home"] .nav-icon, .nav button#navHome .nav-icon, .nav button.home .nav-icon, .nav button:first-child .nav-icon {
+  width:22px!important;height:22px!important;min-width:22px!important;min-height:22px!important;
+}
+.nav button[aria-label*="home" i].active svg, .nav button[data-view="home"].active svg, .nav button#navHome.active svg, .nav button.home.active svg, .nav button:first-child.active svg {
+  width:22px!important;height:22px!important;stroke-width:1.8!important;transform:none!important;
+}
+</style>
 </body>
 </html>
 <style id="latest-reference-polish">
