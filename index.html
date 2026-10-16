@@ -538,7 +538,7 @@ function renderTransactions(){
  if(!tx.length){host.innerHTML='<div class="empty">No matching transactions.</div>';return}
  let lastMonth='';const parts=[];
  tx.forEach(t=>{const d=new Date((t.date||'2000-01-01')+'T12:00:00');const key=Number.isNaN(d.getTime())?'unknown':`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
-  if(key!==lastMonth){const label=key==='unknown'?'Other dates':d.toLocaleDateString(undefined,{month:'long',year:'numeric'});parts.push(`<div class="transaction-month-heading">${esc(label)}</div>`);lastMonth=key}
+  if(key!==lastMonth){const label=key==='unknown'?'Other dates':d.toLocaleDateString(undefined,{month:'long',year:'numeric'});parts.push(`<div class="transaction-month-heading"><span>${esc(label)}</span></div>`);lastMonth=key}
   parts.push(txHtml(t));
  });
  host.innerHTML=parts.join('');wireTransactionRows(host);
@@ -1232,4 +1232,30 @@ button:focus-visible,input:focus,select:focus,textarea:focus,.focus-ring,.app-se
 #allTransactions .transaction-month-heading:first-child{padding-top:6px!important}
 #allTransactions .transaction-month-heading + .transaction{margin-top:0!important}
 #allTransactions .transaction + .transaction-month-heading{margin-top:8px!important}
+</style>
+
+<style id="month-divider-centered-label-and-black-transaction-icons">
+/* Centre each month label between two fine divider lines while retaining sticky opaque headings. */
+#allTransactions .transaction-month-heading{
+  display:flex!important;align-items:center!important;justify-content:center!important;gap:10px!important;
+  text-align:center!important;white-space:nowrap!important;
+  padding:10px 0 8px!important;margin:0!important;
+  background:#111116!important;background-color:#111116!important;
+  border:0!important;line-height:1.4!important;
+}
+#allTransactions .transaction-month-heading::before,
+#allTransactions .transaction-month-heading::after{
+  content:""!important;display:block!important;flex:1 1 auto!important;min-width:8px!important;
+  height:1px!important;background:#353535!important;
+}
+#allTransactions .transaction-month-heading span{
+  display:inline-block!important;flex:0 0 auto!important;background:#111116!important;
+  color:#A9A9A9!important;font-size:12px!important;font-weight:500!important;
+}
+#allTransactions .transaction-month-heading:first-child{padding-top:6px!important}
+/* Give every transaction icon the same neutral black circular tile. */
+#allTransactions .transaction .tx-icon{
+  background:#000000!important;background-color:#000000!important;background-image:none!important;
+  border:1px solid #292929!important;color:#D8D8D8!important;box-shadow:none!important;
+}
 </style>
