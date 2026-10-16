@@ -744,3 +744,55 @@ html,body,.app,button,input,select,textarea{font-family:Inter,-apple-system,Blin
 .month-picker-month.selected-month,.month-picker-month.current-month.selected-month{background:var(--accent,#7c3aed)!important;color:#fff!important;border-color:var(--accent,#7c3aed)!important;font-weight:650!important;}
 .month-picker-month:focus-visible{outline:2px solid var(--lavender,#c4b5fd)!important;outline-offset:2px!important;}
 </style>
+
+
+<style id="monochrome-black-white-grey-ui">
+/* Monochrome theme: replace violet/purple UI accents with neutral grayscale. */
+:root{
+ --primary:#D8D8D8!important;--primary-color:#D8D8D8!important;--accent:#D8D8D8!important;
+ --accent-color:#D8D8D8!important;--brand:#F5F5F5!important;--purple:#BDBDBD!important;
+ --violet:#BDBDBD!important;--primary-light:#303030!important;--accent-light:#303030!important;
+ --focus:#BDBDBD!important;--ring:#BDBDBD!important;--selection:#444!important;
+}
+/* Neutralize common accent components and selected states. */
+button,.btn,.button,.primary,.primary-btn,.action-btn,.fab,.month-picker-yearbtn,
+.tab.active,.tab.selected,.nav-item.active,.nav-item.selected,.active-tab,
+[aria-selected="true"], [aria-pressed="true"],.selected,.is-selected,.active-month,
+.month.selected,.month.active,.month-option.selected,.month-option.active,
+.picker-item.selected,.picker-item.active,.year-option.selected,.year-option.active{
+  --accent:#D8D8D8!important; --primary:#D8D8D8!important;
+}
+button.primary,.btn-primary,.primary-btn,.fab,.month-picker-yearbtn,
+.tab.active,.tab.selected,.nav-item.active,.nav-item.selected,.active-tab,
+[aria-selected="true"],[aria-pressed="true"],.selected,.is-selected,
+.active-month,.month.selected,.month.active,.month-option.selected,.month-option.active,
+.picker-item.selected,.picker-item.active,.year-option.selected,.year-option.active{
+ background-color:#303030!important;background-image:none!important;color:#F5F5F5!important;
+ border-color:#666!important;box-shadow:none!important;
+}
+/* Purple/violet text, icons, borders and outlines become grayscale. */
+.month-picker-yearbtn, .transaction-month-heading, .brand-accent,
+.accent,.primary-text,.active .nav-icon,.active svg,.selected svg,
+button svg,.btn svg,.nav-item svg,.tab svg{
+ color:#D0D0D0!important;stroke:currentColor!important;
+}
+button:focus-visible,input:focus,select:focus,textarea:focus,.focus-ring{
+ outline-color:#888!important;box-shadow:0 0 0 2px rgba(180,180,180,.22)!important;
+}
+/* Preserve dark surfaces and use neutral borders rather than purple-tinted greys. */
+.card,.tile,.panel,.month-picker,.month-grid,.account-card,.setting-card{
+ border-color:#353535!important;
+}
+.transaction-month-heading{color:#D8D8D8!important;border-bottom-color:#353535!important;}
+.month-picker-yearbtn{color:#D8D8D8!important;}
+/* Remove violet/purple gradients from interactive UI surfaces. */
+button,.btn,.button,.primary,.primary-btn,.action-btn,.fab,.month-picker-yearbtn,
+.tab.active,.nav-item.active,.active-tab,.selected,.is-selected{
+ background-image:none!important;
+}
+/* Any inline accent styles on controls are visually normalized without changing app logic. */
+button[style*="#7C3AED"],button[style*="#8B5CF6"],button[style*="#A855F7"],
+button[style*="#9333EA"],button[style*="#6D28D9"],button[style*="violet"],button[style*="purple"]{
+ background:#303030!important;color:#F5F5F5!important;border-color:#666!important;
+}
+</style>
