@@ -437,7 +437,7 @@ svg{stroke-width:1.7}
 </div>
 
 <nav class="nav" aria-label="Main navigation">
-  <button class="active" data-view="home"><span class="nav-icon"><svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 10.5 12 3.5l8.5 7"/><path d="M5.5 9.5V20h13V9.5"/></svg></span>Home</button>
+  <button class="active" data-view="home"><span class="nav-icon"><svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5M5.5 9.5V20h13V9.5"/></svg></span>Home</button>
   <button data-view="transactions"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3.75h7l4 4V20a1.25 1.25 0 0 1-1.25 1.25h-9.5A1.25 1.25 0 0 1 6 20V5a1.25 1.25 0 0 1 1.25-1.25Z"/><path d="M14 3.75V8h4M9 12h6M9 16h6"/></svg></span>Transactions</button>
   <button data-view="insights"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.2 6.1a5 5 0 0 0-6.3 6.3L3.8 16.5a2.1 2.1 0 0 0 3 3l4.1-4.1a5 5 0 0 0 6.3-6.3l-3 3-3.2-3.2 3.2-2.8Z"/><path d="m15.7 15.7 3.2 3.2"/></svg></span>Tools</button>
   <button data-view="more" aria-label="More"><span class="nav-more-icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="5" cy="12" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="19" cy="12" r="1.7"/></svg></span>More</button>
@@ -1156,7 +1156,7 @@ button:focus-visible,input:focus,select:focus,textarea:focus,.focus-ring,.app-se
 
 <style id="navigation-minimal-icon-borderless-centered-final">
 /* Minimal house outline: roof and walls only, with no door detail. */
-.nav button[data-view="home"] > .nav-icon svg path:last-child{display:none!important}
+/* Do not hide the house outline path: it contains the roof and outer walls. */
 /* All selected navigation circles share the same borderless neutral treatment. */
 .nav button.active > .nav-icon,
 .nav button.active > .nav-more-icon{background:#353535!important;border:0!important;outline:0!important;box-shadow:none!important;color:#fff!important}
@@ -1180,4 +1180,56 @@ button:focus-visible,input:focus,select:focus,textarea:focus,.focus-ring,.app-se
 #allTransactions .transaction{position:relative!important;clear:both!important;margin-top:0!important;margin-bottom:0!important}
 #allTransactions .transaction-month-heading + .transaction{margin-top:0!important}
 #allTransactions .transaction + .transaction-month-heading{margin-top:10px!important}
+</style>
+
+<style id="definitive-home-house-icon-fix">
+/* One continuous outline forms a clear house silhouette; no door and no chevron-only rendering. */
+.nav button[data-view="home"] > .nav-icon svg{overflow:visible!important;display:block!important;width:22px!important;height:22px!important;stroke:currentColor!important;stroke-width:1.8!important;fill:none!important}
+.nav button[data-view="home"] > .nav-icon svg path{display:block!important;visibility:visible!important;opacity:1!important;stroke:currentColor!important;stroke-width:1.8!important;fill:none!important}
+</style>
+
+
+<style id="home-selection-circle-size-match-final">
+/* Match the selected Home circle exactly to the other navigation icon circles. */
+.nav button[data-view="home"] > .nav-icon,
+.nav button[data-view="home"].active > .nav-icon {
+  display:flex!important; align-items:center!important; justify-content:center!important;
+  box-sizing:border-box!important; width:36px!important; height:36px!important;
+  min-width:36px!important; min-height:36px!important; max-width:36px!important; max-height:36px!important;
+  flex:0 0 36px!important; border-radius:50%!important; margin:0 auto!important; padding:0!important;
+  border:0!important; outline:0!important; box-shadow:none!important;
+}
+.nav button[data-view="home"].active > .nav-icon {background:#353535!important;color:#fff!important}
+.nav button[data-view="home"]:not(.active) > .nav-icon {background:transparent!important}
+.nav button[data-view="home"] > .nav-icon svg,
+.nav button[data-view="home"].active > .nav-icon svg {
+  display:block!important; width:22px!important; height:22px!important; min-width:22px!important; min-height:22px!important;
+  max-width:22px!important; max-height:22px!important; flex:0 0 22px!important; margin:0!important;
+  stroke:currentColor!important; stroke-width:1.8!important; fill:none!important; transform:none!important;
+}
+</style>
+<style id="sticky-transaction-month-separators">
+/* Sticky month labels stay readable while transactions scroll beneath them. */
+#allTransactions .transaction-month-heading{
+  position:sticky!important;
+  top:0!important;
+  z-index:4!important;
+  display:block!important;
+  box-sizing:border-box!important;
+  width:100%!important;
+  background:#111116!important;
+  background-color:#111116!important;
+  opacity:1!important;
+  border:0!important;
+  border-bottom:1px solid #353535!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  margin:0!important;
+  padding:10px 0 8px!important;
+  line-height:1.4!important;
+  color:#A9A9A9!important;
+}
+#allTransactions .transaction-month-heading:first-child{padding-top:6px!important}
+#allTransactions .transaction-month-heading + .transaction{margin-top:0!important}
+#allTransactions .transaction + .transaction-month-heading{margin-top:8px!important}
 </style>
