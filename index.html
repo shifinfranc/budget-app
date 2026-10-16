@@ -1377,3 +1377,30 @@ button:focus-visible,input:focus,select:focus,textarea:focus,.focus-ring,.app-se
 #allTransactions .transaction .tx-icon,
 .transaction .tx-icon {color:#E5E5E5!important}
 </style>
+
+<style id="month-divider-spacing-final-fix">
+/* Month heading sits as a distinct black tile between two horizontal divider lines.
+   Keep the label left aligned and vertically centred; do not draw pseudo-lines inside the tile. */
+#allTransactions .transaction-month-heading,
+.transaction-month-heading {
+  display:flex!important; align-items:center!important; justify-content:flex-start!important;
+  box-sizing:border-box!important; position:sticky!important; top:0!important; z-index:6!important;
+  width:100%!important; min-height:54px!important; height:54px!important;
+  padding:0 0!important; margin:0!important;
+  background:#111116!important; background-color:#111116!important; color:#A9A9A9!important;
+  text-align:left!important; line-height:1.25!important;
+  border-top:1px solid #353535!important; border-bottom:1px solid #353535!important;
+  border-left:0!important; border-right:0!important; border-radius:0!important;
+  box-shadow:none!important; opacity:1!important;
+}
+#allTransactions .transaction-month-heading:before,
+#allTransactions .transaction-month-heading:after,
+.transaction-month-heading:before,
+.transaction-month-heading:after {
+  content:none!important; display:none!important;
+}
+#allTransactions .transaction-month-heading + .transaction,
+.transaction-month-heading + .transaction { margin-top:0!important; }
+#allTransactions .transaction + .transaction-month-heading,
+.transaction + .transaction-month-heading { margin-top:0!important; }
+</style>
