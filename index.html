@@ -525,6 +525,22 @@ html body #accountSwitcher .account-switcher-option-info small{font-size:12px!im
 }
 @media(max-width:380px){.account-switcher.open{width:198px!important}.account-switcher:not(.open){flex-basis:46px!important;width:46px!important;height:46px!important}}
 </style>
+
+<style id="latest-total-balance-income-expense-pill">
+.balance-flow-switch{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:3px;width:100%;max-width:390px;margin:0 auto;padding:4px;border-radius:18px;background:#111116;border:1px solid #393640;box-shadow:inset 0 1px 3px #0007}
+.balance-flow-option{display:flex;align-items:center;justify-content:flex-start;gap:8px;min-width:0;min-height:54px;padding:7px 10px;border:1px solid transparent;border-radius:14px;background:transparent;color:#a4a1ad;text-align:left;cursor:pointer;transition:background-color .2s ease,color .2s ease,border-color .2s ease,transform .18s ease}
+.balance-flow-option.is-active{background:linear-gradient(145deg,#e5e4e8,#c9c7cf);border-color:#f3f2f5;color:#111116;box-shadow:0 2px 6px #0004}
+.balance-flow-option:active{transform:scale(.985)}
+.balance-flow-icon{display:grid;place-items:center;flex:0 0 28px;width:28px;height:28px;border-radius:50%;background:#29272f;color:#d2ced9}
+.balance-flow-option.is-active .balance-flow-icon{background:#f8f7fa;color:#000}
+.balance-flow-icon svg{display:block;width:16px;height:16px;fill:none;stroke:currentColor!important;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.balance-flow-option.is-active .balance-flow-icon svg{color:#000!important;stroke:#000!important}
+.balance-flow-copy{display:flex;flex-direction:column;gap:2px;min-width:0}
+.balance-flow-label{font-size:11px;font-weight:650;line-height:1.1;letter-spacing:.12px}
+.balance-flow-value{display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;font-weight:800;line-height:1.2;font-variant-numeric:tabular-nums;color:inherit}
+@media(max-width:380px){.balance-flow-switch{padding:3px;gap:2px;border-radius:16px}.balance-flow-option{gap:6px;min-height:49px;padding:6px 7px;border-radius:13px}.balance-flow-icon{flex-basis:25px;width:25px;height:25px}.balance-flow-icon svg{width:15px;height:15px}.balance-flow-label{font-size:10px}.balance-flow-value{font-size:12px}}
+@media(prefers-reduced-motion:reduce){.balance-flow-option{transition:none}}
+</style>
 </head>
 <body>
 <div class="app">
@@ -541,9 +557,15 @@ html body #accountSwitcher .account-switcher-option-info small{font-size:12px!im
       <div class="card balance">
         <div class="bal-top"><div class="muted-white">Total Balance</div><div class="home-head-actions"><button type="button" class="month" id="monthBtn" aria-label="Choose month and year" title="Choose month and year"><span class="month-nav-arrow" id="monthPrev" role="button" aria-label="Previous month" title="Previous month"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></span><span class="month-label-content">▦ <span id="monthLabel"></span></span><span class="month-nav-arrow" id="monthNext" role="button" aria-label="Next month" title="Next month"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></span></button></div></div>
         <div class="amount" id="balanceAmount">CA$0.00 <span class="currency-code">CAD</span></div>
-        <div class="stats">
-          <div class="stat"><div class="stat-icon">↓</div><div><div class="stat-label">Expenses</div><div class="stat-value" id="expenseAmount">CA$0.00</div></div></div>
-          <div class="stat"><div class="stat-icon">↑</div><div><div class="stat-label">Income</div><div class="stat-value" id="incomeAmount">CA$0.00</div></div></div>
+        <div class="balance-flow-switch" role="group" aria-label="Choose category summary">
+          <button class="balance-flow-option is-active" id="balanceExpenseOption" type="button" aria-pressed="true" onclick="setCategorySlide(0,true)">
+            <span class="balance-flow-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14M5.5 12.5 12 19l6.5-6.5"/></svg></span>
+            <span class="balance-flow-copy"><span class="balance-flow-label">Expense</span><strong class="balance-flow-value" id="expenseAmount">CA$0.00</strong></span>
+          </button>
+          <button class="balance-flow-option" id="balanceIncomeOption" type="button" aria-pressed="false" onclick="setCategorySlide(1,true)">
+            <span class="balance-flow-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5"/></svg></span>
+            <span class="balance-flow-copy"><span class="balance-flow-label">Income</span><strong class="balance-flow-value" id="incomeAmount">CA$0.00</strong></span>
+          </button>
         </div>
       </div>
       <div class="card category-carousel" id="categoryCarousel" aria-label="Category summaries. Swipe left or right to switch between spending and earnings.">
@@ -698,6 +720,8 @@ function setCategorySlide(index,animate=true){
  if(title)title.textContent=categorySlideIndex?'Earnings by Category':'Spending by Category';
  if(button){button.setAttribute('aria-label',categorySlideIndex?'Back to spending by category':'Show earnings by category');button.title=categorySlideIndex?'Back to spending by category':'Show earnings by category'}
  if(svg)svg.classList.toggle('points-left',categorySlideIndex===1);
+ const expenseOption=document.getElementById('balanceExpenseOption'),incomeOption=document.getElementById('balanceIncomeOption');
+ if(expenseOption&&incomeOption){expenseOption.classList.toggle('is-active',categorySlideIndex===0);incomeOption.classList.toggle('is-active',categorySlideIndex===1);expenseOption.setAttribute('aria-pressed',String(categorySlideIndex===0));incomeOption.setAttribute('aria-pressed',String(categorySlideIndex===1));}
  if(changed){const a=active(),t=totals(a);renderOneCategoryChart(a,categorySlideIndex?'income':'expense',categorySlideIndex?t.income:t.expense,'donut','donutCenter','legend')}
 }
 function wireCategorySwipe(){const carousel=document.getElementById('categoryCarousel');if(!carousel)return;let startX=0,startY=0;carousel.addEventListener('touchstart',e=>{if(!e.touches.length)return;startX=e.touches[0].clientX;startY=e.touches[0].clientY},{passive:true});carousel.addEventListener('touchend',e=>{if(!e.changedTouches.length)return;const dx=e.changedTouches[0].clientX-startX,dy=e.changedTouches[0].clientY-startY;if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy)*1.2)setCategorySlide(dx<0?1:0,true)},{passive:true});carousel.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')setCategorySlide(0,true);if(e.key==='ArrowRight')setCategorySlide(1,true)});carousel.tabIndex=0}
