@@ -2365,3 +2365,17 @@ html body header.top #accountSwitcher.account-switcher:not(.open) .account-switc
   transform:translate(-50%,-50%)!important; translate:none!important;
 }
 </style>
+
+<style id="account-switcher-final-flag-equal-visual-spacing">
+/* Optical centering based on the latest screenshot: compensate for the flag emoji's asymmetric visible bounds so its artwork sits centrally within the circular perimeter. */
+html body header.top #accountSwitcher.account-switcher:not(.open) .account-switcher-flag{
+  left:calc(50% - 4px)!important;
+  top:50%!important;
+  width:24px!important;height:24px!important;min-width:24px!important;max-width:24px!important;
+  min-height:24px!important;max-height:24px!important;flex:0 0 24px!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  margin:0!important;padding:0!important;border:0!important;
+  font-size:20px!important;line-height:24px!important;text-align:center!important;
+  transform:translate(-50%,-50%)!important;translate:none!important;
+}
+</style>
