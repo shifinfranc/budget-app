@@ -527,18 +527,20 @@ html body #accountSwitcher .account-switcher-option-info small{font-size:12px!im
 </style>
 
 <style id="latest-total-balance-income-expense-pill">
-.balance-flow-switch{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:3px;width:100%;max-width:390px;margin:0 auto;padding:4px;border-radius:18px;background:#111116;border:1px solid #393640;box-shadow:inset 0 1px 3px #0007}
-.balance-flow-option{display:flex;align-items:center;justify-content:flex-start;gap:8px;min-width:0;min-height:54px;padding:7px 10px;border:1px solid transparent;border-radius:14px;background:transparent;color:#a4a1ad;text-align:left;cursor:pointer;transition:background-color .2s ease,color .2s ease,border-color .2s ease,transform .18s ease}
-.balance-flow-option.is-active{background:linear-gradient(145deg,#e5e4e8,#c9c7cf);border-color:#f3f2f5;color:#111116;box-shadow:0 2px 6px #0004}
-.balance-flow-option:active{transform:scale(.985)}
-.balance-flow-icon{display:grid;place-items:center;flex:0 0 28px;width:28px;height:28px;border-radius:50%;background:#29272f;color:#d2ced9}
-.balance-flow-option.is-active .balance-flow-icon{background:#f8f7fa;color:#000}
-.balance-flow-icon svg{display:block;width:16px;height:16px;fill:none;stroke:currentColor!important;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+/* Pill switch sized and styled to match the supplied reference screenshot. */
+.balance-flow-switch{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:4px;width:100%;max-width:none;margin:26px auto 0;padding:5px;border-radius:999px;background:#1d1d21;border:1.5px solid #45434b;box-shadow:inset 0 1px 4px #0008}
+.balance-flow-option{display:flex;align-items:center;justify-content:flex-start;gap:14px;min-width:0;min-height:96px;padding:10px 18px;border:1px solid transparent;border-radius:999px;background:transparent;color:#c7c5cd;text-align:left;cursor:pointer;transition:background-color .2s ease,color .2s ease,border-color .2s ease,transform .18s ease}
+.balance-flow-option.is-active{background:#333336;border-color:#333336;color:#f5f5f6;box-shadow:none}
+.balance-flow-option:active{transform:scale(.99)}
+.balance-flow-icon{display:grid;place-items:center;flex:0 0 52px;width:52px;height:52px;border-radius:50%;background:#29292d;color:#c8c8ce}
+.balance-flow-option.is-active .balance-flow-icon{background:#f7f7f8;color:#050505}
+.balance-flow-icon svg{display:block;width:25px;height:25px;fill:none;stroke:currentColor!important;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 .balance-flow-option.is-active .balance-flow-icon svg{color:#000!important;stroke:#000!important}
-.balance-flow-copy{display:flex;flex-direction:column;gap:2px;min-width:0}
-.balance-flow-label{font-size:11px;font-weight:650;line-height:1.1;letter-spacing:.12px}
-.balance-flow-value{display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;font-weight:800;line-height:1.2;font-variant-numeric:tabular-nums;color:inherit}
-@media(max-width:380px){.balance-flow-switch{padding:3px;gap:2px;border-radius:16px}.balance-flow-option{gap:6px;min-height:49px;padding:6px 7px;border-radius:13px}.balance-flow-icon{flex-basis:25px;width:25px;height:25px}.balance-flow-icon svg{width:15px;height:15px}.balance-flow-label{font-size:10px}.balance-flow-value{font-size:12px}}
+.balance-flow-copy{display:flex;flex-direction:column;gap:5px;min-width:0}
+.balance-flow-label{font-size:16px;font-weight:700;line-height:1.1;letter-spacing:0}
+.balance-flow-value{display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:18px;font-weight:800;line-height:1.2;font-variant-numeric:tabular-nums;color:inherit}
+@media(max-width:520px){.balance-flow-switch{margin-top:20px;padding:4px;gap:3px}.balance-flow-option{gap:9px;min-height:76px;padding:8px 10px}.balance-flow-icon{flex-basis:40px;width:40px;height:40px}.balance-flow-icon svg{width:21px;height:21px}.balance-flow-copy{gap:4px}.balance-flow-label{font-size:14px}.balance-flow-value{font-size:15px}}
+@media(max-width:360px){.balance-flow-option{gap:6px;padding:7px 7px;min-height:68px}.balance-flow-icon{flex-basis:34px;width:34px;height:34px}.balance-flow-icon svg{width:18px;height:18px}.balance-flow-label{font-size:12px}.balance-flow-value{font-size:13px}}
 @media(prefers-reduced-motion:reduce){.balance-flow-option{transition:none}}
 </style>
 </head>
