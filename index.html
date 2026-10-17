@@ -499,7 +499,7 @@ function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&l
 function monthKey(d=new Date()){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')}
 function currentMonthTx(a=active()){return a.transactions.filter(t=>t.date&&t.date.slice(0,7)===selectedMonth)}
 function totals(a=active()){const tx=currentMonthTx(a);return {income:tx.filter(t=>t.type==='income').reduce((s,t)=>s+t.amount,0),expense:tx.filter(t=>t.type==='expense').reduce((s,t)=>s+t.amount,0)}}
-function expenseComparisonMarkup(a=active(),type=(categorySlideIndex?'income':'expense')){const [year,month]=selectedMonth.split('-').map(Number);const previousDate=new Date(year,month-2,1);const previousKey=monthKey(previousDate);const previousTotal=a.transactions.filter(t=>t.type===type&&t.date&&t.date.slice(0,7)===previousKey).reduce((sum,t)=>sum+Number(t.amount||0),0);const currentTotal=currentMonthTx(a).filter(t=>t.type===type).reduce((sum,t)=>sum+Number(t.amount||0),0);const percentage=previousTotal>0?Math.round(currentTotal/previousTotal*100):null;return `<span class="comparison-value">${percentage===null?'—':percentage+'%'}</span><small>${percentage===null?(type==='income'?'no last month earnings':'no last month spending'):'from last month'}</small>`;}
+function expenseComparisonMarkup(a=active(),type=(categorySlideIndex?'income':'expense'),category=null){const [year,month]=selectedMonth.split('-').map(Number);const previousDate=new Date(year,month-2,1);const previousKey=monthKey(previousDate);const previousTx=a.transactions.filter(t=>t.type===type&&t.date&&t.date.slice(0,7)===previousKey);const currentTx=currentMonthTx(a).filter(t=>t.type===type);const previousTotal=previousTx.filter(t=>!category||t.category===category).reduce((sum,t)=>sum+Number(t.amount||0),0);const currentTotal=currentTx.filter(t=>!category||t.category===category).reduce((sum,t)=>sum+Number(t.amount||0),0);const percentage=previousTotal>0?Math.round(currentTotal/previousTotal*100):null;const noun=type==='income'?'earnings':'spending';const label=category?`${esc(category)} vs last month`:'from last month';return `<span class="comparison-value">${percentage===null?'—':percentage+'%'}</span><small>${percentage===null?(category?`no last month ${noun} for this category`:`no last month ${noun}`):label}</small>`;}
 function balance(a=active(),asOfMonth=null){const tx=asOfMonth?a.transactions.filter(t=>t.date&&t.date.slice(0,7)<=asOfMonth):a.transactions;return a.opening+tx.reduce((s,t)=>s+(t.type==='income'?t.amount:-t.amount),0)}
 function renderTabs(animateIds=[]){
  const host=document.getElementById('accountTabs');
@@ -522,6 +522,7 @@ function renderTabs(animateIds=[]){
 function monthDate(key=selectedMonth){const [y,m]=key.split('-').map(Number);return new Date(y,m-1,1)}
 function monthLabel(key=selectedMonth){return monthDate(key).toLocaleDateString(undefined,{month:'short',year:'numeric'})}
 let categorySlideIndex=0;
+const selectedCategoryByType={expense:null,income:null};
 function categoryColor(name){let h=0;for(let i=0;i<name.length;i++)h=(h*31+name.charCodeAt(i))|0;return COLORS[Math.abs(h)%COLORS.length]}
 function renderOneCategoryChart(a,type,amount,donutId,centerId,legendId){
  const cats={};currentMonthTx(a).filter(x=>x.type===type).forEach(x=>cats[x.category]=(cats[x.category]||0)+x.amount);
@@ -545,11 +546,12 @@ function renderOneCategoryChart(a,type,amount,donutId,centerId,legendId){
      donut.dataset.chartEmpty='false';
      if(emptyRing)emptyRing.remove();
      let offset=0;
-     rows.forEach(([name,value])=>{const pct=Math.max(0,Number(value)||0)/total*100;let circle=[...svg.querySelectorAll('circle[data-category]')].find(c=>c.dataset.category===name);if(!circle){circle=document.createElementNS('http://www.w3.org/2000/svg','circle');circle.dataset.category=name;circle.setAttribute('cx','50');circle.setAttribute('cy','50');circle.setAttribute('r','40');circle.setAttribute('pathLength','100');svg.appendChild(circle)}circle.setAttribute('fill','none');circle.setAttribute('stroke-width','10');circle.style.setProperty('stroke',categoryColor(name),'important');circle.style.setProperty('stroke-width','10','important');circle.style.strokeDasharray=`${pct} ${100-pct}`;circle.style.strokeDashoffset=`${-offset}`;circle.style.transition='none';offset+=pct});
+     rows.forEach(([name,value])=>{const pct=Math.max(0,Number(value)||0)/total*100;let circle=[...svg.querySelectorAll('circle[data-category]')].find(c=>c.dataset.category===name);if(!circle){circle=document.createElementNS('http://www.w3.org/2000/svg','circle');circle.dataset.category=name;circle.setAttribute('cx','50');circle.setAttribute('cy','50');circle.setAttribute('r','40');circle.setAttribute('pathLength','100');svg.appendChild(circle)}const isSelected=selectedCategoryByType[type]===name;circle.setAttribute('fill','none');circle.setAttribute('r',isSelected?'42':'40');circle.setAttribute('stroke-width',isSelected?'14':'10');circle.style.setProperty('stroke',categoryColor(name),'important');circle.style.setProperty('stroke-width',isSelected?'14':'10','important');circle.style.strokeDasharray=`${pct} ${100-pct}`;circle.style.strokeDashoffset=`${-offset}`;circle.style.transition='none';offset+=pct});
    }
  }}
- if(center)center.innerHTML=expenseComparisonMarkup(a,type);
- if(legend){legend.innerHTML=rows.length?rows.map(([k,v])=>`<div class="legend-row"><span class="dot" data-category-dot="${esc(k)}" style="background:${categoryColor(k)}"></span><span class="legend-name">${esc(k)}</span><span class="legend-value">${money(v,a.currency)}</span></div>`).join(''):`<div class="empty">No ${type==='income'?'income':'expenses'} for this month.</div>`;legend.querySelectorAll('[data-category-dot]').forEach(dot=>dot.style.setProperty('background',categoryColor(dot.dataset.categoryDot),'important'));}
+ const selected=selectedCategoryByType[type];
+ if(center)center.innerHTML=expenseComparisonMarkup(a,type,selected);
+ if(legend){legend.innerHTML=rows.length?rows.map(([k,v])=>{const active=k===selected;return `<div class="legend-row${active?' category-selected':''}" data-category-row="${esc(k)}" role="button" tabindex="0" aria-pressed="${active}" title="Compare ${esc(k)} with last month"><span class="dot" data-category-dot="${esc(k)}" style="background:${categoryColor(k)}"></span><span class="legend-name">${esc(k)}</span><span class="legend-value">${money(v,a.currency)}</span></div>`}).join(''):`<div class="empty">No ${type==='income'?'income':'expenses'} for this month.</div>`;legend.querySelectorAll('[data-category-dot]').forEach(dot=>dot.style.setProperty('background',categoryColor(dot.dataset.categoryDot),'important'));legend.querySelectorAll('[data-category-row]').forEach(row=>{const activate=()=>{const name=row.dataset.categoryRow;selectedCategoryByType[type]=selectedCategoryByType[type]===name?null:name;renderOneCategoryChart(a,type,amount,donutId,centerId,legendId)};row.addEventListener('click',activate);row.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();activate()}})});}
 }
 function renderCategoryCharts(a,t){renderOneCategoryChart(a,categorySlideIndex?'income':'expense',categorySlideIndex?t.income:t.expense,'donut','donutCenter','legend');setCategorySlide(categorySlideIndex,false)}
 function setCategorySlide(index,animate=true){
@@ -2018,4 +2020,14 @@ html body .category-carousel .chartarea .legend{align-self:start!important;min-w
 /* Each category gets its own computed segment and matching legend marker; do not flatten the donut to one colour. */
 #categoryCarousel .donut-segments circle[data-category]{fill:none!important;stroke-width:10!important;stroke-linecap:butt!important}
 #categoryCarousel .legend-row .dot[data-category-dot]{box-shadow:none!important;border:0!important}
+</style>
+
+<style id="interactive-category-chart-selection">
+#categoryCarousel .legend-row{cursor:pointer;border-radius:8px;padding:5px 6px;margin:5px 0;transition:background .15s ease,font-weight .15s ease;outline-offset:2px}
+#categoryCarousel .legend-row.category-selected{background:#FFFFFF0D;font-weight:800!important}
+#categoryCarousel .legend-row.category-selected .legend-name,#categoryCarousel .legend-row.category-selected .legend-value{font-weight:800!important;color:#FFFFFF!important}
+#categoryCarousel .legend-row:focus-visible{outline:1px solid #A78BFA}
+#categoryCarousel .donut-segments circle{transition:stroke-width .18s ease,r .18s ease}
+.donut-center .comparison-value{font-weight:800!important}
+.donut-center small{max-width:100%;white-space:normal!important;text-wrap:balance}
 </style>
