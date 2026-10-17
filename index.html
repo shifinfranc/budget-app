@@ -393,6 +393,12 @@ svg{stroke-width:1.7}
 #categoryCarousel .legend-row{min-width:0!important}
 #categoryCarousel .legend-name{min-width:0!important;overflow-wrap:anywhere!important}
 </style>
+
+<style id="empty-spending-and-earnings-chart-black-ring">
+/* A month with no expense OR income still has a visible pitch-black donut ring. */
+.donut[data-chart-empty="true"] .donut-segments circle[data-empty-ring],
+.donut .donut-segments circle[data-empty-ring]{stroke:#000000!important;stroke-width:10!important;fill:none!important;opacity:1!important}
+</style>
 </head>
 <body>
 <div class="app">
@@ -526,8 +532,21 @@ function renderOneCategoryChart(a,type,amount,donutId,centerId,legendId){
    svg.setAttribute('viewBox','0 0 100 100');svg.style.transform='rotate(-90deg)';
    const wanted=new Set(rows.map(([k])=>k));
    svg.querySelectorAll('circle[data-category]').forEach(c=>{if(!wanted.has(c.dataset.category))c.remove()});
-   let offset=0;const total=rows.reduce((sum,[,value])=>sum+Math.max(0,Number(value)||0),0);
-   rows.forEach(([name,value])=>{const pct=total>0?Math.max(0,Number(value)||0)/total*100:0;let circle=[...svg.querySelectorAll('circle[data-category]')].find(c=>c.dataset.category===name);if(!circle){circle=document.createElementNS('http://www.w3.org/2000/svg','circle');circle.dataset.category=name;circle.setAttribute('cx','50');circle.setAttribute('cy','50');circle.setAttribute('r','40');circle.setAttribute('pathLength','100');svg.appendChild(circle)}circle.setAttribute('fill','none');circle.setAttribute('stroke-width','10');circle.style.setProperty('stroke',categoryColor(name),'important');circle.style.setProperty('stroke-width','10','important');circle.style.strokeDasharray=`${pct} ${100-pct}`;circle.style.strokeDashoffset=`${-offset}`;circle.style.transition='none';offset+=pct});
+   /* When the selected month has no transactions of this type, keep the donut visible as a solid pitch-black ring. */
+   let emptyRing=svg.querySelector('circle[data-empty-ring]');
+   const total=rows.reduce((sum,[,value])=>sum+Math.max(0,Number(value)||0),0);
+   if(!rows.length||total<=0){
+     /* Shared empty state for BOTH Spending and Earnings: show a full pitch-black ring. */
+     donut.dataset.chartEmpty='true';
+     svg.querySelectorAll('circle[data-category]').forEach(c=>c.remove());
+     if(!emptyRing){emptyRing=document.createElementNS('http://www.w3.org/2000/svg','circle');emptyRing.dataset.emptyRing='true';emptyRing.setAttribute('cx','50');emptyRing.setAttribute('cy','50');emptyRing.setAttribute('r','40');emptyRing.setAttribute('pathLength','100');svg.appendChild(emptyRing)}
+     emptyRing.setAttribute('fill','none');emptyRing.setAttribute('stroke','#000000');emptyRing.setAttribute('stroke-width','10');emptyRing.style.setProperty('stroke','#000000','important');emptyRing.style.setProperty('stroke-width','10','important');emptyRing.style.strokeDasharray='100 0';emptyRing.style.strokeDashoffset='0';emptyRing.style.opacity='1';
+   }else{
+     donut.dataset.chartEmpty='false';
+     if(emptyRing)emptyRing.remove();
+     let offset=0;
+     rows.forEach(([name,value])=>{const pct=Math.max(0,Number(value)||0)/total*100;let circle=[...svg.querySelectorAll('circle[data-category]')].find(c=>c.dataset.category===name);if(!circle){circle=document.createElementNS('http://www.w3.org/2000/svg','circle');circle.dataset.category=name;circle.setAttribute('cx','50');circle.setAttribute('cy','50');circle.setAttribute('r','40');circle.setAttribute('pathLength','100');svg.appendChild(circle)}circle.setAttribute('fill','none');circle.setAttribute('stroke-width','10');circle.style.setProperty('stroke',categoryColor(name),'important');circle.style.setProperty('stroke-width','10','important');circle.style.strokeDasharray=`${pct} ${100-pct}`;circle.style.strokeDashoffset=`${-offset}`;circle.style.transition='none';offset+=pct});
+   }
  }}
  if(center)center.innerHTML=expenseComparisonMarkup(a,type);
  if(legend){legend.innerHTML=rows.length?rows.map(([k,v])=>`<div class="legend-row"><span class="dot" data-category-dot="${esc(k)}" style="background:${categoryColor(k)}"></span><span class="legend-name">${esc(k)}</span><span class="legend-value">${money(v,a.currency)}</span></div>`).join(''):`<div class="empty">No ${type==='income'?'income':'expenses'} for this month.</div>`;legend.querySelectorAll('[data-category-dot]').forEach(dot=>dot.style.setProperty('background',categoryColor(dot.dataset.categoryDot),'important'));}
