@@ -2269,3 +2269,49 @@ html body header.top #accountSwitcher.account-switcher.open .account-switcher-he
 }
 @media(prefers-reduced-motion:reduce){html body header.top #accountSwitcher.account-switcher{transition:none!important}}
 </style>
+
+<style id="account-switcher-optical-flag-centering-and-radius-morph-final">
+/* Optical correction: centre the flag glyph itself, not just its text box. */
+html body header.top #accountSwitcher.account-switcher:not(.open){
+  width:44px!important;min-width:44px!important;max-width:44px!important;
+  height:44px!important;min-height:44px!important;max-height:44px!important;
+  flex:0 0 44px!important;box-sizing:border-box!important;padding:0!important;
+  border-radius:50%!important;overflow:hidden!important;
+}
+html body header.top #accountSwitcher.account-switcher:not(.open) > .account-switcher-head{
+  position:relative!important;display:grid!important;place-items:center!important;
+  width:42px!important;height:42px!important;min-width:42px!important;min-height:42px!important;
+  margin:0!important;padding:0!important;gap:0!important;border:0!important;border-radius:50%!important;
+  overflow:hidden!important;line-height:1!important;
+}
+html body header.top #accountSwitcher.account-switcher:not(.open) .account-switcher-flag{
+  position:absolute!important;left:50%!important;top:50%!important;right:auto!important;bottom:auto!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  width:22px!important;height:22px!important;min-width:22px!important;max-width:22px!important;
+  min-height:22px!important;max-height:22px!important;flex:0 0 22px!important;
+  margin:0!important;padding:0!important;border:0!important;
+  font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif!important;
+  font-size:19px!important;line-height:1!important;text-align:center!important;text-indent:0!important;
+  letter-spacing:0!important;white-space:nowrap!important;
+  transform:translate(-50%,-50%)!important;translate:none!important;
+}
+html body header.top #accountSwitcher.account-switcher:not(.open) .account-switcher-info,
+html body header.top #accountSwitcher.account-switcher:not(.open) .account-switcher-caret{display:none!important}
+html body header.top #accountSwitcher.account-switcher,
+html body header.top #accountSwitcher.account-switcher > .account-switcher-head{
+  transition:width 320ms cubic-bezier(.2,.8,.2,1),height 320ms cubic-bezier(.2,.8,.2,1),
+    flex-basis 320ms cubic-bezier(.2,.8,.2,1),border-radius 320ms cubic-bezier(.2,.8,.2,1),
+    background-color 220ms ease!important;
+}
+html body header.top #accountSwitcher.account-switcher:not(.open) > .account-switcher-head{border-radius:50%!important}
+html body header.top #accountSwitcher.account-switcher.open{
+  border-radius:22px!important;overflow:hidden!important;
+}
+html body header.top #accountSwitcher.account-switcher.open > .account-switcher-head{
+  border-radius:21px 21px 0 0!important;
+}
+@media(prefers-reduced-motion:reduce){
+  html body header.top #accountSwitcher.account-switcher,
+  html body header.top #accountSwitcher.account-switcher > .account-switcher-head{transition:none!important}
+}
+</style>
