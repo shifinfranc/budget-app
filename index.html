@@ -560,8 +560,11 @@ function renderTabs(){
    ? `<span class="switcher-flag">${ci.flag}</span><span class="switcher-current-copy"><strong>${esc(current.name)}</strong><small>${esc(current.currency)}</small></span><svg class="switcher-chevron open" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>`
    : `<span class="switcher-flag compact">${ci.flag}</span>`;
  trigger.classList.toggle('expanded',accountSwitcherOpen);
+ switcher.classList.toggle('is-open',accountSwitcherOpen);
  trigger.setAttribute('aria-expanded',String(accountSwitcherOpen));
- menu.hidden=!accountSwitcherOpen;
+ menu.hidden=false;
+ menu.classList.toggle('is-open',accountSwitcherOpen);
+ menu.setAttribute('aria-hidden',String(!accountSwitcherOpen));
  menu.innerHTML=accountSwitcherOpen?visible.filter(a=>a.id!==current.id).map(a=>{const c=currencyInfo(a.currency);return `<button type="button" class="account-switcher-option" data-account="${esc(a.id)}"><span class="switcher-flag">${c.flag}</span><span class="switcher-option-copy"><strong>${esc(a.name)}</strong><small>${esc(a.currency)}</small></span></button>`}).join(''):'';
  menu.querySelectorAll('[data-account]').forEach(b=>b.onclick=()=>{
    const next=state.accounts.find(a=>a.id===b.dataset.account&&a.showInToggler!==false);
@@ -1866,4 +1869,46 @@ button:focus-visible,input:focus,select:focus,textarea:focus,.focus-ring,.app-se
 #allTransactions .transaction-row + .transaction-row, #recentTransactions .transaction-row + .transaction-row {
   border-top:0!important;
 }
+</style>
+
+<style id="account-switcher-smooth-expansion-and-compact-nav">
+/* Animate the whole selector from the circular flag tile into the connected dropdown. */
+#accountSwitcher.account-switcher{
+  flex:0 0 48px!important;width:48px!important;min-width:48px!important;
+  transition:flex-basis .28s cubic-bezier(.2,.8,.2,1),width .28s cubic-bezier(.2,.8,.2,1)!important;
+}
+#accountSwitcher.account-switcher.is-open{
+  flex-basis:210px!important;width:210px!important;min-width:210px!important;
+}
+#accountSwitcher .account-switcher-trigger{
+  width:48px!important;min-width:48px!important;height:48px!important;
+  transition:width .28s cubic-bezier(.2,.8,.2,1),min-width .28s cubic-bezier(.2,.8,.2,1),height .28s ease,border-radius .28s ease,padding .28s ease!important;
+}
+#accountSwitcher .account-switcher-trigger.expanded{
+  width:100%!important;min-width:0!important;height:60px!important;
+  border-radius:25px 25px 0 0!important;border-bottom-color:transparent!important;
+}
+#accountSwitcher .account-switcher-menu{
+  top:59px!important;right:0!important;width:100%!important;
+  max-height:0!important;opacity:0!important;visibility:hidden!important;
+  padding:0 8px!important;overflow:hidden!important;
+  border:1px solid #454545!important;border-top:0!important;
+  border-radius:0 0 25px 25px!important;
+  transition:max-height .28s cubic-bezier(.2,.8,.2,1),opacity .18s ease,padding .28s ease,visibility 0s linear .28s!important;
+  pointer-events:none!important;
+}
+#accountSwitcher .account-switcher-menu.is-open{
+  max-height:360px!important;opacity:1!important;visibility:visible!important;
+  padding:0 8px 8px!important;pointer-events:auto!important;
+  transition:max-height .32s cubic-bezier(.2,.8,.2,1),opacity .2s ease,padding .28s ease,visibility 0s!important;
+}
+#accountSwitcher .account-switcher-option{min-height:70px!important;flex:0 0 auto!important}
+/* Restore the compact navigation height from before the account-switcher redesign. */
+.nav{padding-top:6px!important;padding-bottom:calc(6px + env(safe-area-inset-bottom))!important;gap:2px!important}
+.nav button{min-height:46px!important;padding-top:2px!important;padding-bottom:2px!important;gap:2px!important}
+.nav button>.nav-icon,.nav button>.nav-more-icon,.nav button>span{margin-bottom:1px!important}
+@media(max-width:390px){
+ #accountSwitcher.account-switcher.is-open{flex-basis:min(210px,calc(100vw - 105px))!important;width:min(210px,calc(100vw - 105px))!important}
+}
+@media(prefers-reduced-motion:reduce){#accountSwitcher,#accountSwitcher .account-switcher-trigger,#accountSwitcher .account-switcher-menu{transition:none!important}}
 </style>
