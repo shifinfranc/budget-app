@@ -1245,6 +1245,14 @@ html body .category-carousel #donutCenter small{
 }
 </style>
 
+
+<style id="empty-category-message-centered-beside-donut">
+/* When a category list is empty, centre its message vertically against the donut on both tabs. */
+html body .category-carousel .chartarea .legend{align-self:stretch!important;display:flex!important;flex-direction:column!important;justify-content:center!important;min-height:clamp(124px,38vw,150px)!important;}
+html body .category-carousel .chartarea .legend > .empty{display:flex!important;align-items:center!important;justify-content:center!important;flex:1 1 auto!important;width:100%!important;min-height:clamp(124px,38vw,150px)!important;box-sizing:border-box!important;margin:0!important;padding:0 8px!important;text-align:center!important;line-height:1.4!important;white-space:normal!important;}
+@media(max-width:380px){html body .category-carousel .chartarea .legend,html body .category-carousel .chartarea .legend > .empty{min-height:124px!important}}
+</style>
+
 </body>
 </html>
 <style id="latest-reference-polish">
