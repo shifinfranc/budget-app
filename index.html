@@ -2179,3 +2179,54 @@ html body .category-carousel .chartarea .legend{align-self:start!important;min-w
 #monthBtn .month-nav-arrow svg{display:block!important;width:17px!important;height:17px!important;stroke:currentColor!important;stroke-width:2!important;fill:none!important;stroke-linecap:round!important;stroke-linejoin:round!important}
 @media(max-width:380px){.home-head-actions .month,#monthBtn{min-width:150px!important;padding:4px 6px!important;gap:6px!important}#monthBtn .month-nav-arrow{flex-basis:23px!important;width:23px!important;height:23px!important}}
 </style>
+
+<style id="account-switcher-final-circle-size-fix">
+/* Final, high-specificity correction: only the collapsed account tile and its flag. */
+html body header.top #accountSwitcher.account-switcher:not(.open){
+  flex:0 0 44px!important;
+  flex-basis:44px!important;
+  width:44px!important;
+  min-width:44px!important;
+  max-width:44px!important;
+  height:44px!important;
+  min-height:44px!important;
+  grid-template-rows:42px 0fr!important;
+  border-radius:50%!important;
+  padding:0!important;
+  overflow:hidden!important;
+}
+html body header.top #accountSwitcher.account-switcher:not(.open) .account-switcher-head{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:42px!important;
+  min-width:42px!important;
+  max-width:42px!important;
+  height:42px!important;
+  min-height:42px!important;
+  margin:0!important;
+  padding:0!important;
+  gap:0!important;
+  border:0!important;
+  border-radius:50%!important;
+  line-height:1!important;
+}
+html body header.top #accountSwitcher.account-switcher:not(.open) .account-switcher-flag{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  flex:0 0 24px!important;
+  width:24px!important;
+  min-width:24px!important;
+  max-width:24px!important;
+  height:24px!important;
+  margin:0!important;
+  padding:0!important;
+  font-size:21px!important;
+  line-height:1!important;
+  text-align:center!important;
+  transform:none!important;
+}
+html body header.top #accountSwitcher.account-switcher:not(.open) .account-switcher-info,
+html body header.top #accountSwitcher.account-switcher:not(.open) .account-switcher-caret{display:none!important}
+</style>
