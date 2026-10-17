@@ -2393,3 +2393,19 @@ html body header.top #accountSwitcher.account-switcher:not(.open) .account-switc
   transform:translate(-50%,-50%)!important;translate:none!important;
 }
 </style>
+
+
+<style id="account-switcher-final-optical-centering-reference">
+/* Final calibration against the supplied close-up: shift only the closed-state flag artwork right so the visible left/right gaps match. */
+html body header.top #accountSwitcher.account-switcher:not(.open) .account-switcher-flag{
+  position:absolute!important;
+  left:calc(50% + 10px)!important;
+  top:50%!important; right:auto!important; bottom:auto!important;
+  width:24px!important; min-width:24px!important; max-width:24px!important;
+  height:24px!important; min-height:24px!important; max-height:24px!important;
+  box-sizing:border-box!important; margin:0!important; padding:0!important; border:0!important;
+  display:flex!important; align-items:center!important; justify-content:center!important;
+  font-size:20px!important; line-height:24px!important; text-align:center!important;
+  transform:translate(-50%,-50%)!important; translate:none!important;
+}
+</style>
