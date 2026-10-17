@@ -1113,77 +1113,10 @@ html body .transaction-month-heading::after {
 }
 </style>
 
-<style id="transaction-list-bottom-sticky-divider-uniform-final-20261017">
-/* Keep a single, consistent divider visible at the bottom edge of each transaction list before scrolling. */
-#allTransactions {
-  padding-bottom: 0!important;
-  border-bottom: 1px solid #353535!important;
-  box-sizing: border-box!important;
-}
-#allTransactions::after {
-  content: ""!important;
-  display: block!important;
-  position: sticky!important;
-  bottom: 0!important;
-  z-index: 25!important;
-  height: 1px!important;
-  min-height: 1px!important;
-  margin: 0!important;
-  padding: 0!important;
-  background: #353535!important;
-  border: 0!important;
-  box-shadow: none!important;
-  pointer-events: none!important;
-}
-/* Recent Transactions gets the same fine bottom rule, without changing row spacing. */
-#recentTransactions {
-  border-bottom: 1px solid #353535!important;
-  box-sizing: border-box!important;
-}
-#allTransactions .transaction, #recentTransactions .transaction {
-  border-bottom: 1px solid #353535!important;
-  box-shadow: none!important;
-}
-#allTransactions .transaction-month-heading,
-#recentTransactions .transaction-month-heading,
-#allTransactions .month-heading, #recentTransactions .month-heading,
-#allTransactions .month-separator, #recentTransactions .month-separator {
-  border-top: 1px solid #353535!important;
-  border-bottom: 1px solid #353535!important;
-  box-shadow: none!important;
-}
-/* Prevent adjacent row/month borders from doubling up visually. */
-#allTransactions .transaction + .transaction,
-#recentTransactions .transaction + .transaction { border-top: 0!important; }
-</style>
 
 
-<style id="transaction-list-natural-bottom-divider-spacing-fix">
-/* Keep the panel height unchanged: tighten every transaction row uniformly so the final
-   complete row and its own divider fit at the bottom of the scroll viewport. No fixed line. */
-#allTransactions .transaction,
-#recentTransactions .transaction {
-  box-sizing:border-box!important;
-  padding-top:10px!important;
-  padding-bottom:10px!important;
-  border-bottom:1px solid #353535!important;
-  margin-top:0!important;
-  margin-bottom:0!important;
-  border-radius:0!important;
-}
-/* The last row keeps its natural list divider rather than creating a separate bottom rule. */
-#allTransactions .transaction:last-child,
-#recentTransactions .transaction:last-child {
-  padding-top:10px!important;
-  padding-bottom:10px!important;
-  border-bottom:1px solid #353535!important;
-}
-/* Month separators retain their existing fixed height and consistent top/bottom strokes. */
-#allTransactions .transaction-month-heading,
-#recentTransactions .transaction-month-heading {
-  margin-top:0!important; margin-bottom:0!important;
-}
-</style>
+
+
 
 </body>
 </html>
@@ -1819,5 +1752,42 @@ button:focus-visible,input:focus,select:focus,textarea:focus,.focus-ring,.app-se
 .month-picker-month.current-month.selected-month {
   background:#505050!important; background-color:#505050!important; color:#FFFFFF!important;
   border:1px solid #929292!important; font-weight:700!important;
+}
+</style>
+
+<style id="final-natural-transaction-row-spacing-no-fake-divider">
+/* Natural list-only separators: no container border, pseudo-element, or fixed bottom rule.
+   Keep every transaction row the same compact height so the final visible row can end cleanly
+   on its own divider within the unchanged list viewport. */
+#allTransactions, #recentTransactions {
+  border-bottom:0!important; padding-bottom:0!important; box-shadow:none!important;
+}
+#allTransactions::after, #recentTransactions::after {
+  content:none!important; display:none!important;
+}
+#allTransactions .transaction, #recentTransactions .transaction,
+#allTransactions .transaction-row, #recentTransactions .transaction-row,
+#allTransactions .tx-row, #recentTransactions .tx-row {
+  box-sizing:border-box!important;
+  padding-top:8px!important; padding-bottom:8px!important;
+  margin-top:0!important; margin-bottom:0!important;
+  border-top:0!important; border-bottom:1px solid #353535!important;
+  border-radius:0!important; box-shadow:none!important;
+}
+#allTransactions .transaction:last-child, #recentTransactions .transaction:last-child,
+#allTransactions .transaction-row:last-child, #recentTransactions .transaction-row:last-child,
+#allTransactions .tx-row:last-child, #recentTransactions .tx-row:last-child {
+  border-bottom:1px solid #353535!important;
+}
+/* Month headings use the same single-pixel line system; no doubled adjoining borders. */
+#allTransactions .transaction-month-heading, #recentTransactions .transaction-month-heading,
+#allTransactions .month-heading, #recentTransactions .month-heading,
+#allTransactions .month-separator, #recentTransactions .month-separator {
+  box-sizing:border-box!important; border-top:1px solid #353535!important;
+  border-bottom:1px solid #353535!important; box-shadow:none!important;
+}
+#allTransactions .transaction + .transaction, #recentTransactions .transaction + .transaction,
+#allTransactions .transaction-row + .transaction-row, #recentTransactions .transaction-row + .transaction-row {
+  border-top:0!important;
 }
 </style>
