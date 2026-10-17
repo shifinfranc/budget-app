@@ -1197,6 +1197,45 @@ html body .transaction-month-heading::after {
 
 
 
+
+<style id="tap-highlight-removal-and-extra-compact-navigation">
+/* Prevent the browser's blue tap/focus tile from flashing anywhere in the app. */
+html, body, body * {
+  -webkit-tap-highlight-color: transparent !important;
+}
+button, a, [role="button"], input, select, textarea {
+  -webkit-tap-highlight-color: transparent !important;
+}
+button:active, a:active, [role="button"]:active {
+  -webkit-tap-highlight-color: transparent !important;
+}
+button:focus:not(:focus-visible), a:focus:not(:focus-visible), [role="button"]:focus:not(:focus-visible) {
+  outline: none !important;
+  box-shadow: none !important;
+}
+/* Keep keyboard focus accessible while avoiding a blue touch highlight. */
+button:focus-visible, a:focus-visible, [role="button"]:focus-visible {
+  outline: 1px solid #777 !important;
+  outline-offset: 2px !important;
+}
+/* Make the bottom navigation shorter while preserving safe-area spacing. */
+.nav {
+  padding-top: 3px !important;
+  padding-bottom: calc(3px + env(safe-area-inset-bottom)) !important;
+  gap: 0 !important;
+}
+.nav button {
+  min-height: 40px !important;
+  height: 40px !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  gap: 0 !important;
+}
+.nav button > .nav-icon, .nav button > .nav-more-icon, .nav button > span {
+  margin-bottom: 0 !important;
+}
+</style>
+
 </body>
 </html>
 <style id="latest-reference-polish">
