@@ -386,6 +386,13 @@ svg{stroke-width:1.7}
 .donut-center small,#donutCenter small{display:block!important;margin-top:4px!important;font-size:11px!important;font-weight:400!important;line-height:1.25!important;color:#96929F!important;white-space:nowrap!important;}
 @media(max-width:380px){.donut-center,#donutCenter{inset:21px!important}.donut-center .comparison-value{font-size:14px!important}.donut-center small,#donutCenter small{font-size:10px!important}}
 </style>
+<style id="show-all-category-legend-rows">
+/* Keep every category visible; let the card expand naturally for longer lists. */
+#categoryCarousel .chartarea{align-items:flex-start!important}
+#categoryCarousel .legend{max-height:none!important;height:auto!important;overflow:visible!important;align-self:stretch!important}
+#categoryCarousel .legend-row{min-width:0!important}
+#categoryCarousel .legend-name{min-width:0!important;overflow-wrap:anywhere!important}
+</style>
 </head>
 <body>
 <div class="app">
@@ -517,13 +524,13 @@ function renderOneCategoryChart(a,type,amount,donutId,centerId,legendId){
  if(donut){donut.style.background='none';const svg=donut.querySelector('svg');if(svg){
    /* Use a normalized 100-unit circumference so each category arc is calculated consistently. */
    svg.setAttribute('viewBox','0 0 100 100');svg.style.transform='rotate(-90deg)';
-   const wanted=new Set(rows.slice(0,8).map(([k])=>k));
+   const wanted=new Set(rows.map(([k])=>k));
    svg.querySelectorAll('circle[data-category]').forEach(c=>{if(!wanted.has(c.dataset.category))c.remove()});
-   let offset=0;const total=rows.slice(0,8).reduce((sum,[,value])=>sum+Math.max(0,Number(value)||0),0);
-   rows.slice(0,8).forEach(([name,value])=>{const pct=total>0?Math.max(0,Number(value)||0)/total*100:0;let circle=[...svg.querySelectorAll('circle[data-category]')].find(c=>c.dataset.category===name);if(!circle){circle=document.createElementNS('http://www.w3.org/2000/svg','circle');circle.dataset.category=name;circle.setAttribute('cx','50');circle.setAttribute('cy','50');circle.setAttribute('r','40');circle.setAttribute('pathLength','100');svg.appendChild(circle)}circle.setAttribute('fill','none');circle.setAttribute('stroke-width','10');circle.style.stroke=categoryColor(name);circle.style.strokeDasharray=`${pct} ${100-pct}`;circle.style.strokeDashoffset=`${-offset}`;circle.style.transition='none';offset+=pct});
+   let offset=0;const total=rows.reduce((sum,[,value])=>sum+Math.max(0,Number(value)||0),0);
+   rows.forEach(([name,value])=>{const pct=total>0?Math.max(0,Number(value)||0)/total*100:0;let circle=[...svg.querySelectorAll('circle[data-category]')].find(c=>c.dataset.category===name);if(!circle){circle=document.createElementNS('http://www.w3.org/2000/svg','circle');circle.dataset.category=name;circle.setAttribute('cx','50');circle.setAttribute('cy','50');circle.setAttribute('r','40');circle.setAttribute('pathLength','100');svg.appendChild(circle)}circle.setAttribute('fill','none');circle.setAttribute('stroke-width','10');circle.style.stroke=categoryColor(name);circle.style.strokeDasharray=`${pct} ${100-pct}`;circle.style.strokeDashoffset=`${-offset}`;circle.style.transition='none';offset+=pct});
  }}
  if(center)center.innerHTML=expenseComparisonMarkup(a,type);
- if(legend)legend.innerHTML=rows.length?rows.slice(0,8).map(([k,v])=>`<div class="legend-row"><span class="dot" style="background:${categoryColor(k)}"></span><span class="legend-name">${esc(k)}</span><span class="legend-value">${money(v,a.currency)}</span></div>`).join(''):`<div class="empty">No ${type==='income'?'income':'expenses'} for this month.</div>`;
+ if(legend)legend.innerHTML=rows.length?rows.map(([k,v])=>`<div class="legend-row"><span class="dot" style="background:${categoryColor(k)}"></span><span class="legend-name">${esc(k)}</span><span class="legend-value">${money(v,a.currency)}</span></div>`).join(''):`<div class="empty">No ${type==='income'?'income':'expenses'} for this month.</div>`;
 }
 function renderCategoryCharts(a,t){renderOneCategoryChart(a,categorySlideIndex?'income':'expense',categorySlideIndex?t.income:t.expense,'donut','donutCenter','legend');setCategorySlide(categorySlideIndex,false)}
 function setCategorySlide(index,animate=true){
