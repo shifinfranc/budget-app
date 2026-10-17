@@ -400,50 +400,137 @@ svg{stroke-width:1.7}
 .donut .donut-segments circle[data-empty-ring]{stroke:#000000!important;stroke-width:10!important;fill:none!important;opacity:1!important}
 </style>
 
-<style id="total-balance-monochrome-income-expense-pill">
-/* Connected income/expense selector: compact monochrome charcoal, with Expense selected by default. */
-.balance-flow-switch{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:4px;width:100%;padding:4px;margin-top:2px;border:1px solid #41434b;border-radius:999px;background:linear-gradient(145deg,#17181c,#202126);box-shadow:inset 0 1px 4px #0008,0 5px 14px #0002;isolation:isolate}
-.balance-flow-option{position:relative;z-index:1;display:flex;align-items:center;justify-content:flex-start;gap:clamp(8px,2.6vw,15px);min-width:0;min-height:76px;padding:12px clamp(10px,3vw,20px);border:0;border-radius:999px;background:transparent;color:#a6a7b0;text-align:left;transition:background .22s ease,color .22s ease,box-shadow .22s ease,transform .18s ease}
-.balance-flow-option:active{transform:scale(.985)}
-.balance-flow-option.is-active{background:linear-gradient(135deg,#626570,#484b55);color:#fff;box-shadow:0 3px 10px #0003,inset 0 1px 0 #ffffff26}
-.balance-flow-icon{display:grid;place-items:center;flex:0 0 40px;width:40px;height:40px;border-radius:50%;background:#ffffff12;color:#c6c7cf}
-.balance-flow-option.is-active .balance-flow-icon{background:#f3f3f5;color:#202126}
-.balance-flow-icon svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:2.3;stroke-linecap:round;stroke-linejoin:round}
-.balance-flow-copy{display:flex;flex-direction:column;align-items:flex-start;gap:3px;min-width:0}
-.balance-flow-label{font-size:clamp(12px,3.4vw,15px);font-weight:650;letter-spacing:.01em;line-height:1.2;white-space:nowrap}
-.balance-flow-value{display:block;max-width:100%;font-size:clamp(14px,4vw,19px);font-weight:800;letter-spacing:-.35px;line-height:1.2;font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.balance-flow-option:not(.is-active) .balance-flow-value{color:#c4c5cc;font-weight:750}
-@media(max-width:370px){.balance-flow-option{min-height:68px;gap:7px;padding:10px 8px}.balance-flow-icon{flex-basis:32px;width:32px;height:32px}.balance-flow-icon svg{width:20px;height:20px}.balance-flow-value{font-size:13px;letter-spacing:-.45px}}
-@media(prefers-reduced-motion:reduce){.balance-flow-option{transition:none}}
+<style id="latest-account-switcher-only">
+/* Replace the horizontal account tabs with a compact flag tile that smoothly expands in place. */
+.top{position:relative;z-index:30;overflow:visible!important;}
+.accountbar{display:none!important;}
+.account-switcher{position:relative;z-index:40;flex:0 0 56px;width:56px;height:56px;margin-left:12px;border:1px solid #3A3544;border-radius:50%;background:#17151D;overflow:hidden;box-shadow:0 8px 22px #0004;transition:width 300ms cubic-bezier(.2,.8,.2,1),height 300ms cubic-bezier(.2,.8,.2,1),border-radius 300ms cubic-bezier(.2,.8,.2,1),background-color 220ms ease;will-change:width,height,border-radius;}
+.account-switcher.open{width:210px;height:auto;min-height:56px;border-radius:23px;background:#17151D;border-color:#494253;overflow:hidden;}
+.account-switcher-head{width:100%;min-height:54px;padding:0;border:0;background:transparent;color:#F7F6FA;display:flex;align-items:center;justify-content:center;gap:10px;text-align:left;cursor:pointer;}
+.account-switcher.open .account-switcher-head{justify-content:flex-start;padding:0 13px;}
+.account-switcher-flag{display:grid;place-items:center;flex:0 0 34px;width:34px;height:34px;font-size:25px;line-height:1;}
+.account-switcher-info{display:flex;flex:1;min-width:0;flex-direction:column;gap:3px;opacity:0;max-width:0;overflow:hidden;white-space:nowrap;transition:opacity 150ms ease 0ms,max-width 260ms ease;}
+.account-switcher.open .account-switcher-info{opacity:1;max-width:120px;transition:opacity 180ms ease 90ms,max-width 260ms ease;}
+.account-switcher-info strong{font-size:13px;font-weight:650;color:#F7F6FA;line-height:1.15;}
+.account-switcher-info small{font-size:12px;color:#A4A1AD;line-height:1.1;}
+.account-switcher-caret{display:none;flex:0 0 18px;width:18px;height:18px;align-items:center;justify-content:center;color:#C4B5FD;opacity:0;transform:rotate(0deg);transition:opacity 150ms ease,transform 220ms ease;}
+.account-switcher-caret svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.account-switcher.open .account-switcher-head{border-bottom:1px solid #302E38;}
+.account-switcher.open .account-switcher-caret{display:flex;opacity:1;}
+.account-switcher.open .account-switcher-caret svg{transform:rotate(180deg);}
+.account-switcher-list{display:grid;grid-template-rows:0fr;opacity:0;transition:grid-template-rows 280ms cubic-bezier(.2,.8,.2,1),opacity 180ms ease;}
+.account-switcher.open .account-switcher-list{grid-template-rows:1fr;opacity:1;}
+.account-switcher-list-inner{min-height:0;overflow:hidden;padding:0 7px;}
+.account-switcher.open .account-switcher-list-inner{padding:5px 7px 7px;}
+.account-switcher-option{display:flex;align-items:center;gap:11px;width:100%;min-height:53px;padding:8px 10px;border:0;border-radius:14px;background:transparent;color:#F7F6FA;text-align:left;cursor:pointer;}
+.account-switcher-option+.account-switcher-option{border-top:1px solid #302E38;border-radius:0 0 14px 14px;padding-top:10px;}
+.account-switcher-option:hover,.account-switcher-option:focus-visible{background:#242329;outline:none;}
+.account-switcher-option-flag{flex:0 0 32px;width:32px;text-align:center;font-size:24px;line-height:1;}
+.account-switcher-option-info{display:flex;flex:1;min-width:0;flex-direction:column;gap:3px;}
+.account-switcher-option-info strong{font-size:13px;font-weight:600;line-height:1.15;}
+.account-switcher-option-info small{font-size:12px;color:#A4A1AD;line-height:1.1;}
+.account-switcher-option:active{background:#2B2040;}
+@media(max-width:380px){.account-switcher.open{width:198px}.account-switcher-option{min-height:50px}}
+@media(prefers-reduced-motion:reduce){.account-switcher,.account-switcher-info,.account-switcher-caret,.account-switcher-list{transition:none!important}}
 </style>
 
 
-<style id="balance-pill-compact-expense-first">
-/* Compact the whole pill and put Expense first; keep the selected arrow black. */
-html body .balance-flow-switch{gap:3px!important;padding:3px!important;margin-top:0!important;border-radius:999px!important}
-html body .balance-flow-option{min-height:58px!important;gap:clamp(6px,1.8vw,10px)!important;padding:8px clamp(8px,2.2vw,14px)!important}
-html body .balance-flow-icon{flex:0 0 30px!important;width:30px!important;height:30px!important}
-html body .balance-flow-icon svg{width:18px!important;height:18px!important}
-html body .balance-flow-label{font-size:clamp(11px,3vw,13px)!important;line-height:1.15!important}
-html body .balance-flow-value{font-size:clamp(12px,3.4vw,16px)!important;letter-spacing:-.4px!important;line-height:1.15!important}
-html body .balance-flow-option.is-active .balance-flow-icon{color:#000!important;background:#f3f3f5!important}
-@media(max-width:370px){html body .balance-flow-option{min-height:52px!important;gap:5px!important;padding:7px 6px!important}html body .balance-flow-icon{flex-basis:26px!important;width:26px!important;height:26px!important}html body .balance-flow-icon svg{width:16px!important;height:16px!important}html body .balance-flow-value{font-size:11px!important;letter-spacing:-.45px!important}}
+<style id="account-switcher-reference-layout-final">
+/* Account switcher only: match the reference pill/dropdown, without changing other app components. */
+html body .top{position:relative!important;z-index:300!important;overflow:visible!important}
+html body #accountSwitcher.account-switcher{
+  position:relative!important;z-index:500!important;isolation:isolate!important;
+  display:grid!important;grid-template-columns:minmax(0,1fr)!important;grid-template-rows:54px 0fr!important;
+  align-self:flex-start!important;flex:0 0 56px!important;width:56px!important;min-width:56px!important;height:auto!important;min-height:56px!important;
+  margin-left:12px!important;padding:0!important;overflow:hidden!important;
+  border:1px solid #45414b!important;border-radius:50%!important;background:#17161b!important;
+  box-shadow:0 5px 16px #0005!important;
+  transition:flex-basis 320ms cubic-bezier(.2,.8,.2,1),width 320ms cubic-bezier(.2,.8,.2,1),min-width 320ms cubic-bezier(.2,.8,.2,1),grid-template-rows 340ms cubic-bezier(.2,.8,.2,1),border-radius 280ms ease,background-color 220ms ease!important;
+  will-change:width,grid-template-rows,border-radius!important;
+}
+html body #accountSwitcher.account-switcher.open{
+  flex-basis:210px!important;width:210px!important;min-width:210px!important;grid-template-rows:54px 1fr!important;
+  min-height:56px!important;border-radius:30px!important;border-color:#514d57!important;background:#17161b!important;overflow:hidden!important;
+}
+html body #accountSwitcher .account-switcher-head{
+  grid-row:1!important;grid-column:1!important;display:flex!important;align-items:center!important;justify-content:center!important;
+  gap:10px!important;width:100%!important;height:54px!important;min-height:54px!important;padding:0!important;margin:0!important;
+  border:0!important;border-radius:inherit!important;background:transparent!important;color:#f7f6fa!important;box-shadow:none!important;
+}
+html body #accountSwitcher.open .account-switcher-head{justify-content:flex-start!important;padding:0 13px!important;border:0!important;border-radius:0!important}
+html body #accountSwitcher .account-switcher-flag{display:grid!important;place-items:center!important;flex:0 0 34px!important;width:34px!important;height:34px!important;font-size:25px!important;line-height:1!important}
+html body #accountSwitcher .account-switcher-info{display:flex!important;flex:1 1 auto!important;flex-direction:column!important;gap:3px!important;min-width:0!important;max-width:0!important;overflow:hidden!important;opacity:0!important;white-space:nowrap!important;transition:max-width 280ms cubic-bezier(.2,.8,.2,1),opacity 160ms ease!important}
+html body #accountSwitcher.open .account-switcher-info{max-width:125px!important;opacity:1!important;transition:max-width 280ms cubic-bezier(.2,.8,.2,1) 35ms,opacity 180ms ease 80ms!important}
+html body #accountSwitcher .account-switcher-info strong{font-size:13px!important;font-weight:650!important;line-height:1.15!important;color:#f7f6fa!important}
+html body #accountSwitcher .account-switcher-info small{font-size:12px!important;line-height:1.1!important;color:#a4a1ad!important}
+html body #accountSwitcher .account-switcher-caret{display:none!important;flex:0 0 18px!important;width:18px!important;height:18px!important;align-items:center!important;justify-content:center!important;color:#e8e4ef!important;opacity:0!important;transition:opacity 160ms ease!important}
+html body #accountSwitcher.open .account-switcher-caret{display:flex!important;opacity:1!important}
+html body #accountSwitcher .account-switcher-caret svg{width:18px!important;height:18px!important;fill:none!important;stroke:currentColor!important;stroke-width:1.8!important;stroke-linecap:round!important;stroke-linejoin:round!important;transform:rotate(0deg)!important;transition:transform 240ms ease!important}
+html body #accountSwitcher.open .account-switcher-caret svg{transform:rotate(180deg)!important}
+html body #accountSwitcher .account-switcher-list{grid-row:2!important;grid-column:1!important;display:grid!important;grid-template-rows:minmax(0,0fr)!important;min-height:0!important;overflow:hidden!important;opacity:0!important;visibility:hidden!important;transition:grid-template-rows 320ms cubic-bezier(.2,.8,.2,1),opacity 180ms ease,visibility 0s linear 320ms!important}
+html body #accountSwitcher.open .account-switcher-list{grid-template-rows:minmax(0,1fr)!important;opacity:1!important;visibility:visible!important;transition:grid-template-rows 320ms cubic-bezier(.2,.8,.2,1),opacity 180ms ease 70ms,visibility 0s!important}
+html body #accountSwitcher .account-switcher-list-inner{display:block!important;min-height:0!important;overflow:hidden!important;padding:0 7px 7px!important}
+/* A divider begins the list below the header; the header itself has no bottom border. */
+html body #accountSwitcher .account-switcher-list-inner:before{content:""!important;display:block!important;height:1px!important;margin:3px 10px 5px!important;background:#302e38!important;opacity:1!important}
+html body #accountSwitcher .account-switcher-option{
+  display:flex!important;align-items:center!important;gap:11px!important;width:100%!important;min-height:53px!important;height:auto!important;
+  padding:8px 10px!important;margin:0!important;border:0!important;border-radius:14px!important;background:transparent!important;
+  color:#f7f6fa!important;text-align:left!important;box-shadow:none!important;transform:none!important;cursor:pointer!important;
+  transition:background-color 160ms ease!important;
+}
+html body #accountSwitcher .account-switcher-option+.account-switcher-option{border-top:1px solid #302e38!important;border-radius:0!important;padding-top:10px!important}
+html body #accountSwitcher .account-switcher-option:hover,
+html body #accountSwitcher .account-switcher-option:focus-visible{background:#242329!important;outline:none!important}
+html body #accountSwitcher .account-switcher-option:active{background:#2b2931!important}
+html body #accountSwitcher .account-switcher-option-flag{display:block!important;flex:0 0 32px!important;width:32px!important;text-align:center!important;font-size:24px!important;line-height:1!important}
+html body #accountSwitcher .account-switcher-option-info{display:flex!important;flex:1 1 auto!important;flex-direction:column!important;gap:3px!important;min-width:0!important}
+html body #accountSwitcher .account-switcher-option-info strong{font-size:13px!important;font-weight:600!important;line-height:1.15!important;color:#f7f6fa!important}
+html body #accountSwitcher .account-switcher-option-info small{font-size:12px!important;line-height:1.1!important;color:#a4a1ad!important}
+@media(max-width:380px){html body #accountSwitcher.account-switcher.open{flex-basis:198px!important;width:198px!important;min-width:198px!important}html body #accountSwitcher .account-switcher-option{min-height:50px!important}}
+@media(prefers-reduced-motion:reduce){html body #accountSwitcher.account-switcher,html body #accountSwitcher .account-switcher-info,html body #accountSwitcher .account-switcher-caret,html body #accountSwitcher .account-switcher-caret svg,html body #accountSwitcher .account-switcher-list,html body #accountSwitcher .account-switcher-option{transition:none!important}}
 </style>
 
 
-<style id="balance-pill-active-arrow-black-final">
-/* Whichever side is selected, force its arrow artwork to black. */
-html body .balance-flow-option.is-active .balance-flow-icon,
-html body .balance-flow-option.is-active .balance-flow-icon svg,
-html body .balance-flow-option.is-active .balance-flow-icon svg path { color:#000!important; stroke:#000!important; }
+<style id="account-switcher-compact-tile-override">
+/* Compact circular account tile; preserve the centered flag and animate into the menu's rounded header. */
+.account-switcher{
+  flex-basis:48px!important;
+  width:48px!important;
+  height:48px!important;
+  border-radius:50%!important;
+  transition:width 300ms cubic-bezier(.2,.8,.2,1),height 300ms cubic-bezier(.2,.8,.2,1),border-radius 300ms cubic-bezier(.2,.8,.2,1),background-color 220ms ease!important;
+}
+.account-switcher:not(.open){overflow:hidden!important;border-radius:50%!important}
+.account-switcher:not(.open) .account-switcher-head{
+  width:100%!important;min-height:46px!important;height:46px!important;
+  padding:0!important;justify-content:center!important;gap:0!important;
+}
+.account-switcher:not(.open) .account-switcher-flag{
+  flex:0 0 28px!important;width:28px!important;height:28px!important;
+  margin:0 auto!important;display:grid!important;place-items:center!important;
+  font-size:22px!important;line-height:1!important;text-align:center!important;
+}
+.account-switcher.open{
+  width:210px!important;height:auto!important;min-height:0!important;
+  border-radius:22px!important;overflow:hidden!important;
+}
+.account-switcher.open .account-switcher-head{
+  min-height:54px!important;height:54px!important;padding:0 13px!important;
+  justify-content:flex-start!important;gap:10px!important;
+  border-radius:21px 21px 0 0!important;
+}
+.account-switcher.open .account-switcher-flag{
+  flex:0 0 34px!important;width:34px!important;height:34px!important;
+  margin:0!important;font-size:25px!important;
+}
+@media(max-width:380px){.account-switcher.open{width:198px!important}.account-switcher:not(.open){flex-basis:46px!important;width:46px!important;height:46px!important}}
 </style>
-
 </head>
 <body>
 <div class="app">
   <header class="top">
     <div class="brand"><span class="leaf">🌿</span> Budget</div>
-    
+    <div class="account-switcher" id="accountSwitcher" aria-label="Switch account"></div>
   </header>
   <div class="accountbar">
     <div class="account-tabs" id="accountTabs"></div>
@@ -454,15 +541,9 @@ html body .balance-flow-option.is-active .balance-flow-icon svg path { color:#00
       <div class="card balance">
         <div class="bal-top"><div class="muted-white">Total Balance</div><div class="home-head-actions"><button type="button" class="month" id="monthBtn" aria-label="Choose month and year" title="Choose month and year"><span class="month-nav-arrow" id="monthPrev" role="button" aria-label="Previous month" title="Previous month"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></span><span class="month-label-content">▦ <span id="monthLabel"></span></span><span class="month-nav-arrow" id="monthNext" role="button" aria-label="Next month" title="Next month"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></span></button></div></div>
         <div class="amount" id="balanceAmount">CA$0.00 <span class="currency-code">CAD</span></div>
-        <div class="balance-flow-switch" id="balanceFlowSwitch" role="group" aria-label="Income and expense totals">
-          <button class="balance-flow-option is-active" id="balanceExpenseOption" type="button" aria-pressed="true" onclick="setBalanceFlowMode('expense')">
-            <span class="balance-flow-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14m-6.5-6.5L12 19l6.5-6.5"/></svg></span>
-            <span class="balance-flow-copy"><span class="balance-flow-label">Expense</span><strong class="balance-flow-value" id="expenseAmount">CA$0.00</strong></span>
-          </button>
-          <button class="balance-flow-option" id="balanceIncomeOption" type="button" aria-pressed="false" onclick="setBalanceFlowMode('income')">
-            <span class="balance-flow-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5"/></svg></span>
-            <span class="balance-flow-copy"><span class="balance-flow-label">Income</span><strong class="balance-flow-value" id="incomeAmount">CA$0.00</strong></span>
-          </button>
+        <div class="stats">
+          <div class="stat"><div class="stat-icon">↓</div><div><div class="stat-label">Expenses</div><div class="stat-value" id="expenseAmount">CA$0.00</div></div></div>
+          <div class="stat"><div class="stat-icon">↑</div><div><div class="stat-label">Income</div><div class="stat-value" id="incomeAmount">CA$0.00</div></div></div>
         </div>
       </div>
       <div class="card category-carousel" id="categoryCarousel" aria-label="Category summaries. Swipe left or right to switch between spending and earnings.">
@@ -546,6 +627,17 @@ function currentMonthTx(a=active()){return a.transactions.filter(t=>t.date&&t.da
 function totals(a=active()){const tx=currentMonthTx(a);return {income:tx.filter(t=>t.type==='income').reduce((s,t)=>s+t.amount,0),expense:tx.filter(t=>t.type==='expense').reduce((s,t)=>s+t.amount,0)}}
 function expenseComparisonMarkup(a=active(),type=(categorySlideIndex?'income':'expense'),category=null){const [year,month]=selectedMonth.split('-').map(Number);const previousDate=new Date(year,month-2,1);const previousKey=monthKey(previousDate);const previousTx=a.transactions.filter(t=>t.type===type&&t.date&&t.date.slice(0,7)===previousKey);const currentTx=currentMonthTx(a).filter(t=>t.type===type);const previousTotal=previousTx.filter(t=>!category||t.category===category).reduce((sum,t)=>sum+Number(t.amount||0),0);const currentTotal=currentTx.filter(t=>!category||t.category===category).reduce((sum,t)=>sum+Number(t.amount||0),0);const percentage=previousTotal>0?Math.round(currentTotal/previousTotal*100):null;const noun=type==='income'?'earnings':'spending';const label=category?`${esc(category)} vs last month`:'from last month';return `<span class="comparison-value">${percentage===null?'—':percentage+'%'}</span><small>${percentage===null?(category?`no last month ${noun} for this category`:`no last month ${noun}`):label}</small>`;}
 function balance(a=active(),asOfMonth=null){const tx=asOfMonth?a.transactions.filter(t=>t.date&&t.date.slice(0,7)<=asOfMonth):a.transactions;return a.opening+tx.reduce((s,t)=>s+(t.type==='income'?t.amount:-t.amount),0)}
+function renderAccountSwitcher(){
+ const root=document.getElementById('accountSwitcher');
+ if(!root)return;
+ const current=active(),cur=currencyInfo(current.currency);
+ const options=state.accounts.filter(a=>a.showInToggler!==false&&a.id!==state.activeId);
+ root.innerHTML=`<button type="button" class="account-switcher-head" aria-expanded="${root.classList.contains('open')}" aria-label="Current account ${esc(current.name)} ${esc(current.currency)}. Tap to switch accounts."><span class="account-switcher-flag">${cur.flag}</span><span class="account-switcher-info"><strong class="active-account-name" style="font-weight:900!important;-webkit-text-stroke:0.25px currentColor">${esc(current.name)}</strong><small>${esc(current.currency)}</small></span><span class="account-switcher-caret" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></span></button><div class="account-switcher-list" aria-hidden="${!root.classList.contains('open')}"><div class="account-switcher-list-inner">${options.map(a=>{const c=currencyInfo(a.currency);return `<button type="button" class="account-switcher-option" data-switch-account="${esc(a.id)}"><span class="account-switcher-option-flag">${c.flag}</span><span class="account-switcher-option-info"><strong>${esc(a.name)}</strong><small>${esc(a.currency)}</small></span></button>`}).join('')}</div></div>`;
+ const head=root.querySelector('.account-switcher-head');
+ head.onclick=e=>{e.stopPropagation();const open=!root.classList.contains('open');root.classList.toggle('open',open);head.setAttribute('aria-expanded',String(open));root.querySelector('.account-switcher-list')?.setAttribute('aria-hidden',String(!open));};
+ root.querySelectorAll('[data-switch-account]').forEach(b=>b.onclick=e=>{e.stopPropagation();const id=b.dataset.switchAccount;if(!state.accounts.some(a=>a.id===id&&a.showInToggler!==false))return;state.activeId=id;root.classList.remove('open');save();renderAll();});
+}
+document.addEventListener('click',e=>{const root=document.getElementById('accountSwitcher');if(root&&!root.contains(e.target)){root.classList.remove('open');root.querySelector('.account-switcher-head')?.setAttribute('aria-expanded','false');root.querySelector('.account-switcher-list')?.setAttribute('aria-hidden','true')}});
 function renderTabs(animateIds=[]){
  const host=document.getElementById('accountTabs');
  const before=new Map([...host.querySelectorAll('[data-account]')].map(el=>[el.dataset.account,el.getBoundingClientRect()]));
@@ -563,6 +655,7 @@ function renderTabs(animateIds=[]){
    else {el.classList.add('acct-entering');setTimeout(()=>el.classList.remove('acct-entering'),320)}
  }
  host.querySelectorAll('[data-account]').forEach(b=>b.onclick=()=>{if(state.activeId===b.dataset.account)return;state.activeId=b.dataset.account;save();renderAll()});
+ renderAccountSwitcher();
 }
 function monthDate(key=selectedMonth){const [y,m]=key.split('-').map(Number);return new Date(y,m-1,1)}
 function monthLabel(key=selectedMonth){return monthDate(key).toLocaleDateString(undefined,{month:'short',year:'numeric'})}
@@ -608,8 +701,6 @@ function setCategorySlide(index,animate=true){
  if(changed){const a=active(),t=totals(a);renderOneCategoryChart(a,categorySlideIndex?'income':'expense',categorySlideIndex?t.income:t.expense,'donut','donutCenter','legend')}
 }
 function wireCategorySwipe(){const carousel=document.getElementById('categoryCarousel');if(!carousel)return;let startX=0,startY=0;carousel.addEventListener('touchstart',e=>{if(!e.touches.length)return;startX=e.touches[0].clientX;startY=e.touches[0].clientY},{passive:true});carousel.addEventListener('touchend',e=>{if(!e.changedTouches.length)return;const dx=e.changedTouches[0].clientX-startX,dy=e.changedTouches[0].clientY-startY;if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy)*1.2)setCategorySlide(dx<0?1:0,true)},{passive:true});carousel.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')setCategorySlide(0,true);if(e.key==='ArrowRight')setCategorySlide(1,true)});carousel.tabIndex=0}
-let balanceFlowMode='expense';
-function setBalanceFlowMode(mode){balanceFlowMode=mode==='expense'?'expense':'income';const income=document.getElementById('balanceIncomeOption'),expense=document.getElementById('balanceExpenseOption');if(!income||!expense)return;income.classList.toggle('is-active',balanceFlowMode==='income');expense.classList.toggle('is-active',balanceFlowMode==='expense');income.setAttribute('aria-pressed',String(balanceFlowMode==='income'));expense.setAttribute('aria-pressed',String(balanceFlowMode==='expense'));setCategorySlide(balanceFlowMode==='income'?1:0,true);}
 function renderHome(){const a=active(),t=totals(a);document.getElementById('balanceAmount').innerHTML=`${money(balance(a,selectedMonth),a.currency)} <span class="currency-code">${esc(a.currency)}</span>`;document.getElementById('incomeAmount').textContent=money(t.income,a.currency);document.getElementById('expenseAmount').textContent=money(t.expense,a.currency);document.getElementById('monthLabel').textContent=monthLabel();document.getElementById('donutCenter').innerHTML=expenseComparisonMarkup(a,categorySlideIndex?'income':'expense');
 renderCategoryCharts(a,t);
 const recent=[...a.transactions].sort((x,y)=>y.date.localeCompare(x.date)||((y.created||0)-(x.created||0))).slice(0,4);document.getElementById('recentTransactions').innerHTML=recent.length?recent.map(txHtml).join(''):'<div class="empty">No transactions yet.<br>Tap “Add Transaction” to get started.</div>';wireTransactionRows(document.getElementById('recentTransactions'))}
@@ -1301,6 +1392,46 @@ html body .category-carousel #donutCenter small{
 html body .category-carousel .chartarea .legend{align-self:stretch!important;display:flex!important;flex-direction:column!important;justify-content:center!important;min-height:clamp(124px,38vw,150px)!important;}
 html body .category-carousel .chartarea .legend > .empty{display:flex!important;align-items:center!important;justify-content:center!important;flex:1 1 auto!important;width:100%!important;min-height:clamp(124px,38vw,150px)!important;box-sizing:border-box!important;margin:0!important;padding:0 8px!important;text-align:center!important;line-height:1.4!important;white-space:normal!important;}
 @media(max-width:380px){html body .category-carousel .chartarea .legend,html body .category-carousel .chartarea .legend > .empty{min-height:124px!important}}
+</style>
+
+
+<style id="account-switcher-true-visual-centering-final">
+/* Final geometry override: small tile with the flag centered on the actual button box. */
+html body header.top #accountSwitcher.account-switcher:not(.open){
+  box-sizing:border-box!important; width:40px!important; min-width:40px!important; max-width:40px!important;
+  height:40px!important; min-height:40px!important; max-height:40px!important; flex:0 0 40px!important;
+  padding:0!important; border:1px solid #45414b!important; border-radius:50%!important;
+  display:grid!important; grid-template-columns:40px!important; grid-template-rows:40px 0fr!important;
+  place-items:center!important; overflow:hidden!important;
+}
+html body header.top #accountSwitcher.account-switcher:not(.open) > .account-switcher-head{
+  box-sizing:border-box!important; position:relative!important; inset:auto!important;
+  width:38px!important; min-width:38px!important; max-width:38px!important;
+  height:38px!important; min-height:38px!important; max-height:38px!important;
+  padding:0!important; margin:0!important; border:0!important; border-radius:50%!important;
+  display:flex!important; align-items:center!important; justify-content:center!important;
+  gap:0!important; line-height:1!important; transform:none!important;
+}
+html body header.top #accountSwitcher.account-switcher:not(.open) .account-switcher-flag{
+  box-sizing:border-box!important; position:static!important; inset:auto!important;
+  display:flex!important; align-items:center!important; justify-content:center!important;
+  flex:0 0 24px!important; width:24px!important; min-width:24px!important; max-width:24px!important;
+  height:24px!important; min-height:24px!important; max-height:24px!important;
+  margin:0!important; padding:0!important; border:0!important;
+  font-family:system-ui,sans-serif!important; font-size:20px!important; line-height:1!important;
+  text-align:center!important; text-indent:0!important; letter-spacing:0!important;
+  transform:none!important; translate:none!important; align-self:center!important;
+}
+html body header.top #accountSwitcher.account-switcher:not(.open) .account-switcher-info,
+html body header.top #accountSwitcher.account-switcher:not(.open) .account-switcher-caret{display:none!important}
+html body header.top #accountSwitcher.account-switcher.open{
+  width:210px!important; min-width:210px!important; max-width:210px!important;
+  border-radius:22px!important; overflow:hidden!important;
+}
+html body header.top #accountSwitcher.account-switcher.open .account-switcher-head{
+  border-radius:21px 21px 0 0!important;
+}
+@media(max-width:380px){html body header.top #accountSwitcher.account-switcher.open{width:198px!important;min-width:198px!important;max-width:198px!important}}
 </style>
 
 </body>
@@ -2087,4 +2218,294 @@ html body .category-carousel .chartarea .legend{align-self:start!important;min-w
 #monthBtn .month-nav-arrow:active{background:#ffffff18!important}
 #monthBtn .month-nav-arrow svg{display:block!important;width:17px!important;height:17px!important;stroke:currentColor!important;stroke-width:2!important;fill:none!important;stroke-linecap:round!important;stroke-linejoin:round!important}
 @media(max-width:380px){.home-head-actions .month,#monthBtn{min-width:150px!important;padding:4px 6px!important;gap:6px!important}#monthBtn .month-nav-arrow{flex-basis:23px!important;width:23px!important;height:23px!important}}
+</style>
+
+<style id="account-switcher-final-circle-size-fix">
+/* Final account-toggle geometry: exact compact circle, true flex centering, and continuous animated corner morph. */
+html body header.top #accountSwitcher.account-switcher{
+  box-sizing:border-box!important;
+  flex:0 0 44px!important; flex-basis:44px!important;
+  width:44px!important; min-width:44px!important; max-width:44px!important;
+  height:44px!important; min-height:44px!important; max-height:44px!important;
+  grid-template-columns:minmax(0,1fr)!important; grid-template-rows:42px 0fr!important;
+  align-self:center!important; margin-top:0!important; margin-bottom:0!important;
+  padding:0!important; border:1px solid #45414b!important; border-radius:50%!important;
+  overflow:hidden!important; background:#17161b!important;
+  transition:flex-basis 320ms cubic-bezier(.2,.8,.2,1),width 320ms cubic-bezier(.2,.8,.2,1),min-width 320ms cubic-bezier(.2,.8,.2,1),max-width 320ms cubic-bezier(.2,.8,.2,1),height 320ms cubic-bezier(.2,.8,.2,1),grid-template-rows 340ms cubic-bezier(.2,.8,.2,1),border-radius 320ms cubic-bezier(.2,.8,.2,1),background-color 220ms ease!important;
+}
+html body header.top #accountSwitcher.account-switcher:not(.open){
+  flex:0 0 44px!important; flex-basis:44px!important;
+  width:44px!important; min-width:44px!important; max-width:44px!important;
+  height:44px!important; min-height:44px!important; max-height:44px!important;
+  grid-template-rows:42px 0fr!important; border-radius:50%!important;
+}
+html body header.top #accountSwitcher.account-switcher:not(.open) .account-switcher-head{
+  box-sizing:border-box!important; display:flex!important; align-items:center!important; justify-content:center!important;
+  width:42px!important; min-width:42px!important; max-width:42px!important;
+  height:42px!important; min-height:42px!important; max-height:42px!important;
+  margin:0!important; padding:0!important; gap:0!important; border:0!important; border-radius:50%!important;
+  line-height:1!important; justify-self:center!important; align-self:center!important;
+}
+html body header.top #accountSwitcher.account-switcher:not(.open) .account-switcher-flag{
+  box-sizing:border-box!important; display:flex!important; align-items:center!important; justify-content:center!important;
+  flex:0 0 26px!important; width:26px!important; min-width:26px!important; max-width:26px!important;
+  height:26px!important; min-height:26px!important; max-height:26px!important;
+  margin:0!important; padding:0!important; font-size:21px!important; line-height:1!important;
+  text-align:center!important; text-indent:0!important; transform:none!important;
+}
+html body header.top #accountSwitcher.account-switcher:not(.open) .account-switcher-info,
+html body header.top #accountSwitcher.account-switcher:not(.open) .account-switcher-caret{display:none!important}
+html body header.top #accountSwitcher.account-switcher.open{
+  box-sizing:border-box!important; flex:0 0 210px!important; flex-basis:210px!important;
+  width:210px!important; min-width:210px!important; max-width:210px!important;
+  height:auto!important; min-height:54px!important; max-height:none!important;
+  grid-template-rows:54px 1fr!important; border-radius:25px!important; overflow:hidden!important;
+  transition:flex-basis 320ms cubic-bezier(.2,.8,.2,1),width 320ms cubic-bezier(.2,.8,.2,1),min-width 320ms cubic-bezier(.2,.8,.2,1),max-width 320ms cubic-bezier(.2,.8,.2,1),height 320ms cubic-bezier(.2,.8,.2,1),grid-template-rows 340ms cubic-bezier(.2,.8,.2,1),border-radius 320ms cubic-bezier(.2,.8,.2,1),background-color 220ms ease!important;
+}
+html body header.top #accountSwitcher.account-switcher.open .account-switcher-head{height:54px!important;min-height:54px!important;border-radius:24px 24px 0 0!important}
+@media(max-width:380px){
+ html body header.top #accountSwitcher.account-switcher:not(.open){flex:0 0 44px!important;width:44px!important;min-width:44px!important;max-width:44px!important;height:44px!important;min-height:44px!important}
+ html body header.top #accountSwitcher.account-switcher.open{flex:0 0 198px!important;width:198px!important;min-width:198px!important;max-width:198px!important}
+}
+@media(prefers-reduced-motion:reduce){html body header.top #accountSwitcher.account-switcher{transition:none!important}}
+</style>
+
+<style id="account-switcher-optical-flag-centering-and-radius-morph-final">
+/* Optical correction: centre the flag glyph itself, not just its text box. */
+html body header.top #accountSwitcher.account-switcher:not(.open){
+  width:44px!important;min-width:44px!important;max-width:44px!important;
+  height:44px!important;min-height:44px!important;max-height:44px!important;
+  flex:0 0 44px!important;box-sizing:border-box!important;padding:0!important;
+  border-radius:50%!important;overflow:hidden!important;
+}
+html body header.top #accountSwitcher.account-switcher:not(.open) > .account-switcher-head{
+  position:relative!important;display:grid!important;place-items:center!important;
+  width:42px!important;height:42px!important;min-width:42px!important;min-height:42px!important;
+  margin:0!important;padding:0!important;gap:0!important;border:0!important;border-radius:50%!important;
+  overflow:hidden!important;line-height:1!important;
+}
+html body header.top #accountSwitcher.account-switcher:not(.open) .account-switcher-flag{
+  position:absolute!important;left:50%!important;top:50%!important;right:auto!important;bottom:auto!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  width:22px!important;height:22px!important;min-width:22px!important;max-width:22px!important;
+  min-height:22px!important;max-height:22px!important;flex:0 0 22px!important;
+  margin:0!important;padding:0!important;border:0!important;
+  font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif!important;
+  font-size:19px!important;line-height:1!important;text-align:center!important;text-indent:0!important;
+  letter-spacing:0!important;white-space:nowrap!important;
+  transform:translate(-50%,-50%)!important;translate:none!important;
+}
+html body header.top #accountSwitcher.account-switcher:not(.open) .account-switcher-info,
+html body header.top #accountSwitcher.account-switcher:not(.open) .account-switcher-caret{display:none!important}
+html body header.top #accountSwitcher.account-switcher,
+html body header.top #accountSwitcher.account-switcher > .account-switcher-head{
+  transition:width 320ms cubic-bezier(.2,.8,.2,1),height 320ms cubic-bezier(.2,.8,.2,1),
+    flex-basis 320ms cubic-bezier(.2,.8,.2,1),border-radius 320ms cubic-bezier(.2,.8,.2,1),
+    background-color 220ms ease!important;
+}
+html body header.top #accountSwitcher.account-switcher:not(.open) > .account-switcher-head{border-radius:50%!important}
+html body header.top #accountSwitcher.account-switcher.open{
+  border-radius:22px!important;overflow:hidden!important;
+}
+html body header.top #accountSwitcher.account-switcher.open > .account-switcher-head{
+  border-radius:21px 21px 0 0!important;
+}
+@media(prefers-reduced-motion:reduce){
+  html body header.top #accountSwitcher.account-switcher,
+  html body header.top #accountSwitcher.account-switcher > .account-switcher-head{transition:none!important}
+}
+</style>
+
+
+<style id="account-switcher-flag-visual-center-final">
+/* Final optical alignment: shift the flag glyph slightly left so its visible artwork, rather than its text box, appears centred on Android. */
+html body header.top #accountSwitcher.account-switcher:not(.open) .account-switcher-flag{
+  left:calc(50% - 3px)!important;
+  top:50%!important;
+  width:24px!important;height:24px!important;min-width:24px!important;max-width:24px!important;
+  min-height:24px!important;max-height:24px!important;flex:0 0 24px!important;
+  font-size:20px!important;line-height:24px!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  padding:0!important;margin:0!important;
+  transform:translate(-50%,-50%)!important;
+}
+/* Keep the closed tile and expanded menu on a shared, smoothly morphing corner-radius system. */
+html body header.top #accountSwitcher.account-switcher{
+  transition:width 320ms cubic-bezier(.2,.8,.2,1),min-width 320ms cubic-bezier(.2,.8,.2,1),
+    max-width 320ms cubic-bezier(.2,.8,.2,1),flex-basis 320ms cubic-bezier(.2,.8,.2,1),
+    height 320ms cubic-bezier(.2,.8,.2,1),border-radius 320ms cubic-bezier(.2,.8,.2,1),
+    background-color 220ms ease!important;
+}
+html body header.top #accountSwitcher.account-switcher:not(.open){border-radius:50%!important}
+html body header.top #accountSwitcher.account-switcher.open{border-radius:22px!important}
+@media(prefers-reduced-motion:reduce){html body header.top #accountSwitcher.account-switcher{transition:none!important}}
+</style>
+
+
+<style id="account-switcher-flag-optical-center-plus-1px">
+/* Optically centre the visible flag artwork in the circular tile using the supplied screenshot as reference. */
+html body header.top #accountSwitcher.account-switcher:not(.open) .account-switcher-flag{
+  left:calc(50% + 4px)!important;
+}
+</style>
+
+
+<style id="account-switcher-flag-true-center-final">
+/* Override all earlier flag offsets: centre the flag box exactly on the circular tile's centre. */
+html body header.top #accountSwitcher.account-switcher:not(.open) .account-switcher-flag{
+  position:absolute!important;
+  left:50%!important; right:auto!important; top:50%!important; bottom:auto!important;
+  box-sizing:border-box!important;
+  display:flex!important; align-items:center!important; justify-content:center!important;
+  width:24px!important; min-width:24px!important; max-width:24px!important;
+  height:24px!important; min-height:24px!important; max-height:24px!important;
+  margin:0!important; padding:0!important; border:0!important;
+  font-size:20px!important; line-height:24px!important; text-align:center!important;
+  text-indent:0!important; letter-spacing:0!important; white-space:nowrap!important;
+  transform:translate(-50%,-50%)!important; translate:none!important;
+}
+</style>
+
+<style id="account-switcher-final-flag-equal-visual-spacing">
+/* Optical centering based on the latest screenshot: compensate for the flag emoji's asymmetric visible bounds so its artwork sits centrally within the circular perimeter. */
+html body header.top #accountSwitcher.account-switcher:not(.open) .account-switcher-flag{
+  left:calc(50% - 4px)!important;
+  top:50%!important;
+  width:24px!important;height:24px!important;min-width:24px!important;max-width:24px!important;
+  min-height:24px!important;max-height:24px!important;flex:0 0 24px!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  margin:0!important;padding:0!important;border:0!important;
+  font-size:20px!important;line-height:24px!important;text-align:center!important;
+  transform:translate(-50%,-50%)!important;translate:none!important;
+}
+</style>
+
+<style id="account-switcher-flag-equal-perimeter-spacing-final">
+/* Latest screenshot calibration: shift the visible flag artwork right so its visual bounds sit centrally in the circular tile. */
+html body header.top #accountSwitcher.account-switcher:not(.open) .account-switcher-flag{
+  left:calc(50% + 5px)!important;
+  top:50%!important;
+  width:24px!important;height:24px!important;min-width:24px!important;max-width:24px!important;
+  min-height:24px!important;max-height:24px!important;flex:0 0 24px!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  margin:0!important;padding:0!important;border:0!important;
+  font-size:20px!important;line-height:24px!important;text-align:center!important;
+  transform:translate(-50%,-50%)!important;translate:none!important;
+}
+</style>
+
+
+<style id="account-switcher-final-optical-centering-reference">
+/* Final calibration against the supplied close-up: shift only the closed-state flag artwork right so the visible left/right gaps match. */
+html body header.top #accountSwitcher.account-switcher:not(.open) .account-switcher-flag{
+  position:absolute!important;
+  left:calc(50% + 10px)!important;
+  top:50%!important; right:auto!important; bottom:auto!important;
+  width:24px!important; min-width:24px!important; max-width:24px!important;
+  height:24px!important; min-height:24px!important; max-height:24px!important;
+  box-sizing:border-box!important; margin:0!important; padding:0!important; border:0!important;
+  display:flex!important; align-items:center!important; justify-content:center!important;
+  font-size:20px!important; line-height:24px!important; text-align:center!important;
+  transform:translate(-50%,-50%)!important; translate:none!important;
+}
+</style>
+
+<style id="account-switcher-flag-center-discrepancy-fix">
+/* Final override: center the flag's actual layout box in the circular tile.
+   Earlier incremental optical offsets are intentionally cancelled here. */
+html body header.top #accountSwitcher.account-switcher:not(.open) .account-switcher-flag{
+  position:absolute!important;
+  left:50%!important; right:auto!important;
+  top:50%!important; bottom:auto!important;
+  width:24px!important; min-width:24px!important; max-width:24px!important;
+  height:24px!important; min-height:24px!important; max-height:24px!important;
+  margin:0!important; padding:0!important; border:0!important;
+  box-sizing:border-box!important;
+  display:flex!important; align-items:center!important; justify-content:center!important;
+  font-size:20px!important; line-height:24px!important;
+  text-align:center!important; text-indent:0!important; letter-spacing:0!important;
+  transform:translate(-50%,-50%)!important; translate:none!important;
+}
+</style>
+
+
+<style id="account-switcher-flag-move-right-2px">
+/* User-requested adjustment: move the closed-state flag exactly 2px right from its centered position. */
+html body header.top #accountSwitcher.account-switcher:not(.open) .account-switcher-flag{
+  left:calc(50% + 2px)!important;
+}
+</style>
+
+<style id="account-switcher-flag-move-down-2px">
+/* User-requested adjustment: move the closed-state flag 2px down, preserving its existing 2px right offset. */
+html body header.top #accountSwitcher.account-switcher:not(.open) .account-switcher-flag{
+  top:calc(50% + 2px)!important;
+}
+</style>
+
+
+<style id="account-switcher-flag-move-up-1px">
+/* User-requested adjustment: move the flag 1px up from its current position, retaining the 2px right offset. */
+html body header.top #accountSwitcher.account-switcher:not(.open) .account-switcher-flag{
+  top:calc(50% + 1px)!important;
+}
+</style>
+
+
+<style id="more-accounts-tab-flag-position-adjustment">
+/* More > Accounts only: shift account flag icons 1px left and 1px down.
+   Does not affect the header account toggler or other flag icons. */
+html body .account-manage-row .flag,
+html body .account-manage-row .account-flag,
+html body .account-manage-row .account-manage-flag {
+  position: relative !important;
+  left: -1px !important;
+  top: 1px !important;
+}
+</style>
+
+
+<style id="more-accounts-tab-flag-move-down-1px">
+/* More > Accounts only: move flags down 1px from their current position. */
+html body .account-manage-row .flag,
+html body .account-manage-row .account-flag,
+html body .account-manage-row .account-manage-flag {
+  top: 2px !important;
+}
+</style>
+
+<style id="account-switcher-active-account-bold-final">
+/* Emphasize the currently active account in the expanded switcher header. */
+html body header.top #accountSwitcher.account-switcher.open .account-switcher-info strong.active-account-name{font-weight:900!important;-webkit-text-stroke:0.25px currentColor;text-shadow:0 0 .01px currentColor;}
+</style>
+
+<style id="account-switcher-active-name-bold-hard-override">
+html body #accountSwitcher.account-switcher.open .account-switcher-info > strong.active-account-name { font-weight: 900 !important; -webkit-text-stroke: .25px currentColor !important; text-shadow: 0 0 .01px currentColor !important; }
+</style>
+
+
+<style id="account-switcher-active-selection-readability">
+/* Expanded account toggler: improve tracking on the emphasized active account name
+   and bold the currency subtext for the current selection only. */
+html body #accountSwitcher.account-switcher.open .account-switcher-info > strong.active-account-name {
+  font-weight: 900 !important;
+  letter-spacing: 0.35px !important;
+  -webkit-text-stroke: 0.25px currentColor !important;
+  text-shadow: 0 0 0.01px currentColor !important;
+}
+html body #accountSwitcher.account-switcher.open .account-switcher-info > small {
+  font-weight: 700 !important;
+}
+</style>
+
+
+<style id="account-switcher-active-currency-subtext-bold-fix">
+/* Force the active account's currency subtext to render bold when the toggler is expanded. */
+html body #accountSwitcher.account-switcher.open .account-switcher-head .account-switcher-info > small,
+html body #accountSwitcher.account-switcher.open .account-switcher-head .account-switcher-info small {
+  font-weight: 800 !important;
+  -webkit-text-stroke: 0.15px currentColor !important;
+  text-shadow: 0 0 0.01px currentColor !important;
+  letter-spacing: 0.15px !important;
+}
 </style>
