@@ -379,9 +379,12 @@ svg{stroke-width:1.7}
 @media(max-width:390px){.app{padding-left:14px!important;padding-right:14px!important}.card{padding:15px!important}.quick{gap:6px!important}.quick button,.quick button:nth-child(n){min-height:72px!important}.acct{min-width:105px!important;padding:9px!important}}
 
 </style>
-<style id="hide-donut-center-text-and-numbers">
-/* Keep the donut chart clean: retain the circle and hole, hide only its centre label/value. */
-.donut-center,#donutCenter{display:none!important;visibility:hidden!important;}
+<style id="donut-center-monthly-expense-comparison">
+/* Show the current month's expense as a percentage of the previous month's total. */
+.donut-center,#donutCenter{display:flex!important;visibility:visible!important;position:absolute!important;inset:25px!important;z-index:2!important;align-items:center!important;justify-content:center!important;flex-direction:column!important;text-align:center!important;pointer-events:none!important;font-size:16px!important;font-weight:800!important;line-height:1.15!important;color:#F7F6FA!important;letter-spacing:-.25px!important;}
+.donut-center .comparison-value{font-size:16px!important;font-weight:800!important;line-height:1.15!important;white-space:nowrap!important;font-variant-numeric:tabular-nums!important;}
+.donut-center small,#donutCenter small{display:block!important;margin-top:4px!important;font-size:11px!important;font-weight:400!important;line-height:1.25!important;color:#96929F!important;white-space:nowrap!important;}
+@media(max-width:380px){.donut-center,#donutCenter{inset:21px!important}.donut-center .comparison-value{font-size:14px!important}.donut-center small,#donutCenter small{font-size:10px!important}}
 </style>
 </head>
 <body>
@@ -483,6 +486,7 @@ function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&l
 function monthKey(d=new Date()){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')}
 function currentMonthTx(a=active()){return a.transactions.filter(t=>t.date&&t.date.slice(0,7)===selectedMonth)}
 function totals(a=active()){const tx=currentMonthTx(a);return {income:tx.filter(t=>t.type==='income').reduce((s,t)=>s+t.amount,0),expense:tx.filter(t=>t.type==='expense').reduce((s,t)=>s+t.amount,0)}}
+function expenseComparisonMarkup(a=active()){const [year,month]=selectedMonth.split('-').map(Number);const previousDate=new Date(year,month-2,1);const previousKey=monthKey(previousDate);const previousExpense=a.transactions.filter(t=>t.type==='expense'&&t.date&&t.date.slice(0,7)===previousKey).reduce((sum,t)=>sum+Number(t.amount||0),0);const currentExpense=currentMonthTx(a).filter(t=>t.type==='expense').reduce((sum,t)=>sum+Number(t.amount||0),0);const percentage=previousExpense>0?Math.round(currentExpense/previousExpense*100):null;return `<span class="comparison-value">${percentage===null?'—':percentage+'%'}</span><small>${percentage===null?'no last month data':'from last month'}</small>`;}
 function balance(a=active(),asOfMonth=null){const tx=asOfMonth?a.transactions.filter(t=>t.date&&t.date.slice(0,7)<=asOfMonth):a.transactions;return a.opening+tx.reduce((s,t)=>s+(t.type==='income'?t.amount:-t.amount),0)}
 function renderTabs(animateIds=[]){
  const host=document.getElementById('accountTabs');
@@ -514,7 +518,7 @@ function renderOneCategoryChart(a,type,amount,donutId,centerId,legendId){
    svg.querySelectorAll('circle[data-category]').forEach(c=>{if(!wanted.has(c.dataset.category)){c.style.strokeDasharray=`0 ${circumference}`;c.dataset.removing='1';setTimeout(()=>{if(c.dataset.removing==='1')c.remove()},450)}});
    let offset=0;rows.slice(0,8).forEach(([name,value])=>{const pct=amount?Math.max(0,value/amount*100):0;const length=circumference*pct/100;let circle=[...svg.querySelectorAll('circle[data-category]')].find(c=>c.dataset.category===name);if(!circle){circle=document.createElementNS('http://www.w3.org/2000/svg','circle');circle.dataset.category=name;circle.setAttribute('cx','50');circle.setAttribute('cy','50');circle.setAttribute('r','40');circle.style.strokeDasharray=`0 ${circumference}`;circle.style.strokeDashoffset=`${-circumference*offset/100}`;svg.appendChild(circle);requestAnimationFrame(()=>{circle.style.strokeDasharray=`${length} ${circumference-length}`;circle.style.strokeDashoffset=`${-circumference*offset/100}`})}else{circle.dataset.removing='';circle.style.strokeDasharray=`${length} ${circumference-length}`;circle.style.strokeDashoffset=`${-circumference*offset/100}`}circle.style.stroke=categoryColor(name);offset+=pct});
  }}
- if(center)center.innerHTML=`${money(amount,a.currency)}<small>${type==='income'?'earned':'spent'}</small>`;
+ if(center)center.innerHTML=expenseComparisonMarkup(a);
  if(legend)legend.innerHTML=rows.length?rows.slice(0,8).map(([k,v])=>`<div class="legend-row"><span class="dot" style="background:${categoryColor(k)}"></span><span class="legend-name">${esc(k)}</span><span class="legend-value">${money(v,a.currency)}</span></div>`).join(''):`<div class="empty">No ${type==='income'?'income':'expenses'} for this month.</div>`;
 }
 function renderCategoryCharts(a,t){renderOneCategoryChart(a,categorySlideIndex?'income':'expense',categorySlideIndex?t.income:t.expense,'donut','donutCenter','legend');setCategorySlide(categorySlideIndex,false)}
@@ -527,7 +531,7 @@ function setCategorySlide(index,animate=true){
  if(changed){const a=active(),t=totals(a);renderOneCategoryChart(a,categorySlideIndex?'income':'expense',categorySlideIndex?t.income:t.expense,'donut','donutCenter','legend')}
 }
 function wireCategorySwipe(){const carousel=document.getElementById('categoryCarousel');if(!carousel)return;let startX=0,startY=0;carousel.addEventListener('touchstart',e=>{if(!e.touches.length)return;startX=e.touches[0].clientX;startY=e.touches[0].clientY},{passive:true});carousel.addEventListener('touchend',e=>{if(!e.changedTouches.length)return;const dx=e.changedTouches[0].clientX-startX,dy=e.changedTouches[0].clientY-startY;if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy)*1.2)setCategorySlide(dx<0?1:0,true)},{passive:true});carousel.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')setCategorySlide(0,true);if(e.key==='ArrowRight')setCategorySlide(1,true)});carousel.tabIndex=0}
-function renderHome(){const a=active(),t=totals(a);document.getElementById('balanceAmount').innerHTML=`${money(balance(a,selectedMonth),a.currency)} <span class="currency-code">${esc(a.currency)}</span>`;document.getElementById('incomeAmount').textContent=money(t.income,a.currency);document.getElementById('expenseAmount').textContent=money(t.expense,a.currency);document.getElementById('monthLabel').textContent=monthLabel();document.getElementById('donutCenter').innerHTML=`${money(t.expense,a.currency)}<small>spent</small>`;
+function renderHome(){const a=active(),t=totals(a);document.getElementById('balanceAmount').innerHTML=`${money(balance(a,selectedMonth),a.currency)} <span class="currency-code">${esc(a.currency)}</span>`;document.getElementById('incomeAmount').textContent=money(t.income,a.currency);document.getElementById('expenseAmount').textContent=money(t.expense,a.currency);document.getElementById('monthLabel').textContent=monthLabel();document.getElementById('donutCenter').innerHTML=expenseComparisonMarkup(a);
 renderCategoryCharts(a,t);
 const recent=[...a.transactions].sort((x,y)=>y.date.localeCompare(x.date)||((y.created||0)-(x.created||0))).slice(0,4);document.getElementById('recentTransactions').innerHTML=recent.length?recent.map(txHtml).join(''):'<div class="empty">No transactions yet.<br>Tap “Add Transaction” to get started.</div>';wireTransactionRows(document.getElementById('recentTransactions'))}
 let monthPickerYear=0,monthPickerMonth=0;
