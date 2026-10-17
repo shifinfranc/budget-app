@@ -1118,6 +1118,26 @@ html body .transaction-month-heading::after {
 
 
 
+
+<style id="final-compact-rows-visible-bottom-divider-20261017">
+/* Compact all real transaction rows evenly so the last visible row and its own divider fit
+   inside the existing scroll viewport. No independent/fixed bottom line is created. */
+#allTransactions .transaction, #recentTransactions .transaction {
+  box-sizing:border-box!important; padding-block:4px!important; margin-block:0!important;
+  min-height:0!important; height:auto!important; border-bottom:1px solid #353535!important;
+}
+#allTransactions .transaction > *, #recentTransactions .transaction > * { min-height:0!important; }
+#allTransactions .transaction-month-heading, #recentTransactions .transaction-month-heading,
+#allTransactions .month-heading, #recentTransactions .month-heading,
+#allTransactions .month-separator, #recentTransactions .month-separator {
+  min-height:0!important; padding-block:7px!important; margin-block:0!important;
+  border-top:1px solid #353535!important; border-bottom:1px solid #353535!important;
+}
+#allTransactions .transaction:last-child, #recentTransactions .transaction:last-child {
+  border-bottom:1px solid #353535!important;
+}
+#allTransactions::after, #recentTransactions::after { content:none!important; display:none!important; }
+</style>
 </body>
 </html>
 <style id="latest-reference-polish">
