@@ -1157,6 +1157,34 @@ html body .transaction-month-heading::after {
 #recentTransactions .transaction + .transaction { border-top: 0!important; }
 </style>
 
+
+<style id="transaction-list-natural-bottom-divider-spacing-fix">
+/* Keep the panel height unchanged: tighten every transaction row uniformly so the final
+   complete row and its own divider fit at the bottom of the scroll viewport. No fixed line. */
+#allTransactions .transaction,
+#recentTransactions .transaction {
+  box-sizing:border-box!important;
+  padding-top:10px!important;
+  padding-bottom:10px!important;
+  border-bottom:1px solid #353535!important;
+  margin-top:0!important;
+  margin-bottom:0!important;
+  border-radius:0!important;
+}
+/* The last row keeps its natural list divider rather than creating a separate bottom rule. */
+#allTransactions .transaction:last-child,
+#recentTransactions .transaction:last-child {
+  padding-top:10px!important;
+  padding-bottom:10px!important;
+  border-bottom:1px solid #353535!important;
+}
+/* Month separators retain their existing fixed height and consistent top/bottom strokes. */
+#allTransactions .transaction-month-heading,
+#recentTransactions .transaction-month-heading {
+  margin-top:0!important; margin-bottom:0!important;
+}
+</style>
+
 </body>
 </html>
 <style id="latest-reference-polish">
