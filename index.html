@@ -632,7 +632,7 @@ function renderAccountSwitcher(){
  if(!root)return;
  const current=active(),cur=currencyInfo(current.currency);
  const options=state.accounts.filter(a=>a.showInToggler!==false&&a.id!==state.activeId);
- root.innerHTML=`<button type="button" class="account-switcher-head" aria-expanded="${root.classList.contains('open')}" aria-label="Current account ${esc(current.name)} ${esc(current.currency)}. Tap to switch accounts."><span class="account-switcher-flag">${cur.flag}</span><span class="account-switcher-info"><strong>${esc(current.name)}</strong><small>${esc(current.currency)}</small></span><span class="account-switcher-caret" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></span></button><div class="account-switcher-list" aria-hidden="${!root.classList.contains('open')}"><div class="account-switcher-list-inner">${options.map(a=>{const c=currencyInfo(a.currency);return `<button type="button" class="account-switcher-option" data-switch-account="${esc(a.id)}"><span class="account-switcher-option-flag">${c.flag}</span><span class="account-switcher-option-info"><strong>${esc(a.name)}</strong><small>${esc(a.currency)}</small></span></button>`}).join('')}</div></div>`;
+ root.innerHTML=`<button type="button" class="account-switcher-head" aria-expanded="${root.classList.contains('open')}" aria-label="Current account ${esc(current.name)} ${esc(current.currency)}. Tap to switch accounts."><span class="account-switcher-flag">${cur.flag}</span><span class="account-switcher-info"><strong class="active-account-name" style="font-weight:900!important;-webkit-text-stroke:0.25px currentColor">${esc(current.name)}</strong><small>${esc(current.currency)}</small></span><span class="account-switcher-caret" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></span></button><div class="account-switcher-list" aria-hidden="${!root.classList.contains('open')}"><div class="account-switcher-list-inner">${options.map(a=>{const c=currencyInfo(a.currency);return `<button type="button" class="account-switcher-option" data-switch-account="${esc(a.id)}"><span class="account-switcher-option-flag">${c.flag}</span><span class="account-switcher-option-info"><strong>${esc(a.name)}</strong><small>${esc(a.currency)}</small></span></button>`}).join('')}</div></div>`;
  const head=root.querySelector('.account-switcher-head');
  head.onclick=e=>{e.stopPropagation();const open=!root.classList.contains('open');root.classList.toggle('open',open);head.setAttribute('aria-expanded',String(open));root.querySelector('.account-switcher-list')?.setAttribute('aria-hidden',String(!open));};
  root.querySelectorAll('[data-switch-account]').forEach(b=>b.onclick=e=>{e.stopPropagation();const id=b.dataset.switchAccount;if(!state.accounts.some(a=>a.id===id&&a.showInToggler!==false))return;state.activeId=id;root.classList.remove('open');save();renderAll();});
@@ -2476,5 +2476,9 @@ html body .account-manage-row .account-manage-flag {
 
 <style id="account-switcher-active-account-bold-final">
 /* Emphasize the currently active account in the expanded switcher header. */
-html body header.top #accountSwitcher.account-switcher.open .account-switcher-info strong{font-weight:800!important;}
+html body header.top #accountSwitcher.account-switcher.open .account-switcher-info strong.active-account-name{font-weight:900!important;-webkit-text-stroke:0.25px currentColor;text-shadow:0 0 .01px currentColor;}
+</style>
+
+<style id="account-switcher-active-name-bold-hard-override">
+html body #accountSwitcher.account-switcher.open .account-switcher-info > strong.active-account-name { font-weight: 900 !important; -webkit-text-stroke: .25px currentColor !important; text-shadow: 0 0 .01px currentColor !important; }
 </style>
