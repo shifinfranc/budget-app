@@ -1118,63 +1118,6 @@ html body .transaction-month-heading::after {
 
 
 
-
-<style id="final-compact-rows-visible-bottom-divider-20261017">
-/* Compact all real transaction rows evenly so the last visible row and its own divider fit
-   inside the existing scroll viewport. No independent/fixed bottom line is created. */
-#allTransactions .transaction, #recentTransactions .transaction {
-  box-sizing:border-box!important; padding-block:4px!important; margin-block:0!important;
-  min-height:0!important; height:auto!important; border-bottom:1px solid #353535!important;
-}
-#allTransactions .transaction > *, #recentTransactions .transaction > * { min-height:0!important; }
-#allTransactions .transaction-month-heading, #recentTransactions .transaction-month-heading,
-#allTransactions .month-heading, #recentTransactions .month-heading,
-#allTransactions .month-separator, #recentTransactions .month-separator {
-  min-height:0!important; padding-block:7px!important; margin-block:0!important;
-  border-top:1px solid #353535!important; border-bottom:1px solid #353535!important;
-}
-#allTransactions .transaction:last-child, #recentTransactions .transaction:last-child {
-  border-bottom:1px solid #353535!important;
-}
-#allTransactions::after, #recentTransactions::after { content:none!important; display:none!important; }
-</style>
-
-<style id="transaction-row-spacing-balanced-final-v3">
-/* Balanced row rhythm: keep icon circles clear of dividers while allowing a complete last row to fit. */
-html body #allTransactions .transaction,
-html body #recentTransactions .transaction {
-  display:flex!important; align-items:center!important; box-sizing:border-box!important;
-  height:auto!important; min-height:64px!important; padding:8px 0!important;
-  margin:0!important; border-top:0!important; border-bottom:1px solid #353535!important;
-  border-radius:0!important; box-shadow:none!important; transform:none!important;
-}
-html body #allTransactions .transaction .tx-icon,
-html body #recentTransactions .transaction .tx-icon {
-  width:48px!important; height:48px!important; min-width:48px!important; min-height:48px!important;
-  flex:0 0 48px!important; box-sizing:border-box!important; margin:0 12px 0 0!important;
-  align-self:center!important; display:flex!important; align-items:center!important; justify-content:center!important;
-}
-html body #allTransactions .transaction .tx-main,
-html body #recentTransactions .transaction .tx-main,
-html body #allTransactions .transaction .tx-right,
-html body #recentTransactions .transaction .tx-right {
-  align-self:center!important; margin-top:0!important; margin-bottom:0!important;
-}
-html body #allTransactions .transaction-month-heading,
-html body #recentTransactions .transaction-month-heading,
-html body #allTransactions .month-heading,
-html body #recentTransactions .month-heading,
-html body #allTransactions .month-separator,
-html body #recentTransactions .month-separator {
-  box-sizing:border-box!important; padding:8px 4px!important; margin:0!important;
-  border-top:1px solid #353535!important; border-bottom:1px solid #353535!important;
-  box-shadow:none!important;
-}
-html body #allTransactions .transaction + .transaction,
-html body #recentTransactions .transaction + .transaction { border-top:0!important; }
-html body #allTransactions::after, html body #recentTransactions::after { content:none!important; display:none!important; }
-</style>
-
 </body>
 </html>
 <style id="latest-reference-polish">
@@ -1847,37 +1790,4 @@ button:focus-visible,input:focus,select:focus,textarea:focus,.focus-ring,.app-se
 #allTransactions .transaction-row + .transaction-row, #recentTransactions .transaction-row + .transaction-row {
   border-top:0!important;
 }
-</style>
-
-<style id="final-transaction-bottom-row-fit-important">
-/* FINAL OVERRIDE: compact the actual row elements in both the recent list and View All list.
-   Divider remains the row's own border; no fixed/standalone line is added. */
-html body #allTransactions .transaction,
-html body #recentTransactions .transaction {
-  display:flex!important; box-sizing:border-box!important; height:auto!important; min-height:0!important;
-  padding-top:2px!important; padding-bottom:2px!important; margin-top:0!important; margin-bottom:0!important;
-  border-top:0!important; border-bottom:1px solid #353535!important;
-  box-shadow:none!important; transform:none!important;
-}
-html body #allTransactions .transaction .tx-icon,
-html body #recentTransactions .transaction .tx-icon,
-html body #allTransactions .transaction .tx-main,
-html body #recentTransactions .transaction .tx-main,
-html body #allTransactions .transaction .tx-right,
-html body #recentTransactions .transaction .tx-right {
-  margin-top:0!important; margin-bottom:0!important; align-self:center!important;
-}
-html body #allTransactions .transaction-month-heading,
-html body #recentTransactions .transaction-month-heading,
-html body #allTransactions .month-heading,
-html body #recentTransactions .month-heading,
-html body #allTransactions .month-separator,
-html body #recentTransactions .month-separator {
-  box-sizing:border-box!important; padding-top:5px!important; padding-bottom:5px!important;
-  margin-top:0!important; margin-bottom:0!important; border-top:1px solid #353535!important;
-  border-bottom:1px solid #353535!important; box-shadow:none!important;
-}
-html body #allTransactions .transaction:last-child,
-html body #recentTransactions .transaction:last-child { border-bottom:1px solid #353535!important; }
-html body #allTransactions::after, html body #recentTransactions::after { content:none!important; display:none!important; }
 </style>
