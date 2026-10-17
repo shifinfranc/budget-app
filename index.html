@@ -527,10 +527,10 @@ function renderOneCategoryChart(a,type,amount,donutId,centerId,legendId){
    const wanted=new Set(rows.map(([k])=>k));
    svg.querySelectorAll('circle[data-category]').forEach(c=>{if(!wanted.has(c.dataset.category))c.remove()});
    let offset=0;const total=rows.reduce((sum,[,value])=>sum+Math.max(0,Number(value)||0),0);
-   rows.forEach(([name,value])=>{const pct=total>0?Math.max(0,Number(value)||0)/total*100:0;let circle=[...svg.querySelectorAll('circle[data-category]')].find(c=>c.dataset.category===name);if(!circle){circle=document.createElementNS('http://www.w3.org/2000/svg','circle');circle.dataset.category=name;circle.setAttribute('cx','50');circle.setAttribute('cy','50');circle.setAttribute('r','40');circle.setAttribute('pathLength','100');svg.appendChild(circle)}circle.setAttribute('fill','none');circle.setAttribute('stroke-width','10');circle.style.stroke=categoryColor(name);circle.style.strokeDasharray=`${pct} ${100-pct}`;circle.style.strokeDashoffset=`${-offset}`;circle.style.transition='none';offset+=pct});
+   rows.forEach(([name,value])=>{const pct=total>0?Math.max(0,Number(value)||0)/total*100:0;let circle=[...svg.querySelectorAll('circle[data-category]')].find(c=>c.dataset.category===name);if(!circle){circle=document.createElementNS('http://www.w3.org/2000/svg','circle');circle.dataset.category=name;circle.setAttribute('cx','50');circle.setAttribute('cy','50');circle.setAttribute('r','40');circle.setAttribute('pathLength','100');svg.appendChild(circle)}circle.setAttribute('fill','none');circle.setAttribute('stroke-width','10');circle.style.setProperty('stroke',categoryColor(name),'important');circle.style.setProperty('stroke-width','10','important');circle.style.strokeDasharray=`${pct} ${100-pct}`;circle.style.strokeDashoffset=`${-offset}`;circle.style.transition='none';offset+=pct});
  }}
  if(center)center.innerHTML=expenseComparisonMarkup(a,type);
- if(legend)legend.innerHTML=rows.length?rows.map(([k,v])=>`<div class="legend-row"><span class="dot" style="background:${categoryColor(k)}"></span><span class="legend-name">${esc(k)}</span><span class="legend-value">${money(v,a.currency)}</span></div>`).join(''):`<div class="empty">No ${type==='income'?'income':'expenses'} for this month.</div>`;
+ if(legend){legend.innerHTML=rows.length?rows.map(([k,v])=>`<div class="legend-row"><span class="dot" data-category-dot="${esc(k)}" style="background:${categoryColor(k)}"></span><span class="legend-name">${esc(k)}</span><span class="legend-value">${money(v,a.currency)}</span></div>`).join(''):`<div class="empty">No ${type==='income'?'income':'expenses'} for this month.</div>`;legend.querySelectorAll('[data-category-dot]').forEach(dot=>dot.style.setProperty('background',categoryColor(dot.dataset.categoryDot),'important'));}
 }
 function renderCategoryCharts(a,t){renderOneCategoryChart(a,categorySlideIndex?'income':'expense',categorySlideIndex?t.income:t.expense,'donut','donutCenter','legend');setCategorySlide(categorySlideIndex,false)}
 function setCategorySlide(index,animate=true){
@@ -1985,4 +1985,10 @@ html body .category-carousel .chartarea .legend{align-self:start!important;min-w
 .category-carousel .chartarea .donut{overflow:visible!important;background:none!important}
 .category-carousel .chartarea .donut-segments{overflow:visible!important;transform:rotate(-90deg)!important;transform-origin:50% 50%!important}
 .category-carousel .chartarea .donut-segments circle[data-category]{fill:none!important;stroke-linecap:butt!important;stroke-width:10!important;transition:none!important}
+</style>
+
+<style id="category-chart-per-category-colours-final">
+/* Each category gets its own computed segment and matching legend marker; do not flatten the donut to one colour. */
+#categoryCarousel .donut-segments circle[data-category]{fill:none!important;stroke-width:10!important;stroke-linecap:butt!important}
+#categoryCarousel .legend-row .dot[data-category-dot]{box-shadow:none!important;border:0!important}
 </style>
