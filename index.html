@@ -1118,6 +1118,38 @@ html body .transaction-month-heading::after {
 
 
 
+
+<style id="restore-balanced-transaction-spacing-from-preview">
+/* Restore the balanced row rhythm shown in the approved preview. No fixed/fake bottom divider. */
+#allTransactions .transaction, #recentTransactions .transaction,
+#allTransactions .transaction-row, #recentTransactions .transaction-row,
+#allTransactions .tx-row, #recentTransactions .tx-row,
+#allTransactions .recent-transaction, #recentTransactions .recent-transaction {
+  box-sizing:border-box!important;
+  display:flex!important; align-items:center!important;
+  padding:12px 10px 12px 0!important;
+  margin:0!important;
+  min-height:68px!important;
+  border-top:0!important; border-bottom:1px solid #353535!important;
+  border-radius:0!important; box-shadow:none!important;
+}
+#allTransactions .tx-icon, #recentTransactions .tx-icon,
+#allTransactions .transaction-icon, #recentTransactions .transaction-icon {
+  width:48px!important; height:48px!important; min-width:48px!important; min-height:48px!important;
+  flex:0 0 48px!important; box-sizing:border-box!important;
+  display:flex!important; align-items:center!important; justify-content:center!important;
+  margin-right:12px!important; border-radius:50%!important;
+}
+#allTransactions .transaction-month-heading, #recentTransactions .transaction-month-heading,
+#allTransactions .month-heading, #recentTransactions .month-heading,
+#allTransactions .month-separator, #recentTransactions .month-separator {
+  box-sizing:border-box!important; border-top:1px solid #353535!important;
+  border-bottom:1px solid #353535!important; box-shadow:none!important;
+}
+#allTransactions, #recentTransactions {border-bottom:0!important;box-shadow:none!important}
+#allTransactions::after, #recentTransactions::after {content:none!important;display:none!important}
+</style>
+
 </body>
 </html>
 <style id="latest-reference-polish">
