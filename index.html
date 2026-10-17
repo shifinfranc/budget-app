@@ -2482,3 +2482,18 @@ html body header.top #accountSwitcher.account-switcher.open .account-switcher-in
 <style id="account-switcher-active-name-bold-hard-override">
 html body #accountSwitcher.account-switcher.open .account-switcher-info > strong.active-account-name { font-weight: 900 !important; -webkit-text-stroke: .25px currentColor !important; text-shadow: 0 0 .01px currentColor !important; }
 </style>
+
+
+<style id="account-switcher-active-selection-readability">
+/* Expanded account toggler: improve tracking on the emphasized active account name
+   and bold the currency subtext for the current selection only. */
+html body #accountSwitcher.account-switcher.open .account-switcher-info > strong.active-account-name {
+  font-weight: 900 !important;
+  letter-spacing: 0.35px !important;
+  -webkit-text-stroke: 0.25px currentColor !important;
+  text-shadow: 0 0 0.01px currentColor !important;
+}
+html body #accountSwitcher.account-switcher.open .account-switcher-info > small {
+  font-weight: 700 !important;
+}
+</style>
