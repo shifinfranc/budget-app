@@ -379,41 +379,43 @@ svg{stroke-width:1.7}
 @media(max-width:390px){.app{padding-left:14px!important;padding-right:14px!important}.card{padding:15px!important}.quick{gap:6px!important}.quick button,.quick button:nth-child(n){min-height:72px!important}.acct{min-width:105px!important;padding:9px!important}}
 
 </style>
-<style id="donut-center-monthly-expense-comparison">
-/* Show the current month's expense as a percentage of the previous month's total. */
-.donut-center,#donutCenter{display:flex!important;visibility:visible!important;position:absolute!important;inset:25px!important;z-index:2!important;align-items:center!important;justify-content:center!important;flex-direction:column!important;text-align:center!important;pointer-events:none!important;font-size:16px!important;font-weight:800!important;line-height:1.15!important;color:#F7F6FA!important;letter-spacing:-.25px!important;}
-.donut-center .comparison-value{font-size:16px!important;font-weight:800!important;line-height:1.15!important;white-space:nowrap!important;font-variant-numeric:tabular-nums!important;}
-.donut-center small,#donutCenter small{display:block!important;margin-top:4px!important;font-size:11px!important;font-weight:400!important;line-height:1.25!important;color:#96929F!important;white-space:nowrap!important;}
-@media(max-width:380px){.donut-center,#donutCenter{inset:21px!important}.donut-center .comparison-value{font-size:14px!important}.donut-center small,#donutCenter small{font-size:10px!important}}
-</style>
-<style id="show-all-category-legend-rows">
-/* Keep every category visible; let the card expand naturally for longer lists. */
-#categoryCarousel .chartarea{align-items:flex-start!important}
-#categoryCarousel .legend{max-height:none!important;height:auto!important;overflow:visible!important;align-self:stretch!important}
-#categoryCarousel .legend-row{min-width:0!important}
-#categoryCarousel .legend-name{min-width:0!important;overflow-wrap:anywhere!important}
-</style>
 
-<style id="empty-spending-and-earnings-chart-black-ring">
-/* A month with no expense OR income still has a visible pitch-black donut ring. */
-.donut[data-chart-empty="true"] .donut-segments circle[data-empty-ring],
-.donut .donut-segments circle[data-empty-ring]{stroke:#000000!important;stroke-width:10!important;fill:none!important;opacity:1!important}
+<style id="account-switcher-expanding-dropdown-final">
+/* Compact flag tile that expands into a same-width, connected account menu. */
+.top{position:relative;z-index:30;overflow:visible!important}
+.account-switcher{position:relative;flex:0 0 auto;z-index:40;width:48px;}
+.account-switcher-trigger{width:48px;height:48px;min-width:48px;padding:0;border:1px solid #454545!important;border-radius:50%!important;background:#202020!important;color:#F2F2F2!important;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:none!important;transition:width .2s ease,border-radius .2s ease;overflow:hidden;}
+.account-switcher-trigger.expanded{width:210px;height:60px;min-width:210px;justify-content:flex-start;padding:0 14px;border-radius:25px 25px 0 0!important;border-bottom-color:transparent!important;}
+.switcher-flag{width:32px;height:32px;flex:0 0 32px;display:flex;align-items:center;justify-content:center;font-size:23px;line-height:1;border-radius:50%;}
+.switcher-flag.compact{width:30px;height:30px;flex-basis:30px;font-size:24px}
+.switcher-current-copy,.switcher-option-copy{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;min-width:0;flex:1;line-height:1.25;white-space:nowrap}
+.switcher-current-copy strong,.switcher-option-copy strong{font-size:13px;font-weight:650;color:#F2F2F2}
+.switcher-current-copy small,.switcher-option-copy small{font-size:12px;font-weight:450;color:#A3A3A3;margin-top:3px}
+.switcher-chevron{width:18px;height:18px;flex:0 0 18px;stroke:#D8D8D8;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transform:rotate(0);transition:transform .18s ease}
+.switcher-chevron.open{transform:rotate(180deg)}
+.account-switcher-menu{position:absolute;right:0;top:59px;width:210px;padding:0 8px 8px;background:#202020;border:1px solid #454545;border-top:0;border-radius:0 0 25px 25px;box-shadow:0 12px 24px #0008;overflow:hidden;}
+.account-switcher-menu[hidden]{display:none!important}
+.account-switcher-option{display:flex;align-items:center;gap:12px;width:100%;min-height:70px;padding:10px 12px;border:0!important;border-radius:999px!important;background:transparent!important;color:#F2F2F2!important;text-align:left;box-shadow:none!important}
+.account-switcher-option+.account-switcher-option{border-top:1px solid #353535!important;border-radius:0!important}
+.account-switcher-option:hover,.account-switcher-option:focus-visible{background:#303030!important;outline:none}
+.account-switcher-option:last-child{margin-bottom:0}
+@media(max-width:390px){.account-switcher-trigger.expanded{width:190px;min-width:190px}.account-switcher-menu{width:190px}}
 </style>
 </head>
 <body>
 <div class="app">
   <header class="top">
     <div class="brand"><span class="leaf">🌿</span> Budget</div>
-    
+    <div class="account-switcher" id="accountSwitcher">
+      <button type="button" class="account-switcher-trigger" id="accountSwitcherTrigger" aria-label="Switch account" aria-expanded="false"></button>
+      <div class="account-switcher-menu" id="accountTabs" hidden></div>
+    </div>
   </header>
-  <div class="accountbar">
-    <div class="account-tabs" id="accountTabs"></div>
-  </div>
 
   <main>
     <section class="view active" id="homeView">
       <div class="card balance">
-        <div class="bal-top"><div class="muted-white">Total Balance</div><div class="home-head-actions"><button type="button" class="month" id="monthBtn" aria-label="Choose month and year" title="Choose month and year"><span class="month-nav-arrow" id="monthPrev" role="button" aria-label="Previous month" title="Previous month"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></span><span class="month-label-content">▦ <span id="monthLabel"></span></span><span class="month-nav-arrow" id="monthNext" role="button" aria-label="Next month" title="Next month"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></span></button></div></div>
+        <div class="bal-top"><div class="muted-white">Total Balance</div><div class="home-head-actions"><button type="button" class="month" id="monthBtn" aria-label="Choose month and year" title="Choose month and year">▦ <span id="monthLabel"></span></button></div></div>
         <div class="amount" id="balanceAmount">CA$0.00 <span class="currency-code">CAD</span></div>
         <div class="stats">
           <div class="stat"><div class="stat-icon">↑</div><div><div class="stat-label">Income</div><div class="stat-value" id="incomeAmount">CA$0.00</div></div></div>
@@ -499,59 +501,49 @@ function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&l
 function monthKey(d=new Date()){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')}
 function currentMonthTx(a=active()){return a.transactions.filter(t=>t.date&&t.date.slice(0,7)===selectedMonth)}
 function totals(a=active()){const tx=currentMonthTx(a);return {income:tx.filter(t=>t.type==='income').reduce((s,t)=>s+t.amount,0),expense:tx.filter(t=>t.type==='expense').reduce((s,t)=>s+t.amount,0)}}
-function expenseComparisonMarkup(a=active(),type=(categorySlideIndex?'income':'expense'),category=null){const [year,month]=selectedMonth.split('-').map(Number);const previousDate=new Date(year,month-2,1);const previousKey=monthKey(previousDate);const previousTx=a.transactions.filter(t=>t.type===type&&t.date&&t.date.slice(0,7)===previousKey);const currentTx=currentMonthTx(a).filter(t=>t.type===type);const previousTotal=previousTx.filter(t=>!category||t.category===category).reduce((sum,t)=>sum+Number(t.amount||0),0);const currentTotal=currentTx.filter(t=>!category||t.category===category).reduce((sum,t)=>sum+Number(t.amount||0),0);const percentage=previousTotal>0?Math.round(currentTotal/previousTotal*100):null;const noun=type==='income'?'earnings':'spending';const label=category?`${esc(category)} vs last month`:'from last month';return `<span class="comparison-value">${percentage===null?'—':percentage+'%'}</span><small>${percentage===null?(category?`no last month ${noun} for this category`:`no last month ${noun}`):label}</small>`;}
 function balance(a=active(),asOfMonth=null){const tx=asOfMonth?a.transactions.filter(t=>t.date&&t.date.slice(0,7)<=asOfMonth):a.transactions;return a.opening+tx.reduce((s,t)=>s+(t.type==='income'?t.amount:-t.amount),0)}
-function renderTabs(animateIds=[]){
- const host=document.getElementById('accountTabs');
- const before=new Map([...host.querySelectorAll('[data-account]')].map(el=>[el.dataset.account,el.getBoundingClientRect()]));
+let accountSwitcherOpen=false;
+function renderTabs(){
+ const trigger=document.getElementById('accountSwitcherTrigger');
+ const menu=document.getElementById('accountTabs');
+ const switcher=document.getElementById('accountSwitcher');
+ if(!trigger||!menu||!switcher)return;
  const visible=state.accounts.filter(a=>a.showInToggler!==false);
- const ordered=[...visible].sort((a,b)=>a.id===state.activeId?-1:b.id===state.activeId?1:state.accounts.indexOf(a)-state.accounts.indexOf(b));
- const old=[...host.querySelectorAll('[data-account]')];
- // Keep disappearing tabs briefly for a smooth exit, while rebuilding the visible list.
- const disappearing=old.filter(el=>!ordered.some(a=>a.id===el.dataset.account));
- disappearing.forEach(el=>{const r=el.getBoundingClientRect();el.classList.add('acct-hiding');el.style.width=r.width+'px';el.style.flex='0 0 '+r.width+'px';el.style.overflow='hidden';});
- host.innerHTML=ordered.map(a=>{const c=currencyInfo(a.currency);return `<button class="acct ${a.id===state.activeId?'active':''}" data-account="${esc(a.id)}"><span class="flag">${c.flag}</span><span><strong>${esc(a.name)}</strong><small>${esc(a.currency)}</small></span></button>`}).join('');
- const after=new Map([...host.querySelectorAll('[data-account]')].map(el=>[el.dataset.account,el.getBoundingClientRect()]));
- for(const el of host.querySelectorAll('[data-account]')){
-   const a=before.get(el.dataset.account),b=after.get(el.dataset.account);
-   if(a&&b){const dx=a.left-b.left,dy=a.top-b.top;if(dx||dy){el.style.transition='none';el.style.transform=`translate(${dx}px,${dy}px)`;requestAnimationFrame(()=>{el.style.transition='';el.style.transform=''})}}
-   else {el.classList.add('acct-entering');setTimeout(()=>el.classList.remove('acct-entering'),320)}
- }
- host.querySelectorAll('[data-account]').forEach(b=>b.onclick=()=>{if(state.activeId===b.dataset.account)return;state.activeId=b.dataset.account;save();renderAll()});
+ let current=visible.find(a=>a.id===state.activeId)||state.accounts.find(a=>a.id===state.activeId)||state.accounts[0];
+ if(!current)return;
+ const ci=currencyInfo(current.currency);
+ trigger.innerHTML=accountSwitcherOpen
+   ? `<span class="switcher-flag">${ci.flag}</span><span class="switcher-current-copy"><strong>${esc(current.name)}</strong><small>${esc(current.currency)}</small></span><svg class="switcher-chevron open" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>`
+   : `<span class="switcher-flag compact">${ci.flag}</span>`;
+ trigger.classList.toggle('expanded',accountSwitcherOpen);
+ trigger.setAttribute('aria-expanded',String(accountSwitcherOpen));
+ menu.hidden=!accountSwitcherOpen;
+ menu.innerHTML=accountSwitcherOpen?visible.filter(a=>a.id!==current.id).map(a=>{const c=currencyInfo(a.currency);return `<button type="button" class="account-switcher-option" data-account="${esc(a.id)}"><span class="switcher-flag">${c.flag}</span><span class="switcher-option-copy"><strong>${esc(a.name)}</strong><small>${esc(a.currency)}</small></span></button>`}).join(''):'';
+ menu.querySelectorAll('[data-account]').forEach(b=>b.onclick=()=>{
+   const next=state.accounts.find(a=>a.id===b.dataset.account&&a.showInToggler!==false);
+   if(!next)return;
+   state.activeId=next.id;accountSwitcherOpen=false;save();renderAll();
+ });
 }
+function closeAccountSwitcher(){if(!accountSwitcherOpen)return;accountSwitcherOpen=false;renderTabs()}
+document.addEventListener('click',e=>{const sw=document.getElementById('accountSwitcher');if(accountSwitcherOpen&&sw&&!sw.contains(e.target))closeAccountSwitcher()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAccountSwitcher()});
+document.getElementById('accountSwitcherTrigger')?.addEventListener('click',e=>{e.stopPropagation();accountSwitcherOpen=!accountSwitcherOpen;renderTabs()});
+
 function monthDate(key=selectedMonth){const [y,m]=key.split('-').map(Number);return new Date(y,m-1,1)}
 function monthLabel(key=selectedMonth){return monthDate(key).toLocaleDateString(undefined,{month:'short',year:'numeric'})}
 let categorySlideIndex=0;
-const selectedCategoryByType={expense:null,income:null};
 function categoryColor(name){let h=0;for(let i=0;i<name.length;i++)h=(h*31+name.charCodeAt(i))|0;return COLORS[Math.abs(h)%COLORS.length]}
 function renderOneCategoryChart(a,type,amount,donutId,centerId,legendId){
  const cats={};currentMonthTx(a).filter(x=>x.type===type).forEach(x=>cats[x.category]=(cats[x.category]||0)+x.amount);
  const rows=Object.entries(cats).sort((x,y)=>y[1]-x[1]);
  const donut=document.getElementById(donutId),center=document.getElementById(centerId),legend=document.getElementById(legendId);
- if(donut){donut.style.background='none';const svg=donut.querySelector('svg');if(svg){
-   /* Use a normalized 100-unit circumference so each category arc is calculated consistently. */
-   svg.setAttribute('viewBox','0 0 100 100');svg.style.transform='rotate(-90deg)';
-   const wanted=new Set(rows.map(([k])=>k));
-   svg.querySelectorAll('circle[data-category]').forEach(c=>{if(!wanted.has(c.dataset.category))c.remove()});
-   /* When the selected month has no transactions of this type, keep the donut visible as a solid pitch-black ring. */
-   let emptyRing=svg.querySelector('circle[data-empty-ring]');
-   const total=rows.reduce((sum,[,value])=>sum+Math.max(0,Number(value)||0),0);
-   if(!rows.length||total<=0){
-     /* Shared empty state for BOTH Spending and Earnings: show a full pitch-black ring. */
-     donut.dataset.chartEmpty='true';
-     svg.querySelectorAll('circle[data-category]').forEach(c=>c.remove());
-     if(!emptyRing){emptyRing=document.createElementNS('http://www.w3.org/2000/svg','circle');emptyRing.dataset.emptyRing='true';emptyRing.setAttribute('cx','50');emptyRing.setAttribute('cy','50');emptyRing.setAttribute('r','40');emptyRing.setAttribute('pathLength','100');svg.appendChild(emptyRing)}
-     emptyRing.setAttribute('fill','none');emptyRing.setAttribute('stroke','#000000');emptyRing.setAttribute('stroke-width','10');emptyRing.style.setProperty('stroke','#000000','important');emptyRing.style.setProperty('stroke-width','10','important');emptyRing.style.strokeDasharray='100 0';emptyRing.style.strokeDashoffset='0';emptyRing.style.opacity='1';
-   }else{
-     donut.dataset.chartEmpty='false';
-     if(emptyRing)emptyRing.remove();
-     let offset=0;
-     rows.forEach(([name,value])=>{const pct=Math.max(0,Number(value)||0)/total*100;let circle=[...svg.querySelectorAll('circle[data-category]')].find(c=>c.dataset.category===name);if(!circle){circle=document.createElementNS('http://www.w3.org/2000/svg','circle');circle.dataset.category=name;circle.setAttribute('cx','50');circle.setAttribute('cy','50');circle.setAttribute('r','40');circle.setAttribute('pathLength','100');svg.appendChild(circle)}const isSelected=selectedCategoryByType[type]===name;circle.setAttribute('fill','none');circle.setAttribute('r',isSelected?'42':'40');circle.setAttribute('stroke-width',isSelected?'14':'10');circle.style.setProperty('stroke',categoryColor(name),'important');circle.style.setProperty('stroke-width',isSelected?'14':'10','important');circle.style.strokeDasharray=`${pct} ${100-pct}`;circle.style.strokeDashoffset=`${-offset}`;circle.style.transition='none';offset+=pct});
-   }
+ if(donut){donut.style.background='conic-gradient(#edf2ef 0 100%)';const svg=donut.querySelector('svg');if(svg){const circumference=2*Math.PI*40;const wanted=new Set(rows.slice(0,8).map(([k])=>k));
+   svg.querySelectorAll('circle[data-category]').forEach(c=>{if(!wanted.has(c.dataset.category)){c.style.strokeDasharray=`0 ${circumference}`;c.dataset.removing='1';setTimeout(()=>{if(c.dataset.removing==='1')c.remove()},450)}});
+   let offset=0;rows.slice(0,8).forEach(([name,value])=>{const pct=amount?Math.max(0,value/amount*100):0;const length=circumference*pct/100;let circle=[...svg.querySelectorAll('circle[data-category]')].find(c=>c.dataset.category===name);if(!circle){circle=document.createElementNS('http://www.w3.org/2000/svg','circle');circle.dataset.category=name;circle.setAttribute('cx','50');circle.setAttribute('cy','50');circle.setAttribute('r','40');circle.style.strokeDasharray=`0 ${circumference}`;circle.style.strokeDashoffset=`${-circumference*offset/100}`;svg.appendChild(circle);requestAnimationFrame(()=>{circle.style.strokeDasharray=`${length} ${circumference-length}`;circle.style.strokeDashoffset=`${-circumference*offset/100}`})}else{circle.dataset.removing='';circle.style.strokeDasharray=`${length} ${circumference-length}`;circle.style.strokeDashoffset=`${-circumference*offset/100}`}circle.style.stroke=categoryColor(name);offset+=pct});
  }}
- const selected=selectedCategoryByType[type];
- if(center)center.innerHTML=expenseComparisonMarkup(a,type,selected);
- if(legend){legend.innerHTML=rows.length?rows.map(([k,v])=>{const active=k===selected;return `<div class="legend-row${active?' category-selected':''}" data-category-row="${esc(k)}" role="button" tabindex="0" aria-pressed="${active}" title="Compare ${esc(k)} with last month"><span class="dot" data-category-dot="${esc(k)}" style="background:${categoryColor(k)}"></span><span class="legend-name">${esc(k)}</span><span class="legend-value">${money(v,a.currency)}</span></div>`}).join(''):`<div class="empty">No ${type==='income'?'income':'expenses'} for this month.</div>`;legend.querySelectorAll('[data-category-dot]').forEach(dot=>dot.style.setProperty('background',categoryColor(dot.dataset.categoryDot),'important'));legend.querySelectorAll('[data-category-row]').forEach(row=>{const activate=()=>{const name=row.dataset.categoryRow;selectedCategoryByType[type]=selectedCategoryByType[type]===name?null:name;renderOneCategoryChart(a,type,amount,donutId,centerId,legendId)};row.addEventListener('click',activate);row.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();activate()}})});}
+ if(center)center.innerHTML=`${money(amount,a.currency)}<small>${type==='income'?'earned':'spent'}</small>`;
+ if(legend)legend.innerHTML=rows.length?rows.slice(0,8).map(([k,v])=>`<div class="legend-row"><span class="dot" style="background:${categoryColor(k)}"></span><span class="legend-name">${esc(k)}</span><span class="legend-value">${money(v,a.currency)}</span></div>`).join(''):`<div class="empty">No ${type==='income'?'income':'expenses'} for this month.</div>`;
 }
 function renderCategoryCharts(a,t){renderOneCategoryChart(a,categorySlideIndex?'income':'expense',categorySlideIndex?t.income:t.expense,'donut','donutCenter','legend');setCategorySlide(categorySlideIndex,false)}
 function setCategorySlide(index,animate=true){
@@ -563,7 +555,7 @@ function setCategorySlide(index,animate=true){
  if(changed){const a=active(),t=totals(a);renderOneCategoryChart(a,categorySlideIndex?'income':'expense',categorySlideIndex?t.income:t.expense,'donut','donutCenter','legend')}
 }
 function wireCategorySwipe(){const carousel=document.getElementById('categoryCarousel');if(!carousel)return;let startX=0,startY=0;carousel.addEventListener('touchstart',e=>{if(!e.touches.length)return;startX=e.touches[0].clientX;startY=e.touches[0].clientY},{passive:true});carousel.addEventListener('touchend',e=>{if(!e.changedTouches.length)return;const dx=e.changedTouches[0].clientX-startX,dy=e.changedTouches[0].clientY-startY;if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy)*1.2)setCategorySlide(dx<0?1:0,true)},{passive:true});carousel.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')setCategorySlide(0,true);if(e.key==='ArrowRight')setCategorySlide(1,true)});carousel.tabIndex=0}
-function renderHome(){const a=active(),t=totals(a);document.getElementById('balanceAmount').innerHTML=`${money(balance(a,selectedMonth),a.currency)} <span class="currency-code">${esc(a.currency)}</span>`;document.getElementById('incomeAmount').textContent=money(t.income,a.currency);document.getElementById('expenseAmount').textContent=money(t.expense,a.currency);document.getElementById('monthLabel').textContent=monthLabel();document.getElementById('donutCenter').innerHTML=expenseComparisonMarkup(a,categorySlideIndex?'income':'expense');
+function renderHome(){const a=active(),t=totals(a);document.getElementById('balanceAmount').innerHTML=`${money(balance(a,selectedMonth),a.currency)} <span class="currency-code">${esc(a.currency)}</span>`;document.getElementById('incomeAmount').textContent=money(t.income,a.currency);document.getElementById('expenseAmount').textContent=money(t.expense,a.currency);document.getElementById('monthLabel').textContent=monthLabel();document.getElementById('donutCenter').innerHTML=`${money(t.expense,a.currency)}<small>spent</small>`;
 renderCategoryCharts(a,t);
 const recent=[...a.transactions].sort((x,y)=>y.date.localeCompare(x.date)||((y.created||0)-(x.created||0))).slice(0,4);document.getElementById('recentTransactions').innerHTML=recent.length?recent.map(txHtml).join(''):'<div class="empty">No transactions yet.<br>Tap “Add Transaction” to get started.</div>';wireTransactionRows(document.getElementById('recentTransactions'))}
 let monthPickerYear=0,monthPickerMonth=0;
@@ -617,10 +609,10 @@ function openModal(title,body,submitText,mode){modalMode=mode;document.getElemen
 function closeModal(){const backdrop=document.getElementById('modalBackdrop');backdrop.classList.remove('show');backdrop.style.display='';backdrop.style.visibility='';backdrop.style.pointerEvents='';backdrop.style.zIndex='';}
 document.getElementById('modalClose').onclick=e=>{e.preventDefault();e.stopPropagation();closeModal()};document.getElementById('modalBackdrop').onclick=e=>{if(e.target.id==='modalBackdrop')closeModal()};
 function openTransactionModal(txId=null){const a=active(),tx=txId?a.transactions.find(t=>t.id===txId):null;if(txId&&!tx){showToast('Transaction not found.');return}const cats=['Groceries','Rent','Transport','Bills','Entertainment','Health','Shopping','Salary','Freelance','Savings','Other'];const categoryOptions=cats.map(c=>`<option ${tx&&tx.category===c?'selected':''}>${c}</option>`).join('');openModal(tx?'Edit transaction':'Add transaction',`<div class="formgrid"><div class="field"><label for="txType">Type</label><select id="txType"><option value="expense" ${tx&&tx.type==='expense'?'selected':''}>Expense</option><option value="income" ${tx&&tx.type==='income'?'selected':''}>Income</option></select></div><div class="field"><label for="txAmount">Amount (${esc(a.currency)})</label><input id="txAmount" type="number" min="0.01" step="0.01" required placeholder="0.00" inputmode="decimal" value="${tx?esc(tx.amount):''}"></div></div><div class="formgrid"><div class="field"><label for="txCategory">Category</label><select id="txCategory">${categoryOptions}</select></div><div class="field"><label for="txDate">Date</label><input id="txDate" type="date" required value="${tx?esc(tx.date):new Date().toISOString().slice(0,10)}"></div></div><div class="field"><label for="txNote">Note (optional)</label><input id="txNote" maxlength="100" placeholder="e.g. weekly groceries" value="${tx?esc(tx.note||''):''}"></div><p class="small">This transaction is saved only to ${esc(a.name)} (${esc(a.currency)}).</p>${tx?'<button type="button" class="transaction-delete" id="deleteTransactionBtn">Delete transaction</button>':''}`,tx?'Save changes':'Save transaction',tx?'edittransaction:'+tx.id:'transaction');if(tx){document.getElementById('deleteTransactionBtn').onclick=()=>deleteTransaction(tx.id)}}
-function deleteTransaction(txId){const a=active(),tx=a.transactions.find(t=>t.id===txId);if(!tx)return;if(!confirm(`Delete this ${tx.type} transaction for ${money(tx.amount,tx.currency)}? This cannot be undone.`))return;a.transactions=a.transactions.filter(t=>t.id!==txId);save();closeModal();renderAll()}
+function deleteTransaction(txId){const a=active(),tx=a.transactions.find(t=>t.id===txId);if(!tx)return;if(!confirm(`Delete this ${tx.type} transaction for ${money(tx.amount,tx.currency)}? This cannot be undone.`))return;a.transactions=a.transactions.filter(t=>t.id!==txId);save();closeModal();renderAll();showToast('Transaction deleted')}
 function openAccountModal(editId=null){const a=state.accounts.find(x=>x.id===editId);const options=Object.entries(CURRENCIES).map(([code,c])=>`<option value="${code}" ${a&&a.currency===code?'selected':''}>${c.flag} ${code} — ${c.name}</option>`).join('');openModal(a?'Edit account':'Add account',`<div class="field"><label for="accountName">Account name</label><input id="accountName" required maxlength="32" placeholder="e.g. United States" value="${a?esc(a.name):''}"></div><div class="field"><label for="accountCurrency">Currency</label><select id="accountCurrency">${options}<option value="__custom">Other currency code…</option></select></div><div class="field" id="customCurrencyField" style="display:none"><label for="customCurrency">3-letter currency code</label><input id="customCurrency" maxlength="3" pattern="[A-Za-z]{3}" placeholder="e.g. SGD"></div>${a?'':'<div class="field"><label for="openingBalance">Opening balance</label><input id="openingBalance" type="number" step="0.01" value="0" inputmode="decimal"></div>'}<p class="small">Each account has its own balance, transactions, and budgets. Different currencies are not automatically converted.</p>`,a?'Save changes':'Create account',a?'editaccount:'+editId:'account');const sel=document.getElementById('accountCurrency');sel.onchange=()=>document.getElementById('customCurrencyField').style.display=sel.value==='__custom'?'block':'none'}
 function openBudgetModal(){const a=active(),cats=['Rent','Groceries','Transport','Bills','Entertainment','Health','Shopping','Other'];openModal('Set category budget',`<div class="field"><label for="budgetCategory">Category</label><select id="budgetCategory">${cats.map(c=>`<option>${c}</option>`).join('')}</select></div><div class="field"><label for="budgetLimit">Monthly limit (${esc(a.currency)})</label><input id="budgetLimit" type="number" min="0.01" step="0.01" required placeholder="0.00" inputmode="decimal"></div><p class="small">This limit applies to ${esc(a.name)} only.</p>`,'Save budget','budget')}
-document.getElementById('modalForm').onsubmit=e=>{e.preventDefault();const mode=modalMode;if(mode==='monthpicker'){selectedMonth=String(monthPickerYear)+'-'+String(monthPickerMonth).padStart(2,'0');closeModal();renderAll();return}if(mode==='transaction'||mode.startsWith('edittransaction:')){const a=active(),amount=Number(document.getElementById('txAmount').value);if(!Number.isFinite(amount)||amount<=0)return;const type=document.getElementById('txType').value,category=document.getElementById('txCategory').value;if(type==='income'&&!['Salary','Freelance','Other'].includes(category))showToast('Tip: use Salary, Freelance, or Other for income.');const values={type,amount,category,date:document.getElementById('txDate').value,note:document.getElementById('txNote').value.trim(),currency:a.currency};if(mode.startsWith('edittransaction:')){const id=mode.slice('edittransaction:'.length),existing=a.transactions.find(t=>t.id===id);if(!existing){showToast('Transaction not found.');return}Object.assign(existing,values)}else{a.transactions.push({id:crypto.randomUUID?crypto.randomUUID():String(Date.now()),...values,created:Date.now()})}save();closeModal();renderAll();return}
+document.getElementById('modalForm').onsubmit=e=>{e.preventDefault();const mode=modalMode;if(mode==='monthpicker'){selectedMonth=String(monthPickerYear)+'-'+String(monthPickerMonth).padStart(2,'0');closeModal();renderAll();showToast('Showing '+monthLabel());return}if(mode==='transaction'||mode.startsWith('edittransaction:')){const a=active(),amount=Number(document.getElementById('txAmount').value);if(!Number.isFinite(amount)||amount<=0)return;const type=document.getElementById('txType').value,category=document.getElementById('txCategory').value;if(type==='income'&&!['Salary','Freelance','Other'].includes(category))showToast('Tip: use Salary, Freelance, or Other for income.');const values={type,amount,category,date:document.getElementById('txDate').value,note:document.getElementById('txNote').value.trim(),currency:a.currency};if(mode.startsWith('edittransaction:')){const id=mode.slice('edittransaction:'.length),existing=a.transactions.find(t=>t.id===id);if(!existing){showToast('Transaction not found.');return}Object.assign(existing,values)}else{a.transactions.push({id:crypto.randomUUID?crypto.randomUUID():String(Date.now()),...values,created:Date.now()})}save();closeModal();renderAll();showToast(mode.startsWith('edittransaction:')?'Transaction updated':'Transaction saved');return}
 if(mode==='account'||mode.startsWith('editaccount:')){const edit=mode.startsWith('editaccount:')?state.accounts.find(a=>a.id===mode.split(':')[1]):null;const name=document.getElementById('accountName').value.trim();let currency=document.getElementById('accountCurrency').value;if(currency==='__custom')currency=(document.getElementById('customCurrency').value||'').trim().toUpperCase();if(!name||!/^[A-Z]{3}$/.test(currency)){showToast('Enter a name and a valid 3-letter currency code.');return}if(!edit&&state.accounts.some(a=>a.name.toLowerCase()===name.toLowerCase())){showToast('An account with that name already exists.');return}if(edit){edit.name=name;if(edit.currency!==currency&&edit.transactions.length){if(!confirm('Changing currency does not convert existing amounts. Continue?'))return}edit.currency=currency;edit.transactions.forEach(t=>t.currency=currency)}else{const id='acct-'+Date.now();state.accounts.push({id,name,currency,opening:Number(document.getElementById('openingBalance').value)||0,transactions:[],budgets:{},showInToggler:true});state.activeId=id}save();closeModal();renderAll();showToast(edit?'Account updated':'Account added');return}
 if(mode==='budget'){const cat=document.getElementById('budgetCategory').value,limit=Number(document.getElementById('budgetLimit').value);if(limit<=0)return;active().budgets[cat]=limit;save();closeModal();renderAll();showToast('Budget limit saved')}
 };
@@ -629,8 +621,7 @@ document.getElementById('groupsBtn').onclick=()=>{openModal('Groups', '<p class=
 document.getElementById('exportBtn').onclick=()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='budget-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click();URL.revokeObjectURL(url);showToast('Backup export started')};
 document.getElementById('importBtn').onclick=()=>document.getElementById('importFile').click();document.getElementById('importFile').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const x=JSON.parse(await f.text());if(!Array.isArray(x.accounts)||!x.accounts.length)throw Error();if(!confirm('Replace current Budget data with this backup?'))return;state=x;state.accounts.forEach(a=>{if(typeof a.showInToggler!=='boolean')a.showInToggler=true});if(!state.accounts.some(a=>a.showInToggler))state.accounts.forEach(a=>a.showInToggler=true);if(!state.accounts.some(a=>a.id===state.activeId&&a.showInToggler))state.activeId=state.accounts.find(a=>a.showInToggler).id;save();renderAll();showToast('Backup imported')}catch(err){showToast('That file is not a valid Budget backup.')}e.target.value=''};
 document.getElementById('clearBtn').onclick=()=>{if(confirm('Delete all Budget accounts and transactions from this browser? This cannot be undone.')){state=structuredClone(DEFAULT);save();renderAll();showToast('App data cleared')}};
-document.getElementById('monthPrev').onclick=e=>{e.preventDefault();e.stopPropagation();shiftSelectedMonth(-1)};document.getElementById('monthNext').onclick=e=>{e.preventDefault();e.stopPropagation();shiftSelectedMonth(1)};function shiftSelectedMonth(delta){const [y,m]=selectedMonth.split('-').map(Number);const d=new Date(y,m-1+delta,1);selectedMonth=monthKey(d);renderAll()}
-document.getElementById('monthBtn').onclick=e=>{if(e.target.closest('.month-nav-arrow'))return;e.preventDefault();e.stopPropagation();try{openMonthPicker();const backdrop=document.getElementById('modalBackdrop');backdrop.style.display='flex';backdrop.style.visibility='visible';backdrop.style.pointerEvents='auto';backdrop.classList.add('show');}catch(err){console.error('Month/year picker failed to open:',err);showToast('Could not open month picker. Please try again.')}};
+document.getElementById('monthBtn').onclick=e=>{e.preventDefault();e.stopPropagation();try{openMonthPicker();const backdrop=document.getElementById('modalBackdrop');backdrop.style.display='flex';backdrop.style.visibility='visible';backdrop.style.pointerEvents='auto';backdrop.classList.add('show');}catch(err){console.error('Month/year picker failed to open:',err);showToast('Could not open month picker. Please try again.')}};
 
 
 // Convert every select (including selects created later inside modals) into a website-styled dropdown.
@@ -1158,103 +1149,6 @@ html body .transaction-month-heading::after {
 
 
 
-
-
-<style id="restore-balanced-transaction-spacing-from-preview">
-/* Restore the balanced row rhythm shown in the approved preview. No fixed/fake bottom divider. */
-#allTransactions .transaction, #recentTransactions .transaction,
-#allTransactions .transaction-row, #recentTransactions .transaction-row,
-#allTransactions .tx-row, #recentTransactions .tx-row,
-#allTransactions .recent-transaction, #recentTransactions .recent-transaction {
-  box-sizing:border-box!important;
-  display:flex!important; align-items:center!important;
-  padding:12px 10px 12px 0!important;
-  margin:0!important;
-  min-height:68px!important;
-  border-top:0!important; border-bottom:1px solid #353535!important;
-  border-radius:0!important; box-shadow:none!important;
-}
-#allTransactions .tx-icon, #recentTransactions .tx-icon,
-#allTransactions .transaction-icon, #recentTransactions .transaction-icon {
-  width:48px!important; height:48px!important; min-width:48px!important; min-height:48px!important;
-  flex:0 0 48px!important; box-sizing:border-box!important;
-  display:flex!important; align-items:center!important; justify-content:center!important;
-  margin-right:12px!important; border-radius:50%!important;
-}
-#allTransactions .transaction-month-heading, #recentTransactions .transaction-month-heading,
-#allTransactions .month-heading, #recentTransactions .month-heading,
-#allTransactions .month-separator, #recentTransactions .month-separator {
-  box-sizing:border-box!important; border-top:1px solid #353535!important;
-  border-bottom:1px solid #353535!important; box-shadow:none!important;
-}
-#allTransactions, #recentTransactions {border-bottom:0!important;box-shadow:none!important}
-#allTransactions::after, #recentTransactions::after {content:none!important;display:none!important}
-</style>
-
-
-<style id="budget-tab-top-edge-aligned-with-transactions">
-/* Align the Budget view's first card top edge with the Transactions list card. */
-#insightsView > .section-head { margin-bottom:12px!important; }
-#insightsView > .card:first-of-type { margin-top:0!important; }
-#transactionsView > .section-head { margin-bottom:12px!important; }
-</style>
-
-<style id="chart-donut-center-wrap-and-uniform-diameter-fix">
-/* Keep the donut and its inner hole concentric and consistent at every viewport size. */
-html body .category-carousel .chartarea{
-  display:grid!important;grid-template-columns:150px minmax(0,1fr)!important;gap:14px!important;align-items:center!important;width:100%!important;
-}
-html body .category-carousel .chartarea .donut{
-  position:relative!important;width:150px!important;height:150px!important;min-width:150px!important;min-height:150px!important;
-  max-width:150px!important;max-height:150px!important;flex:0 0 150px!important;aspect-ratio:1/1!important;
-  overflow:hidden!important;justify-self:start!important;align-self:center!important;margin:0!important;border-radius:50%!important;
-}
-html body .category-carousel .chartarea .donut:after{
-  content:""!important;position:absolute!important;inset:19px!important;width:auto!important;height:auto!important;
-  border-radius:50%!important;background:#111116!important;z-index:0!important;
-}
-html body .category-carousel .chartarea .donut-segments{
-  position:absolute!important;inset:0!important;width:100%!important;height:100%!important;z-index:1!important;
-}
-html body .category-carousel #donutCenter{
-  position:absolute!important;inset:31px!important;width:auto!important;height:auto!important;min-width:0!important;min-height:0!important;
-  display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;
-  box-sizing:border-box!important;padding:0 2px!important;margin:0!important;text-align:center!important;
-  white-space:normal!important;overflow:hidden!important;overflow-wrap:normal!important;word-break:normal!important;
-  line-height:1.1!important;z-index:2!important;pointer-events:none!important;
-}
-html body .category-carousel #donutCenter .comparison-value{
-  display:block!important;max-width:100%!important;white-space:nowrap!important;font-size:16px!important;
-  line-height:1.1!important;font-weight:800!important;font-variant-numeric:tabular-nums!important;
-}
-html body .category-carousel #donutCenter small{
-  display:block!important;width:100%!important;max-width:100%!important;min-width:0!important;margin:4px 0 0!important;
-  white-space:normal!important;overflow-wrap:normal!important;word-break:normal!important;text-wrap:balance!important;
-  text-align:center!important;font-size:10px!important;line-height:1.2!important;font-weight:400!important;
-}
-@media(max-width:380px){
- html body .category-carousel .chartarea{grid-template-columns:132px minmax(0,1fr)!important;gap:10px!important}
- html body .category-carousel .chartarea .donut{width:132px!important;height:132px!important;min-width:132px!important;min-height:132px!important;max-width:132px!important;max-height:132px!important;flex-basis:132px!important}
- html body .category-carousel .chartarea .donut:after{inset:17px!important}
- html body .category-carousel #donutCenter{inset:27px!important}
- html body .category-carousel #donutCenter .comparison-value{font-size:14px!important}
- html body .category-carousel #donutCenter small{font-size:9px!important}
-}
-@media(min-width:600px){
- html body .category-carousel .chartarea{grid-template-columns:164px minmax(0,1fr)!important}
- html body .category-carousel .chartarea .donut{width:164px!important;height:164px!important;min-width:164px!important;min-height:164px!important;max-width:164px!important;max-height:164px!important;flex-basis:164px!important}
- html body .category-carousel .chartarea .donut:after{inset:21px!important}
- html body .category-carousel #donutCenter{inset:33px!important}
-}
-</style>
-
-
-<style id="empty-category-message-centered-beside-donut">
-/* When a category list is empty, centre its message vertically against the donut on both tabs. */
-html body .category-carousel .chartarea .legend{align-self:stretch!important;display:flex!important;flex-direction:column!important;justify-content:center!important;min-height:clamp(124px,38vw,150px)!important;}
-html body .category-carousel .chartarea .legend > .empty{display:flex!important;align-items:center!important;justify-content:center!important;flex:1 1 auto!important;width:100%!important;min-height:clamp(124px,38vw,150px)!important;box-sizing:border-box!important;margin:0!important;padding:0 8px!important;text-align:center!important;line-height:1.4!important;white-space:normal!important;}
-@media(max-width:380px){html body .category-carousel .chartarea .legend,html body .category-carousel .chartarea .legend > .empty{min-height:124px!important}}
-</style>
 
 </body>
 </html>
@@ -1928,116 +1822,4 @@ button:focus-visible,input:focus,select:focus,textarea:focus,.focus-ring,.app-se
 #allTransactions .transaction-row + .transaction-row, #recentTransactions .transaction-row + .transaction-row {
   border-top:0!important;
 }
-</style>
-
-<style id="category-chart-layout-stable-final">
-/* Keep the donut and SVG on the same square canvas at every viewport size. */
-.chartarea{display:flex!important;align-items:center!important;gap:14px!important;min-width:0!important}
-.chartarea .donut{
-  position:relative!important;display:block!important;box-sizing:border-box!important;
-  width:clamp(132px, 38vw, 156px)!important;height:clamp(132px, 38vw, 156px)!important;
-  min-width:clamp(132px, 38vw, 156px)!important;min-height:clamp(132px, 38vw, 156px)!important;
-  flex:0 0 clamp(132px, 38vw, 156px)!important;aspect-ratio:1/1!important;
-  border-radius:50%!important;overflow:hidden!important;background:none!important;
-}
-.chartarea .donut::after{content:none!important;display:none!important}
-.chartarea .donut .donut-segments{
-  position:absolute!important;inset:0!important;width:100%!important;height:100%!important;
-  display:block!important;overflow:visible!important;transform:none!important;
-}
-.chartarea .donut .donut-segments circle{stroke-width:10!important;fill:none!important}
-#donutCenter,.donut-center{
-  position:absolute!important;inset:30%!important;width:auto!important;height:auto!important;
-  min-width:0!important;min-height:0!important;box-sizing:border-box!important;
-  display:flex!important;align-items:center!important;justify-content:center!important;
-  flex-direction:column!important;gap:4px!important;padding:0!important;margin:0!important;
-  text-align:center!important;white-space:normal!important;overflow:hidden!important;
-  overflow-wrap:normal!important;word-break:normal!important;pointer-events:none!important;
-  border:0!important;border-radius:50%!important;background:transparent!important;
-  line-height:1.1!important;color:#F7F6FA!important;z-index:2!important;
-}
-#donutCenter .comparison-value,.donut-center .comparison-value{
-  display:block!important;width:100%!important;max-width:100%!important;
-  font-size:clamp(14px, 4vw, 17px)!important;font-weight:800!important;
-  line-height:1.1!important;white-space:nowrap!important;letter-spacing:-.3px!important;
-  font-variant-numeric:tabular-nums!important;
-}
-#donutCenter small,.donut-center small{
-  display:block!important;width:100%!important;max-width:100%!important;
-  white-space:normal!important;text-wrap:pretty!important;overflow-wrap:normal!important;
-  word-break:normal!important;font-size:clamp(9px, 2.6vw, 11px)!important;
-  font-weight:400!important;line-height:1.2!important;margin:0!important;color:#96929F!important;
-}
-.chartarea .legend{min-width:0!important;flex:1 1 0!important}
-@media(max-width:380px){
- .chartarea{gap:10px!important}
- .chartarea .donut{width:124px!important;height:124px!important;min-width:124px!important;min-height:124px!important;flex-basis:124px!important}
- #donutCenter,.donut-center{inset:29%!important;gap:3px!important}
- #donutCenter .comparison-value,.donut-center .comparison-value{font-size:13px!important}
- #donutCenter small,.donut-center small{font-size:9px!important}
-}
-</style>
-
-<style id="category-chart-fixed-position-both-tabs">
-/* Keep the donut anchored to the same top-left position whether Spending or Earnings is active. */
-html body .category-carousel .category-chart-stage{width:100%!important;min-width:0!important;}
-html body .category-carousel .chartarea{
-  display:grid!important;grid-template-columns:clamp(124px,38vw,150px) minmax(0,1fr)!important;
-  align-items:start!important;justify-items:stretch!important;gap:14px!important;
-  width:100%!important;min-width:0!important;
-}
-html body .category-carousel .chartarea .donut{
-  position:relative!important;align-self:start!important;justify-self:start!important;
-  width:clamp(124px,38vw,150px)!important;height:clamp(124px,38vw,150px)!important;
-  min-width:clamp(124px,38vw,150px)!important;min-height:clamp(124px,38vw,150px)!important;
-  max-width:clamp(124px,38vw,150px)!important;max-height:clamp(124px,38vw,150px)!important;
-  flex:none!important;aspect-ratio:1/1!important;margin:0!important;transform:none!important;
-}
-html body .category-carousel .chartarea .donut:after{inset:18px!important;}
-html body .category-carousel .chartarea .donut-segments{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;}
-html body .category-carousel #donutCenter{inset:30px!important;box-sizing:border-box!important;overflow:hidden!important;}
-html body .category-carousel .chartarea .legend{align-self:start!important;min-width:0!important;margin:0!important;}
-@media(max-width:380px){
- html body .category-carousel .chartarea{grid-template-columns:124px minmax(0,1fr)!important;gap:10px!important;}
- html body .category-carousel .chartarea .donut{width:124px!important;height:124px!important;min-width:124px!important;min-height:124px!important;max-width:124px!important;max-height:124px!important;}
- html body .category-carousel .chartarea .donut:after{inset:16px!important;}
- html body .category-carousel #donutCenter{inset:25px!important;}
-}
-@media(min-width:600px){
- html body .category-carousel .chartarea{grid-template-columns:150px minmax(0,1fr)!important;}
- html body .category-carousel .chartarea .donut{width:150px!important;height:150px!important;min-width:150px!important;min-height:150px!important;max-width:150px!important;max-height:150px!important;}
- html body .category-carousel .chartarea .donut:after{inset:19px!important;}
- html body .category-carousel #donutCenter{inset:31px!important;}
-}
-</style>
-
-<style id="complete-category-donut-ring-fix">
-.category-carousel .chartarea .donut{overflow:visible!important;background:none!important}
-.category-carousel .chartarea .donut-segments{overflow:visible!important;transform:rotate(-90deg)!important;transform-origin:50% 50%!important}
-.category-carousel .chartarea .donut-segments circle[data-category]{fill:none!important;stroke-linecap:butt!important;stroke-width:10!important;transition:none!important}
-</style>
-
-<style id="category-chart-per-category-colours-final">
-/* Each category gets its own computed segment and matching legend marker; do not flatten the donut to one colour. */
-#categoryCarousel .donut-segments circle[data-category]{fill:none!important;stroke-width:10!important;stroke-linecap:butt!important}
-#categoryCarousel .legend-row .dot[data-category-dot]{box-shadow:none!important;border:0!important}
-</style>
-
-<style id="interactive-category-chart-selection">
-#categoryCarousel .legend-row{cursor:pointer;border-radius:8px;padding:5px 6px;margin:5px 0;transition:background .15s ease,font-weight .15s ease;outline-offset:2px}
-#categoryCarousel .legend-row.category-selected{background:#FFFFFF0D;font-weight:800!important}
-#categoryCarousel .legend-row.category-selected .legend-name,#categoryCarousel .legend-row.category-selected .legend-value{font-weight:800!important;color:#FFFFFF!important}
-#categoryCarousel .legend-row:focus-visible{outline:1px solid #A78BFA}
-#categoryCarousel .donut-segments circle{transition:stroke-width .18s ease,r .18s ease}
-.donut-center .comparison-value{font-weight:800!important}
-.donut-center small{max-width:100%;white-space:normal!important;text-wrap:balance}
-</style>
-
-<style id="month-pill-inline-navigation-final">
-.home-head-actions .month,#monthBtn{display:inline-flex!important;align-items:center!important;justify-content:space-between!important;gap:9px!important;min-width:158px!important;padding:5px 7px!important;border-radius:999px!important;white-space:nowrap!important;}
-#monthBtn .month-label-content{display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:5px!important;flex:1 1 auto!important;}
-#monthBtn .month-nav-arrow{display:inline-flex!important;align-items:center!important;justify-content:center!important;flex:0 0 25px!important;width:25px!important;height:25px!important;border-radius:50%!important;color:inherit!important;background:transparent!important;cursor:pointer!important;touch-action:manipulation!important;}
-#monthBtn .month-nav-arrow:active{background:#ffffff18!important}
-#monthBtn .month-nav-arrow svg{display:block!important;width:17px!important;height:17px!important;stroke:currentColor!important;stroke-width:2!important;fill:none!important;stroke-linecap:round!important;stroke-linejoin:round!important}
-@media(max-width:380px){.home-head-actions .month,#monthBtn{min-width:150px!important;padding:4px 6px!important;gap:6px!important}#monthBtn .month-nav-arrow{flex-basis:23px!important;width:23px!important;height:23px!important}}
 </style>
