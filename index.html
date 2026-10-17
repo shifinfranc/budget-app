@@ -2340,3 +2340,11 @@ html body header.top #accountSwitcher.account-switcher:not(.open){border-radius:
 html body header.top #accountSwitcher.account-switcher.open{border-radius:22px!important}
 @media(prefers-reduced-motion:reduce){html body header.top #accountSwitcher.account-switcher{transition:none!important}}
 </style>
+
+
+<style id="account-switcher-flag-optical-center-plus-1px">
+/* Move the flag exactly 1px right from the previous optical-centre position. */
+html body header.top #accountSwitcher.account-switcher:not(.open) .account-switcher-flag{
+  left:calc(50% - 2px)!important;
+}
+</style>
