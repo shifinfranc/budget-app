@@ -1811,3 +1811,36 @@ button:focus-visible,input:focus,select:focus,textarea:focus,.focus-ring,.app-se
   border-top:0!important;
 }
 </style>
+
+<style id="final-transaction-bottom-row-fit-important">
+/* FINAL OVERRIDE: compact the actual row elements in both the recent list and View All list.
+   Divider remains the row's own border; no fixed/standalone line is added. */
+html body #allTransactions .transaction,
+html body #recentTransactions .transaction {
+  display:flex!important; box-sizing:border-box!important; height:auto!important; min-height:0!important;
+  padding-top:2px!important; padding-bottom:2px!important; margin-top:0!important; margin-bottom:0!important;
+  border-top:0!important; border-bottom:1px solid #353535!important;
+  box-shadow:none!important; transform:none!important;
+}
+html body #allTransactions .transaction .tx-icon,
+html body #recentTransactions .transaction .tx-icon,
+html body #allTransactions .transaction .tx-main,
+html body #recentTransactions .transaction .tx-main,
+html body #allTransactions .transaction .tx-right,
+html body #recentTransactions .transaction .tx-right {
+  margin-top:0!important; margin-bottom:0!important; align-self:center!important;
+}
+html body #allTransactions .transaction-month-heading,
+html body #recentTransactions .transaction-month-heading,
+html body #allTransactions .month-heading,
+html body #recentTransactions .month-heading,
+html body #allTransactions .month-separator,
+html body #recentTransactions .month-separator {
+  box-sizing:border-box!important; padding-top:5px!important; padding-bottom:5px!important;
+  margin-top:0!important; margin-bottom:0!important; border-top:1px solid #353535!important;
+  border-bottom:1px solid #353535!important; box-shadow:none!important;
+}
+html body #allTransactions .transaction:last-child,
+html body #recentTransactions .transaction:last-child { border-bottom:1px solid #353535!important; }
+html body #allTransactions::after, html body #recentTransactions::after { content:none!important; display:none!important; }
+</style>
