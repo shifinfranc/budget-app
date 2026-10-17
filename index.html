@@ -2318,10 +2318,9 @@ html body header.top #accountSwitcher.account-switcher.open > .account-switcher-
 
 
 <style id="account-switcher-flag-visual-center-final">
-/* Final optical alignment: the Canada flag emoji has asymmetric side bearings on Android.
-   Nudge the glyph's visual centre slightly right while keeping its wrapper mathematically centred. */
+/* Final optical alignment: shift the flag glyph slightly left so its visible artwork, rather than its text box, appears centred on Android. */
 html body header.top #accountSwitcher.account-switcher:not(.open) .account-switcher-flag{
-  left:calc(50% + 3px)!important;
+  left:calc(50% - 3px)!important;
   top:50%!important;
   width:24px!important;height:24px!important;min-width:24px!important;max-width:24px!important;
   min-height:24px!important;max-height:24px!important;flex:0 0 24px!important;
