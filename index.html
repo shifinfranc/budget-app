@@ -1012,6 +1012,106 @@ input[type="search"], input[placeholder*="Search" i], input[id*="search" i], .se
   content:none!important;display:none!important;border:0!important;box-shadow:none!important;
 }
 </style>
+
+<style id="last-mile-visible-icon-border-and-single-line-fix-20261016">
+/* Last stylesheet wins: override earlier rules that explicitly removed icon borders. */
+html body #recentTransactions .transaction > .tx-icon,
+html body #allTransactions .transaction > .tx-icon,
+html body #recentTransactions .tx-icon,
+html body #allTransactions .tx-icon,
+html body .transaction > .tx-icon {
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  place-items:center !important;
+  flex:0 0 44px !important;
+  width:44px !important;
+  height:44px !important;
+  min-width:44px !important;
+  min-height:44px !important;
+  max-width:44px !important;
+  max-height:44px !important;
+  padding:0 !important;
+  margin:0 !important;
+  box-sizing:border-box !important;
+  border:1.5px solid #8a8a8a !important;
+  border-style:solid !important;
+  border-radius:50% !important;
+  background:#000 !important;
+  background-image:none !important;
+  box-shadow:none !important;
+  outline:0 !important;
+  line-height:1 !important;
+  text-align:center !important;
+  overflow:hidden !important;
+}
+html body #recentTransactions .transaction > .tx-icon svg,
+html body #allTransactions .transaction > .tx-icon svg,
+html body .transaction > .tx-icon svg {
+  display:block !important;
+  width:19px !important;
+  height:19px !important;
+  min-width:19px !important;
+  min-height:19px !important;
+  margin:0 !important;
+  padding:0 !important;
+  flex:0 0 19px !important;
+  align-self:center !important;
+  position:static !important;
+  transform:none !important;
+}
+html body #recentTransactions .transaction > .tx-icon img,
+html body #allTransactions .transaction > .tx-icon img,
+html body .transaction > .tx-icon img {
+  display:block !important;
+  width:19px !important;
+  height:19px !important;
+  object-fit:contain !important;
+  margin:0 !important;
+  padding:0 !important;
+  flex:0 0 19px !important;
+  align-self:center !important;
+}
+/* One separator per boundary: row bottoms draw the line; month labels do not add a top line. */
+html body #allTransactions .transaction,
+html body #recentTransactions .transaction {
+  border-top:0 !important;
+  border-bottom:1px solid #353535 !important;
+  box-shadow:none !important;
+}
+html body #allTransactions .transaction-month-heading,
+html body #recentTransactions .transaction-month-heading,
+html body .transaction-month-heading {
+  box-sizing:border-box !important;
+  height:38px !important;
+  min-height:38px !important;
+  max-height:38px !important;
+  margin:0 !important;
+  padding:0 4px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  border-top:0 !important;
+  border-bottom:1px solid #353535 !important;
+  border-left:0 !important;
+  border-right:0 !important;
+  border-radius:0 !important;
+  box-shadow:none !important;
+  background:#202020 !important;
+  background-image:none !important;
+  line-height:18px !important;
+  position:sticky !important;
+}
+html body #allTransactions .transaction-month-heading::before,
+html body #allTransactions .transaction-month-heading::after,
+html body #recentTransactions .transaction-month-heading::before,
+html body #recentTransactions .transaction-month-heading::after,
+html body .transaction-month-heading::before,
+html body .transaction-month-heading::after {
+  content:none !important;
+  display:none !important;
+}
+</style>
 </body>
 </html>
 <style id="latest-reference-polish">
@@ -1620,5 +1720,31 @@ button:focus-visible,input:focus,select:focus,textarea:focus,.focus-ring,.app-se
   background-image:none!important;
   opacity:1!important;
   box-shadow:none!important;
+}
+</style>
+
+<style id="final-month-picker-chevron-and-current-month-fix-20261016">
+/* Month/year picker: keep navigation chevrons visible in the monochrome dark theme. */
+.month-picker-yearbar .month-picker-yearbtn,
+.month-picker-yearbar button.month-picker-yearbtn,
+#monthYearPrev, #monthYearNext {
+  color:#E0E0E0!important; background:#242424!important; border:1px solid #555!important;
+  box-shadow:none!important; opacity:1!important;
+}
+.month-picker-yearbar .month-picker-yearbtn svg,
+.month-picker-yearbar .month-picker-yearbtn svg path,
+#monthYearPrev svg, #monthYearNext svg {
+  color:#E0E0E0!important; stroke:#E0E0E0!important; fill:none!important; opacity:1!important;
+}
+.month-picker-yearbar .month-picker-yearbtn svg { width:20px!important;height:20px!important;display:block!important; }
+/* Current month is a distinct neutral-grey tile unless it is also the selected month. */
+.month-picker-month.current-month:not(.selected-month) {
+  background:#383838!important; background-color:#383838!important; color:#FFFFFF!important;
+  border:1px solid #777777!important; font-weight:650!important; box-shadow:inset 0 0 0 1px rgba(255,255,255,.025)!important;
+}
+.month-picker-month.selected-month,
+.month-picker-month.current-month.selected-month {
+  background:#505050!important; background-color:#505050!important; color:#FFFFFF!important;
+  border:1px solid #929292!important; font-weight:700!important;
 }
 </style>
