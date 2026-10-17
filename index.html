@@ -2450,3 +2450,16 @@ html body header.top #accountSwitcher.account-switcher:not(.open) .account-switc
   top:calc(50% + 1px)!important;
 }
 </style>
+
+
+<style id="more-accounts-tab-flag-position-adjustment">
+/* More > Accounts only: shift account flag icons 1px left and 1px down.
+   Does not affect the header account toggler or other flag icons. */
+html body .account-manage-row .flag,
+html body .account-manage-row .account-flag,
+html body .account-manage-row .account-manage-flag {
+  position: relative !important;
+  left: -1px !important;
+  top: 1px !important;
+}
+</style>
