@@ -490,6 +490,41 @@ html body #accountSwitcher .account-switcher-option-info small{font-size:12px!im
 @media(prefers-reduced-motion:reduce){html body #accountSwitcher.account-switcher,html body #accountSwitcher .account-switcher-info,html body #accountSwitcher .account-switcher-caret,html body #accountSwitcher .account-switcher-caret svg,html body #accountSwitcher .account-switcher-list,html body #accountSwitcher .account-switcher-option{transition:none!important}}
 </style>
 
+
+<style id="account-switcher-compact-tile-override">
+/* Compact circular account tile; preserve the centered flag and animate into the menu's rounded header. */
+.account-switcher{
+  flex-basis:48px!important;
+  width:48px!important;
+  height:48px!important;
+  border-radius:50%!important;
+  transition:width 300ms cubic-bezier(.2,.8,.2,1),height 300ms cubic-bezier(.2,.8,.2,1),border-radius 300ms cubic-bezier(.2,.8,.2,1),background-color 220ms ease!important;
+}
+.account-switcher:not(.open){overflow:hidden!important;border-radius:50%!important}
+.account-switcher:not(.open) .account-switcher-head{
+  width:100%!important;min-height:46px!important;height:46px!important;
+  padding:0!important;justify-content:center!important;gap:0!important;
+}
+.account-switcher:not(.open) .account-switcher-flag{
+  flex:0 0 28px!important;width:28px!important;height:28px!important;
+  margin:0 auto!important;display:grid!important;place-items:center!important;
+  font-size:22px!important;line-height:1!important;text-align:center!important;
+}
+.account-switcher.open{
+  width:210px!important;height:auto!important;min-height:0!important;
+  border-radius:22px!important;overflow:hidden!important;
+}
+.account-switcher.open .account-switcher-head{
+  min-height:54px!important;height:54px!important;padding:0 13px!important;
+  justify-content:flex-start!important;gap:10px!important;
+  border-radius:21px 21px 0 0!important;
+}
+.account-switcher.open .account-switcher-flag{
+  flex:0 0 34px!important;width:34px!important;height:34px!important;
+  margin:0!important;font-size:25px!important;
+}
+@media(max-width:380px){.account-switcher.open{width:198px!important}.account-switcher:not(.open){flex-basis:46px!important;width:46px!important;height:46px!important}}
+</style>
 </head>
 <body>
 <div class="app">
