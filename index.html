@@ -2497,3 +2497,15 @@ html body #accountSwitcher.account-switcher.open .account-switcher-info > small 
   font-weight: 700 !important;
 }
 </style>
+
+
+<style id="account-switcher-active-currency-subtext-bold-fix">
+/* Force the active account's currency subtext to render bold when the toggler is expanded. */
+html body #accountSwitcher.account-switcher.open .account-switcher-head .account-switcher-info > small,
+html body #accountSwitcher.account-switcher.open .account-switcher-head .account-switcher-info small {
+  font-weight: 800 !important;
+  -webkit-text-stroke: 0.15px currentColor !important;
+  text-shadow: 0 0 0.01px currentColor !important;
+  letter-spacing: 0.15px !important;
+}
+</style>
