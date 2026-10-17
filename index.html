@@ -2315,3 +2315,29 @@ html body header.top #accountSwitcher.account-switcher.open > .account-switcher-
   html body header.top #accountSwitcher.account-switcher > .account-switcher-head{transition:none!important}
 }
 </style>
+
+
+<style id="account-switcher-flag-visual-center-final">
+/* Final optical alignment: the Canada flag emoji has asymmetric side bearings on Android.
+   Nudge the glyph's visual centre slightly right while keeping its wrapper mathematically centred. */
+html body header.top #accountSwitcher.account-switcher:not(.open) .account-switcher-flag{
+  left:calc(50% + 3px)!important;
+  top:50%!important;
+  width:24px!important;height:24px!important;min-width:24px!important;max-width:24px!important;
+  min-height:24px!important;max-height:24px!important;flex:0 0 24px!important;
+  font-size:20px!important;line-height:24px!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  padding:0!important;margin:0!important;
+  transform:translate(-50%,-50%)!important;
+}
+/* Keep the closed tile and expanded menu on a shared, smoothly morphing corner-radius system. */
+html body header.top #accountSwitcher.account-switcher{
+  transition:width 320ms cubic-bezier(.2,.8,.2,1),min-width 320ms cubic-bezier(.2,.8,.2,1),
+    max-width 320ms cubic-bezier(.2,.8,.2,1),flex-basis 320ms cubic-bezier(.2,.8,.2,1),
+    height 320ms cubic-bezier(.2,.8,.2,1),border-radius 320ms cubic-bezier(.2,.8,.2,1),
+    background-color 220ms ease!important;
+}
+html body header.top #accountSwitcher.account-switcher:not(.open){border-radius:50%!important}
+html body header.top #accountSwitcher.account-switcher.open{border-radius:22px!important}
+@media(prefers-reduced-motion:reduce){html body header.top #accountSwitcher.account-switcher{transition:none!important}}
+</style>
