@@ -550,6 +550,48 @@ html,body,body *{-webkit-tap-highlight-color:transparent;tap-highlight-color:tra
 button,a,[role="button"],input,select,textarea{-webkit-tap-highlight-color:transparent}
 button:active,a:active,[role="button"]:active{outline:none}
 </style>
+
+<style id="remove-category-card-chevron-controls">
+/* Category switching is handled by the Expense/Income pill; hide the card chevrons. */
+#categorySlideButton, .category-swipe-hint { display: none !important; }
+</style>
+
+
+<style id="final-hide-spending-earnings-chevrons">
+/* Remove the chevron control from the spending/earnings category card. */
+#categorySlideButton, .category-swipe-hint { display: none !important; }
+</style>
+
+
+<style id="month-picker-spacing-and-close-size-fix">
+/* Only the Choose month and year modal: keep the header/close control fixed and lower the picker controls. */
+#modal:has(#monthPickerContent) #modalBody {
+  transform: translateY(38px);
+  margin-bottom: -38px;
+}
+#modal:has(#monthPickerContent) .modal-actions {
+  transform: translateY(38px);
+  margin-bottom: -38px;
+}
+#modal:has(#monthPickerContent) .modalhead .close {
+  width: 40px !important;
+  height: 40px !important;
+  min-width: 40px !important;
+  min-height: 40px !important;
+  padding: 0 !important;
+  display: inline-grid !important;
+  place-items: center !important;
+  font-size: 18px !important;
+  line-height: 1 !important;
+  flex: 0 0 40px !important;
+}
+@media (max-height: 720px) {
+  #modal:has(#monthPickerContent) #modalBody,
+  #modal:has(#monthPickerContent) .modal-actions { transform: translateY(26px); }
+  #modal:has(#monthPickerContent) #modalBody { margin-bottom: -26px; }
+  #modal:has(#monthPickerContent) .modal-actions { margin-bottom: -26px; }
+}
+</style>
 </head>
 <body>
 <div class="app">
@@ -578,7 +620,7 @@ button:active,a:active,[role="button"]:active{outline:none}
         </div>
       </div>
       <div class="card category-carousel" id="categoryCarousel" aria-label="Category summaries. Swipe left or right to switch between spending and earnings.">
-        <div class="section-head"><h2 class="section-title" id="categorySlideTitle">Spending by Category</h2></div>
+        <div class="section-head"><h2 class="section-title" id="categorySlideTitle">Spending by Category</h2><button class="category-swipe-hint" id="categorySlideButton" type="button" aria-label="Show earnings by category" title="Show earnings by category" onclick="setCategorySlide(categorySlideIndex?0:1,true)"><span aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></span></button></div>
         <div class="category-chart-stage" id="categoryChartStage">
           <div class="chartarea"><div class="donut" id="donut"><svg class="donut-segments" id="donutSegments" viewBox="0 0 100 100" aria-hidden="true"></svg><div class="donut-center" id="donutCenter">$0<small>spent</small></div></div><div class="legend" id="legend"></div></div>
         </div>
