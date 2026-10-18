@@ -563,39 +563,19 @@ button:active,a:active,[role="button"]:active{outline:none}
 </style>
 
 
-<style id="month-picker-spacing-and-close-size-fix">
-/* Only the Choose month and year modal: keep the header/close control fixed and lower the picker controls. */
-#modal:has(#monthPickerContent) #modalBody {
-  transform: translateY(38px);
-  margin-bottom: -38px;
-}
-#modal:has(#monthPickerContent) .modal-actions {
-  transform: translateY(38px);
-  margin-bottom: -38px;
-}
-#modal:has(#monthPickerContent) .modalhead .close {
-  width: 40px !important;
-  height: 40px !important;
-  min-width: 40px !important;
-  min-height: 40px !important;
-  padding: 0 !important;
-  display: inline-grid !important;
-  place-items: center !important;
-  font-size: 18px !important;
-  line-height: 1 !important;
-  flex: 0 0 40px !important;
-}
-@media (max-height: 720px) {
-  #modal:has(#monthPickerContent) #modalBody,
-  #modal:has(#monthPickerContent) .modal-actions { transform: translateY(26px); }
-  #modal:has(#monthPickerContent) #modalBody { margin-bottom: -26px; }
-  #modal:has(#monthPickerContent) .modal-actions { margin-bottom: -26px; }
-}
-</style>
 
-<style id="month-picker-close-matches-chevron-tiles">
-/* Match the month picker's close control to the 40px year-chevron tiles. */
-#modal:has(#monthPickerContent) .modalhead .close {
+
+<style id="month-picker-layout-final-selector-fix">
+/* Target the actual .modal element (not a nonexistent #modal ID). Keep the close tile fixed and move only the picker content/action area down. */
+.modal:has(#monthPickerContent) #modalBody {
+  transform: translateY(30px) !important;
+  margin-bottom: -30px !important;
+}
+.modal:has(#monthPickerContent) .modal-actions {
+  transform: translateY(30px) !important;
+  margin-bottom: -30px !important;
+}
+.modal:has(#monthPickerContent) .modalhead .close {
   box-sizing: border-box !important;
   width: 40px !important; height: 40px !important;
   min-width: 40px !important; min-height: 40px !important;
@@ -606,7 +586,12 @@ button:active,a:active,[role="button"]:active{outline:none}
   background: #242424 !important; color: #E0E0E0 !important;
   border: 1px solid #555 !important; box-shadow: none !important;
 }
+@media (max-height: 720px) {
+  .modal:has(#monthPickerContent) #modalBody { transform: translateY(20px) !important; margin-bottom: -20px !important; }
+  .modal:has(#monthPickerContent) .modal-actions { transform: translateY(20px) !important; margin-bottom: -20px !important; }
+}
 </style>
+
 </head>
 <body>
 <div class="app">
