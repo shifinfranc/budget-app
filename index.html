@@ -563,25 +563,22 @@ button:active,a:active,[role="button"]:active{outline:none}
 </style>
 
 
-<style id="month-picker-spacing-and-close-size-fix-v2">
-/* Target only the full Choose month and year modal; do not affect the Total Balance month control. */
-.modal:has(#monthPickerContent) #modalBody {
-  transform: translateY(38px) !important;
-  margin-bottom: -38px !important;
+<style id="month-picker-spacing-and-close-size-fix">
+/* Only the Choose month and year modal: keep the header/close control fixed and lower the picker controls. */
+#modal:has(#monthPickerContent) #modalBody {
+  transform: translateY(38px);
+  margin-bottom: -38px;
 }
-.modal:has(#monthPickerContent) .modal-actions {
-  transform: translateY(38px) !important;
-  margin-bottom: -38px !important;
+#modal:has(#monthPickerContent) .modal-actions {
+  transform: translateY(38px);
+  margin-bottom: -38px;
 }
-/* Match the close control to the circular year-navigation tiles. */
-.modal:has(#monthPickerContent) .modalhead .close {
-  box-sizing: border-box !important;
+#modal:has(#monthPickerContent) .modalhead .close {
   width: 40px !important;
   height: 40px !important;
   min-width: 40px !important;
   min-height: 40px !important;
   padding: 0 !important;
-  border-radius: 50% !important;
   display: inline-grid !important;
   place-items: center !important;
   font-size: 18px !important;
@@ -589,10 +586,10 @@ button:active,a:active,[role="button"]:active{outline:none}
   flex: 0 0 40px !important;
 }
 @media (max-height: 720px) {
-  .modal:has(#monthPickerContent) #modalBody,
-  .modal:has(#monthPickerContent) .modal-actions { transform: translateY(26px) !important; }
-  .modal:has(#monthPickerContent) #modalBody { margin-bottom: -26px !important; }
-  .modal:has(#monthPickerContent) .modal-actions { margin-bottom: -26px !important; }
+  #modal:has(#monthPickerContent) #modalBody,
+  #modal:has(#monthPickerContent) .modal-actions { transform: translateY(26px); }
+  #modal:has(#monthPickerContent) #modalBody { margin-bottom: -26px; }
+  #modal:has(#monthPickerContent) .modal-actions { margin-bottom: -26px; }
 }
 </style>
 </head>
