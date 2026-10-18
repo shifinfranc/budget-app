@@ -566,14 +566,27 @@ button:active,a:active,[role="button"]:active{outline:none}
 
 
 <style id="month-picker-layout-final-selector-fix">
-/* Target the actual .modal element (not a nonexistent #modal ID). Keep the close tile fixed and move only the picker content/action area down. */
-.modal:has(#monthPickerContent) #modalBody {
-  transform: translateY(30px) !important;
-  margin-bottom: -30px !important;
+/* Month/year modal: keep the helper copy visible and give the Apply button balanced bottom spacing. */
+.modal:has(#monthPickerContent) {
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: 92dvh !important;
+  overflow-y: auto !important;
+  padding-bottom: calc(24px + env(safe-area-inset-bottom)) !important;
+}
+.modal:has(#monthPickerContent) #modalBody,
+.modal:has(#monthPickerContent) .modal-actions {
+  transform: none !important;
+  margin-bottom: 0 !important;
+}
+.modal:has(#monthPickerContent) .month-picker-note {
+  display: block !important;
+  position: static !important;
+  margin: 12px 0 0 !important;
+  line-height: 1.45 !important;
 }
 .modal:has(#monthPickerContent) .modal-actions {
-  transform: translateY(30px) !important;
-  margin-bottom: -30px !important;
+  margin-top: 18px !important;
 }
 .modal:has(#monthPickerContent) .modalhead .close {
   box-sizing: border-box !important;
@@ -587,8 +600,8 @@ button:active,a:active,[role="button"]:active{outline:none}
   border: 1px solid #555 !important; box-shadow: none !important;
 }
 @media (max-height: 720px) {
-  .modal:has(#monthPickerContent) #modalBody { transform: translateY(20px) !important; margin-bottom: -20px !important; }
-  .modal:has(#monthPickerContent) .modal-actions { transform: translateY(20px) !important; margin-bottom: -20px !important; }
+  .modal:has(#monthPickerContent) { max-height: 94dvh !important; }
+  .modal:has(#monthPickerContent) .modal-actions { margin-top: 14px !important; }
 }
 </style>
 
