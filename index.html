@@ -592,6 +592,21 @@ button:active,a:active,[role="button"]:active{outline:none}
   #modal:has(#monthPickerContent) .modal-actions { margin-bottom: -26px; }
 }
 </style>
+
+<style id="month-picker-close-matches-chevron-tiles">
+/* Match the month picker's close control to the 40px year-chevron tiles. */
+#modal:has(#monthPickerContent) .modalhead .close {
+  box-sizing: border-box !important;
+  width: 40px !important; height: 40px !important;
+  min-width: 40px !important; min-height: 40px !important;
+  flex: 0 0 40px !important; padding: 0 !important;
+  border-radius: 50% !important;
+  display: inline-grid !important; place-items: center !important;
+  font-size: 20px !important; line-height: 1 !important;
+  background: #242424 !important; color: #E0E0E0 !important;
+  border: 1px solid #555 !important; box-shadow: none !important;
+}
+</style>
 </head>
 <body>
 <div class="app">
