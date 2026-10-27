@@ -551,78 +551,8 @@ button,a,[role="button"],input,select,textarea{-webkit-tap-highlight-color:trans
 button:active,a:active,[role="button"]:active{outline:none}
 </style>
 
-<style id="remove-category-card-chevron-controls">
-/* Category switching is handled by the Expense/Income pill; hide the card chevrons. */
-#categorySlideButton, .category-swipe-hint { display: none !important; }
-</style>
-
-
-<style id="final-hide-spending-earnings-chevrons">
-/* Remove the chevron control from the spending/earnings category card. */
-#categorySlideButton, .category-swipe-hint { display: none !important; }
-</style>
-
-
-
-
-<style id="month-picker-layout-final-selector-fix">
-/* Month/year modal: keep the helper copy visible and give the Apply button balanced bottom spacing. */
-.modal:has(#monthPickerContent) {
-  height: auto !important;
-  min-height: 0 !important;
-  max-height: 92dvh !important;
-  overflow-y: auto !important;
-  padding-bottom: calc(24px + env(safe-area-inset-bottom)) !important;
-}
-.modal:has(#monthPickerContent) #modalBody,
-.modal:has(#monthPickerContent) .modal-actions {
-  transform: none !important;
-  margin-bottom: 0 !important;
-}
-.modal:has(#monthPickerContent) .month-picker-note {
-  display: block !important;
-  position: static !important;
-  margin: 12px 0 0 !important;
-  line-height: 1.45 !important;
-}
-.modal:has(#monthPickerContent) .modal-actions {
-  margin-top: 18px !important;
-}
- .modal:has(#monthPickerContent) .modalhead .close {
-  box-sizing: border-box !important;
-  width: 40px !important; height: 40px !important;
-  min-width: 40px !important; min-height: 40px !important;
-  max-width: 40px !important; max-height: 40px !important;
-  flex: 0 0 40px !important; padding: 0 !important; margin: 0 !important;
-  border-radius: 50% !important;
-  display: inline-flex !important; align-items: center !important; justify-content: center !important;
-  font-size: 20px !important; line-height: 1 !important; font-weight: 500 !important;
-  transform: none !important; aspect-ratio: 1 / 1 !important;
-  background: #242424 !important; color: #E0E0E0 !important;
-  border: 1px solid #555 !important; box-shadow: none !important;
-}
-.modal:has(#monthPickerContent) .month-picker-yearbar .month-picker-yearbtn {
-  box-sizing: border-box !important;
-  width: 40px !important; height: 40px !important;
-  min-width: 40px !important; min-height: 40px !important;
-  max-width: 40px !important; max-height: 40px !important;
-  flex: 0 0 40px !important; padding: 0 !important; margin: 0 !important;
-  border-radius: 50% !important; display: inline-flex !important;
-  align-items: center !important; justify-content: center !important;
-  aspect-ratio: 1 / 1 !important; transform: none !important;
-}
-.modal:has(#monthPickerContent) .modalhead .close,
-.modal:has(#monthPickerContent) .month-picker-yearbar .month-picker-yearbtn {
-  background: #242424 !important; color: #E0E0E0 !important;
-  border: 1px solid #555 !important; box-shadow: none !important;
-}
-.modal:has(#monthPickerContent) .month-picker-yearbar .month-picker-yearbtn svg {
-  width: 20px !important; height: 20px !important; display: block !important;
-}
-@media (max-height: 720px) {
-  .modal:has(#monthPickerContent) { max-height: 94dvh !important; }
-  .modal:has(#monthPickerContent) .modal-actions { margin-top: 14px !important; }
-}
+<style id="category-settings-editor-styles">
+.category-editor-intro{font-size:13px;color:var(--muted,#9b9ba3);line-height:1.5;margin:0 0 14px}.category-editor-row{padding:13px 0;border-bottom:1px solid var(--line,#33333a);display:grid;gap:9px}.category-editor-row:last-child{border-bottom:0}.category-editor-label{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:12px;color:var(--muted,#9b9ba3)}.category-editor-label strong{font-size:14px;color:var(--ink,#f5f5f7);font-weight:600}.category-editor-row input{width:100%;box-sizing:border-box;background:var(--surface-2,#202024);color:var(--ink,#f5f5f7);border:1px solid var(--line,#393940);border-radius:13px;padding:11px 12px;font:inherit;font-size:14px;outline:none}.category-editor-row input:focus{border-color:#92929a}.category-editor-row .subcat-input{font-size:13px}.category-editor-row .field-hint{font-size:11px;color:var(--muted,#8c8c94);margin-top:-3px}.category-editor-add{display:flex;gap:8px;margin-top:12px}.category-editor-add input{flex:1;min-width:0;background:var(--surface-2,#202024);color:var(--ink,#f5f5f7);border:1px solid var(--line,#393940);border-radius:13px;padding:11px;font:inherit}.category-preview{margin-top:15px;padding:14px;border-radius:17px;background:var(--surface-2,#1a1a1e);border:1px solid var(--line,#303036)}.category-preview h4{font-size:14px;font-weight:600;margin:0 0 10px}.category-preview-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid #303036;font-size:13px}.category-preview-row:last-child{border-bottom:0}.category-preview-sub{display:block;color:var(--muted,#92929a);font-size:11px;margin-top:3px}.category-preview-actions{font-size:12px;color:var(--muted,#a4a4aa)}
 </style>
 
 </head>
@@ -683,7 +613,7 @@ button:active,a:active,[role="button"]:active{outline:none}
 
     <section class="view" id="moreView">
       <div class="card"><div class="accounts-card-head"><h2 class="section-title">Accounts</h2><div class="accounts-header-actions"><button class="linkbtn accounts-header-add" id="addAccountBtn" aria-label="Add account" title="Add account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button><button class="linkbtn accounts-header-edit" id="toggleAccountControls" aria-label="Show account controls" title="Show account controls" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5v2M12 18.5v2M3.5 12h2M18.5 12h2M6 6l1.4 1.4M16.6 16.6 18 18M18 6l-1.4 1.4M7.4 16.6 6 18"/><circle cx="12" cy="12" r="6.2"/><circle cx="12" cy="12" r="2.2"/></svg></button></div></div><p class="small account-order-hint">Drag the slider icon to reorder accounts.</p><div id="accountManage" class="account-controls-hidden"></div></div>
-      <div class="card"><h2 class="section-title">Settings</h2><button class="secondary data-action" style="width:100%;margin-top:10px" id="groupsBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3.5 19v-1.2A4.8 4.8 0 0 1 8.3 13h1.4a4.8 4.8 0 0 1 4.8 4.8V19"/><path d="M16 5.5a3 3 0 0 1 0 5.8M17 13.2a4.8 4.8 0 0 1 3.5 4.6V19"/></svg><span>Groups</span></button><button class="secondary data-action" style="width:100%;margin-top:10px" id="exportBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3m-4 4 4-4 4 4"/><path d="M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg><span>Export</span></button><button class="secondary data-action" style="width:100%;margin-top:10px" id="importBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m-4-4 4 4 4-4"/><path d="M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg><span>Import</span></button><input id="importFile" type="file" accept=".json,application/json" hidden><button class="secondary danger" style="width:100%;margin-top:10px" id="clearBtn">Clear all app data</button><p class="small">Your data is stored in this browser on this device. Clearing browser data may remove it. Export a backup regularly. This prototype does not sync between devices.</p></div>
+      <div class="card"><h2 class="section-title">Settings</h2><button class="secondary data-action" style="width:100%;margin-top:10px" id="groupsBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3.5 19v-1.2A4.8 4.8 0 0 1 8.3 13h1.4a4.8 4.8 0 0 1 4.8 4.8V19"/><path d="M16 5.5a3 3 0 0 1 0 5.8M17 13.2a4.8 4.8 0 0 1 3.5 4.6V19"/></svg><span>Groups</span></button><button class="secondary data-action" style="width:100%;margin-top:10px" id="categorySettingsBtn" onclick="openCategorySettings()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/><circle cx="9" cy="6" r="2" fill="currentColor"/><circle cx="15" cy="12" r="2" fill="currentColor"/><circle cx="8" cy="18" r="2" fill="currentColor"/></svg><span>Categories</span></button><button class="secondary data-action" style="width:100%;margin-top:10px" id="exportBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3m-4 4 4-4 4 4"/><path d="M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg><span>Export</span></button><button class="secondary data-action" style="width:100%;margin-top:10px" id="importBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m-4-4 4 4 4-4"/><path d="M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg><span>Import</span></button><input id="importFile" type="file" accept=".json,application/json" hidden><button class="secondary danger" style="width:100%;margin-top:10px" id="clearBtn">Clear all app data</button><p class="small">Your data is stored in this browser on this device. Clearing browser data may remove it. Export a backup regularly. This prototype does not sync between devices.</p></div>
     </section>
   </main>
 </div>
@@ -855,6 +785,31 @@ function renderAccounts(){
   const release=e=>{if(pointerId!==e.pointerId)return;handle.classList.remove('dragging-handle');finish()};handle.addEventListener('pointerup',release);handle.addEventListener('pointercancel',release);handle.addEventListener('lostpointercapture',e=>{if(dragRow&&pointerId===e.pointerId){handle.classList.remove('dragging-handle');finish()}});
  });
 }
+const DEFAULT_CATEGORY_STRUCTURE={
+ expense:{Groceries:['Supermarket','Convenience store'],Entertainment:['Movies','Games','Subscriptions'],Transport:['Fuel','Public transit','Parking'],Bills:['Phone','Internet','Utilities'],Rent:['Rent'],Shopping:['Clothing','Household'],Health:['Pharmacy','Medical'],Other:['Miscellaneous']},
+ income:{Salary:['Paycheque'],Freelance:['Contract work'],Other:['Refund','Gift']}
+};
+if(!state.categoryStructure)state.categoryStructure=structuredClone(DEFAULT_CATEGORY_STRUCTURE);
+function getCategoryStructure(){if(!state.categoryStructure)state.categoryStructure=structuredClone(DEFAULT_CATEGORY_STRUCTURE);return state.categoryStructure}
+function allKnownCategories(){const names=new Set();Object.values(DEFAULT_CATEGORY_STRUCTURE).forEach(group=>Object.keys(group).forEach(n=>names.add(n)));state.accounts.forEach(a=>{a.transactions.forEach(t=>names.add(t.category||'Other'));Object.keys(a.budgets||{}).forEach(n=>names.add(n))});const structure=getCategoryStructure();Object.values(structure).forEach(group=>Object.keys(group).forEach(n=>names.add(n)));return [...names].sort((a,b)=>a.localeCompare(b))}
+function openCategorySettings(){
+ const structure=getCategoryStructure(),names=allKnownCategories();
+ const rows=names.map(name=>{const kind=Object.prototype.hasOwnProperty.call(structure.income,name)&&!Object.prototype.hasOwnProperty.call(structure.expense,name)?'income':'expense';const subs=(structure[kind]&&structure[kind][name])||(structure.expense[name]||structure.income[name]||[]);return `<div class="category-editor-row" data-category-editor-row data-old-name="${esc(name)}"><div class="category-editor-label"><strong>${esc(name)}</strong><span>${kind==='income'?'Income':'Expense'}</span></div><input data-category-name aria-label="Rename ${esc(name)} category" value="${esc(name)}" placeholder="Category name"><div class="field-hint">Subcategories · separate items with commas</div><input class="subcat-input" data-subcategories aria-label="Subcategories for ${esc(name)}" value="${esc(subs.join(', '))}" placeholder="Add subcategories, separated by commas"></div>`}).join('');
+ const body=`<p class="category-editor-intro">Rename categories and add or edit subcategories. Renaming a category also updates matching transactions and budget limits in every account.</p><div id="categoryEditorRows">${rows}</div><div class="category-editor-add"><input id="newCategoryName" placeholder="New category name" aria-label="New category name"><button type="button" class="secondary" id="addCategoryDraft">＋ Add</button></div><div class="category-preview"><h4>Preview</h4><div id="categoryEditorPreview"></div></div>`;
+ openModal('Categories',body,'Save changes','categorysettings');
+ const updatePreview=()=>{const host=document.getElementById('categoryEditorPreview');if(!host)return;const list=[...document.querySelectorAll('[data-category-editor-row]')].map(row=>({name:row.querySelector('[data-category-name]').value.trim()||'Untitled category',subs:row.querySelector('[data-subcategories]').value.split(',').map(x=>x.trim()).filter(Boolean)}));host.innerHTML=list.length?list.map(x=>`<div class="category-preview-row"><span>${esc(x.name)}<small class="category-preview-sub">${x.subs.length?x.subs.map(esc).join(' · '):'No subcategories yet'}</small></span><span class="category-preview-actions">Edit</span></div>`).join(''):'<div class="empty">No categories yet.</div>'};
+ document.getElementById('categoryEditorRows').addEventListener('input',updatePreview);updatePreview();
+ document.getElementById('addCategoryDraft').onclick=()=>{const input=document.getElementById('newCategoryName'),name=input.value.trim();if(!name)return;if([...document.querySelectorAll('[data-category-name]')].some(x=>x.value.trim().toLowerCase()===name.toLowerCase())){showToast('That category already exists.');return}const row=document.createElement('div');row.className='category-editor-row';row.dataset.categoryEditorRow='';row.dataset.oldName='';row.innerHTML=`<div class="category-editor-label"><strong>New category</strong><span>Expense</span></div><input data-category-name aria-label="New category name" value="${esc(name)}" placeholder="Category name"><div class="field-hint">Subcategories · separate items with commas</div><input class="subcat-input" data-subcategories aria-label="Subcategories for ${esc(name)}" value="" placeholder="Add subcategories, separated by commas">`;document.getElementById('categoryEditorRows').appendChild(row);input.value='';updatePreview()};
+}
+function saveCategorySettings(){
+ const rows=[...document.querySelectorAll('[data-category-editor-row]')],next={expense:{},income:{}},renames=[];const seen=new Set();
+ for(const row of rows){const old=row.dataset.oldName||'',name=row.querySelector('[data-category-name]').value.trim(),subs=row.querySelector('[data-subcategories]').value.split(',').map(x=>x.trim()).filter(Boolean);if(!name){showToast('Category names cannot be empty.');return false}if(seen.has(name.toLowerCase())){showToast('Category names must be unique.');return false}seen.add(name.toLowerCase());const previous=getCategoryStructure();const kind=previous.income[name]&&!previous.expense[name]?'income':(previous.income[old]&&!previous.expense[old]?'income':'expense');next[kind][name]=subs;if(old&&old!==name)renames.push([old,name]);}
+ const add=document.getElementById('newCategoryName')?.value.trim();if(add&&!seen.has(add.toLowerCase())){next.expense[add]=[];seen.add(add.toLowerCase())}
+ // Preserve categories that were not part of the currently displayed editor.
+ state.accounts.forEach(a=>{a.transactions.forEach(t=>{if(!seen.has(String(t.category||'Other').toLowerCase())){const n=t.category||'Other';next[t.type==='income'?'income':'expense'][n]=next[t.type==='income'?'income':'expense'][n]||[];seen.add(n.toLowerCase())}})});
+ for(const [oldName,newName] of renames){state.accounts.forEach(a=>{a.transactions.forEach(t=>{if(t.category===oldName)t.category=newName});if(a.budgets&&Object.prototype.hasOwnProperty.call(a.budgets,oldName)){a.budgets[newName]=a.budgets[newName]??a.budgets[oldName];delete a.budgets[oldName]}})}
+ state.categoryStructure=next;save();closeModal();renderAll();showToast('Categories updated.');return true;
+}
 function renderAll(){renderTabs();renderHome();renderTransactions();renderBudgets();renderAccounts()}
 function showToast(msg){const el=document.getElementById('toast');el.textContent=msg;el.style.display='block';clearTimeout(showToast.timer);showToast.timer=setTimeout(()=>el.style.display='none',2600)}
 function navigate(view,scrollTarget=null){if(view==='budgets'||view==='reports')view='insights';document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById(view+'View').classList.add('active');document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.view===view));document.querySelector('.app').classList.toggle('transactions-mode',view==='transactions');document.body.style.overflow=view==='transactions'?'hidden':'';if(view==='transactions')renderTransactions();if(view==='more')renderAccounts();if(view!=='transactions')window.scrollTo({top:0,behavior:'smooth'});if(scrollTarget)setTimeout(()=>document.getElementById(scrollTarget)?.scrollIntoView({behavior:'smooth',block:'start'}),100)}
@@ -867,7 +822,7 @@ function openTransactionModal(txId=null){const a=active(),tx=txId?a.transactions
 function deleteTransaction(txId){const a=active(),tx=a.transactions.find(t=>t.id===txId);if(!tx)return;if(!confirm(`Delete this ${tx.type} transaction for ${money(tx.amount,tx.currency)}? This cannot be undone.`))return;a.transactions=a.transactions.filter(t=>t.id!==txId);save();closeModal();renderAll()}
 function openAccountModal(editId=null){const a=state.accounts.find(x=>x.id===editId);const options=Object.entries(CURRENCIES).map(([code,c])=>`<option value="${code}" ${a&&a.currency===code?'selected':''}>${c.flag} ${code} — ${c.name}</option>`).join('');openModal(a?'Edit account':'Add account',`<div class="field"><label for="accountName">Account name</label><input id="accountName" required maxlength="32" placeholder="e.g. United States" value="${a?esc(a.name):''}"></div><div class="field"><label for="accountCurrency">Currency</label><select id="accountCurrency">${options}<option value="__custom">Other currency code…</option></select></div><div class="field" id="customCurrencyField" style="display:none"><label for="customCurrency">3-letter currency code</label><input id="customCurrency" maxlength="3" pattern="[A-Za-z]{3}" placeholder="e.g. SGD"></div>${a?'':'<div class="field"><label for="openingBalance">Opening balance</label><input id="openingBalance" type="number" step="0.01" value="0" inputmode="decimal"></div>'}<p class="small">Each account has its own balance, transactions, and budgets. Different currencies are not automatically converted.</p>`,a?'Save changes':'Create account',a?'editaccount:'+editId:'account');const sel=document.getElementById('accountCurrency');sel.onchange=()=>document.getElementById('customCurrencyField').style.display=sel.value==='__custom'?'block':'none'}
 function openBudgetModal(){const a=active(),cats=['Rent','Groceries','Transport','Bills','Entertainment','Health','Shopping','Other'];openModal('Set category budget',`<div class="field"><label for="budgetCategory">Category</label><select id="budgetCategory">${cats.map(c=>`<option>${c}</option>`).join('')}</select></div><div class="field"><label for="budgetLimit">Monthly limit (${esc(a.currency)})</label><input id="budgetLimit" type="number" min="0.01" step="0.01" required placeholder="0.00" inputmode="decimal"></div><p class="small">This limit applies to ${esc(a.name)} only.</p>`,'Save budget','budget')}
-document.getElementById('modalForm').onsubmit=e=>{e.preventDefault();const mode=modalMode;if(mode==='monthpicker'){selectedMonth=String(monthPickerYear)+'-'+String(monthPickerMonth).padStart(2,'0');closeModal();renderAll();return}if(mode==='transaction'||mode.startsWith('edittransaction:')){const a=active(),amount=Number(document.getElementById('txAmount').value);if(!Number.isFinite(amount)||amount<=0)return;const type=document.getElementById('txType').value,category=document.getElementById('txCategory').value;if(type==='income'&&!['Salary','Freelance','Other'].includes(category))showToast('Tip: use Salary, Freelance, or Other for income.');const values={type,amount,category,date:document.getElementById('txDate').value,note:document.getElementById('txNote').value.trim(),currency:a.currency};if(mode.startsWith('edittransaction:')){const id=mode.slice('edittransaction:'.length),existing=a.transactions.find(t=>t.id===id);if(!existing){showToast('Transaction not found.');return}Object.assign(existing,values)}else{a.transactions.push({id:crypto.randomUUID?crypto.randomUUID():String(Date.now()),...values,created:Date.now()})}save();closeModal();renderAll();return}
+document.getElementById('modalForm').onsubmit=e=>{e.preventDefault();const mode=modalMode;if(mode==='categorysettings'){saveCategorySettings();return}if(mode==='monthpicker'){selectedMonth=String(monthPickerYear)+'-'+String(monthPickerMonth).padStart(2,'0');closeModal();renderAll();return}if(mode==='transaction'||mode.startsWith('edittransaction:')){const a=active(),amount=Number(document.getElementById('txAmount').value);if(!Number.isFinite(amount)||amount<=0)return;const type=document.getElementById('txType').value,category=document.getElementById('txCategory').value;if(type==='income'&&!['Salary','Freelance','Other'].includes(category))showToast('Tip: use Salary, Freelance, or Other for income.');const values={type,amount,category,date:document.getElementById('txDate').value,note:document.getElementById('txNote').value.trim(),currency:a.currency};if(mode.startsWith('edittransaction:')){const id=mode.slice('edittransaction:'.length),existing=a.transactions.find(t=>t.id===id);if(!existing){showToast('Transaction not found.');return}Object.assign(existing,values)}else{a.transactions.push({id:crypto.randomUUID?crypto.randomUUID():String(Date.now()),...values,created:Date.now()})}save();closeModal();renderAll();return}
 if(mode==='account'||mode.startsWith('editaccount:')){const edit=mode.startsWith('editaccount:')?state.accounts.find(a=>a.id===mode.split(':')[1]):null;const name=document.getElementById('accountName').value.trim();let currency=document.getElementById('accountCurrency').value;if(currency==='__custom')currency=(document.getElementById('customCurrency').value||'').trim().toUpperCase();if(!name||!/^[A-Z]{3}$/.test(currency)){showToast('Enter a name and a valid 3-letter currency code.');return}if(!edit&&state.accounts.some(a=>a.name.toLowerCase()===name.toLowerCase())){showToast('An account with that name already exists.');return}if(edit){edit.name=name;if(edit.currency!==currency&&edit.transactions.length){if(!confirm('Changing currency does not convert existing amounts. Continue?'))return}edit.currency=currency;edit.transactions.forEach(t=>t.currency=currency)}else{const id='acct-'+Date.now();state.accounts.push({id,name,currency,opening:Number(document.getElementById('openingBalance').value)||0,transactions:[],budgets:{},showInToggler:true});state.activeId=id}save();closeModal();renderAll();showToast(edit?'Account updated':'Account added');return}
 if(mode==='budget'){const cat=document.getElementById('budgetCategory').value,limit=Number(document.getElementById('budgetLimit').value);if(limit<=0)return;active().budgets[cat]=limit;save();closeModal();renderAll();showToast('Budget limit saved')}
 };
@@ -1541,43 +1496,6 @@ html body header.top #accountSwitcher.account-switcher.open .account-switcher-he
   border-radius:21px 21px 0 0!important;
 }
 @media(max-width:380px){html body header.top #accountSwitcher.account-switcher.open{width:198px!important;min-width:198px!important;max-width:198px!important}}
-</style>
-
-
-<style id="month-picker-close-size-final-fix">
-/* Match the month/year modal close control to its circular year-chevron controls. */
-#modalBackdrop:has(#monthPickerContent) #modalClose {
-  box-sizing: border-box !important;
-  inline-size: 40px !important; block-size: 40px !important;
-  width: 40px !important; height: 40px !important;
-  min-width: 40px !important; min-height: 40px !important;
-  max-width: 40px !important; max-height: 40px !important;
-  padding: 0 !important; margin: 0 !important;
-  flex: 0 0 40px !important;
-  border-radius: 50% !important;
-  display: inline-flex !important; align-items: center !important; justify-content: center !important;
-  font-size: 18px !important; line-height: 1 !important; font-weight: 500 !important;
-  aspect-ratio: 1 / 1 !important; transform: none !important;
-  background: #242424 !important; color: #E0E0E0 !important;
-  border: 1px solid #555 !important; box-shadow: none !important;
-}
-#modalBackdrop:has(#monthPickerContent) .month-picker-yearbtn {
-  box-sizing: border-box !important; width: 40px !important; height: 40px !important;
-  min-width: 40px !important; min-height: 40px !important;
-  max-width: 40px !important; max-height: 40px !important;
-}
-</style>
-
-<style id="month-picker-close-glyph-match-chevron-final">
-/* Final visual-size correction: make the X glyph match the 20px chevron SVG. */
-#modalBackdrop:has(#monthPickerContent) #modalClose {
-  width:40px!important;height:40px!important;min-width:40px!important;min-height:40px!important;
-  max-width:40px!important;max-height:40px!important;flex:0 0 40px!important;
-  padding:0!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;
-  font-family:Arial, sans-serif!important;font-size:25px!important;font-weight:400!important;
-  line-height:40px!important;letter-spacing:0!important;text-align:center!important;
-  border-radius:50%!important;box-sizing:border-box!important;
-}
 </style>
 
 </body>
