@@ -918,6 +918,9 @@ function initTransactionDatePicker(){
  const display=document.getElementById('txDateDisplay');
  const panel=document.getElementById('txDateCalendar');
  if(!field||!input||!trigger||!display||!panel)return;
+ const modal=field.closest('.modal');
+ if(!modal)return;
+ if(panel.parentElement!==modal)modal.appendChild(panel);
  const parseISO=value=>{const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(value||'');return m?new Date(Number(m[1]),Number(m[2])-1,Number(m[3])):new Date()};
  const fmt=value=>{const d=parseISO(value);return `${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getDate()).padStart(2,'0')}/${d.getFullYear()}`};
  let selected=parseISO(input.value),shown=new Date(selected.getFullYear(),selected.getMonth(),1);
@@ -942,11 +945,11 @@ function initTransactionDatePicker(){
    display.textContent=fmt(input.value);close();
   });
  }
- function open(){selected=parseISO(input.value);shown=new Date(selected.getFullYear(),selected.getMonth(),1);render();panel.hidden=false;trigger.classList.add('calendar-open');trigger.setAttribute('aria-expanded','true')}
+ function open(){selected=parseISO(input.value);shown=new Date(selected.getFullYear(),selected.getMonth(),1);render();const mr=modal.getBoundingClientRect(),tr=trigger.getBoundingClientRect();panel.style.top=`${tr.bottom-mr.top+modal.scrollTop+8}px`;panel.hidden=false;trigger.classList.add('calendar-open');trigger.setAttribute('aria-expanded','true')}
  function close(){panel.hidden=true;trigger.classList.remove('calendar-open');trigger.setAttribute('aria-expanded','false')}
  display.textContent=fmt(input.value);
  trigger.onclick=()=>panel.hidden?open():close();
- document.addEventListener('click',e=>{if(!field.contains(e.target))close()});
+ document.addEventListener('click',e=>{if(!trigger.contains(e.target)&&!panel.contains(e.target))close()});
  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!panel.hidden){close();trigger.focus()}});
 }
 
@@ -3315,6 +3318,32 @@ html body #modalBackdrop.show .modal #modalBody .date-field:has(.date-calendar:n
     width:min(300px,calc(100vw - 48px)) !important;
     padding:11px !important;
   }
+}
+</style>
+
+
+<style id="transaction-calendar-centered-in-modal">
+/* Calendar is positioned relative to the full Edit Transaction modal,
+   not the narrow Date field. */
+html body #modalBackdrop.show .modal > .date-calendar {
+  position:absolute !important;
+  left:50% !important;
+  right:auto !important;
+  transform:translateX(-50%) !important;
+  width:min(320px,calc(100% - 32px)) !important;
+  max-width:calc(100% - 32px) !important;
+  box-sizing:border-box !important;
+  z-index:1200 !important;
+  margin:0 !important;
+  padding:14px !important;
+  border:1px solid #3B3942 !important;
+  border-radius:20px !important;
+  background:#111114 !important;
+  color:#F2F2F2 !important;
+  box-shadow:0 16px 36px #0009 !important;
+}
+html body #modalBackdrop.show .modal > .date-calendar[hidden] {
+  display:none !important;
 }
 </style>
 
