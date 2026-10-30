@@ -3610,3 +3610,26 @@ html body #modalBackdrop.show .modal #modalBody .date-month-choice.active-month 
 }
 </style>
 
+
+<style id="transaction-calendar-uniform-compact-columns">
+/* Narrow the shared weekday/date grid so the seven columns sit closer together,
+   while keeping each date directly aligned beneath its weekday. */
+html body #modalBackdrop.show .modal #modalBody .date-weekdays,
+html body #modalBackdrop.show .modal #modalBody .date-days {
+  width:92% !important;
+  max-width:620px !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+  grid-template-columns:repeat(7,minmax(0,1fr)) !important;
+  column-gap:0 !important;
+}
+html body #modalBackdrop.show .modal #modalBody .date-weekdays {
+  margin-bottom:6px !important;
+}
+html body #modalBackdrop.show .modal #modalBody .date-day {
+  width:min(100%,44px) !important;
+  max-width:44px !important;
+  justify-self:center !important;
+}
+</style>
+
