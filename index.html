@@ -625,6 +625,52 @@ button:active,a:active,[role="button"]:active{outline:none}
 }
 </style>
 
+
+<style id="pill-shaped-modal-input-fields">
+/* Match transaction/account modal fields to the rounded pill shape of the Save changes button. */
+#modalBackdrop .modal .field input,
+#modalBackdrop .modal .field select,
+#modalBackdrop .modal .field textarea,
+#modalBackdrop .modal .field .app-select-trigger {
+  box-sizing: border-box !important;
+  min-height: 72px !important;
+  height: 72px !important;
+  padding: 0 24px !important;
+  border-radius: 999px !important;
+  border: 1px solid #3b3942 !important;
+  background: #1b1a21 !important;
+  color: #F7F6FA !important;
+}
+#modalBackdrop .modal .field textarea {
+  height: auto !important;
+  min-height: 72px !important;
+  padding-top: 22px !important;
+  padding-bottom: 22px !important;
+  resize: vertical;
+}
+#modalBackdrop .modal .field input::placeholder,
+#modalBackdrop .modal .field textarea::placeholder {
+  color: #898591 !important;
+  opacity: 1;
+}
+#modalBackdrop .modal .field .app-select-trigger {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  text-align: left !important;
+}
+#modalBackdrop .modal .field .app-select-trigger .app-select-caret {
+  flex: 0 0 auto !important;
+}
+#modalBackdrop .modal .field input:focus,
+#modalBackdrop .modal .field select:focus,
+#modalBackdrop .modal .field textarea:focus,
+#modalBackdrop .modal .field .app-select-trigger:focus-visible {
+  outline: 2px solid #A78BFA !important;
+  outline-offset: 2px !important;
+}
+</style>
+
 </head>
 <body>
 <div class="app">
