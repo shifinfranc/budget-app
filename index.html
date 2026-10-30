@@ -909,7 +909,47 @@ document.getElementById('quickAdd').onclick=()=>openTransactionModal();document.
 function openModal(title,body,submitText,mode){modalMode=mode;document.getElementById('modalTitle').textContent=title;document.getElementById('modalBody').innerHTML=body;document.getElementById('modalSubmit').textContent=submitText;document.getElementById('modalBackdrop').classList.add('show')}
 function closeModal(){const backdrop=document.getElementById('modalBackdrop');backdrop.classList.remove('show');backdrop.style.display='';backdrop.style.visibility='';backdrop.style.pointerEvents='';backdrop.style.zIndex='';}
 document.getElementById('modalClose').onclick=e=>{e.preventDefault();e.stopPropagation();closeModal()};document.getElementById('modalBackdrop').onclick=e=>{if(e.target.id==='modalBackdrop')closeModal()};
-function openTransactionModal(txId=null){const a=active(),tx=txId?a.transactions.find(t=>t.id===txId):null;if(txId&&!tx){showToast('Transaction not found.');return}const cats=['Groceries','Rent','Transport','Bills','Entertainment','Health','Shopping','Salary','Freelance','Savings','Other'];const categoryOptions=cats.map(c=>`<option ${tx&&tx.category===c?'selected':''}>${c}</option>`).join('');openModal(tx?'Edit transaction':'Add transaction',`<div class="formgrid"><div class="field"><label for="txType">Type</label><select id="txType"><option value="expense" ${tx&&tx.type==='expense'?'selected':''}>Expense</option><option value="income" ${tx&&tx.type==='income'?'selected':''}>Income</option></select></div><div class="field"><label for="txAmount">Amount (${esc(a.currency)})</label><input id="txAmount" type="number" min="0.01" step="0.01" required placeholder="0.00" inputmode="decimal" value="${tx?esc(tx.amount):''}"></div></div><div class="formgrid"><div class="field"><label for="txCategory">Category</label><select id="txCategory">${categoryOptions}</select></div><div class="field"><label for="txDate">Date</label><input id="txDate" type="date" required value="${tx?esc(tx.date):new Date().toISOString().slice(0,10)}"></div></div><div class="field"><label for="txNote">Note (optional)</label><input id="txNote" maxlength="100" placeholder="e.g. weekly groceries" value="${tx?esc(tx.note||''):''}"></div><p class="small">This transaction is saved only to ${esc(a.name)} (${esc(a.currency)}).</p>${tx?'<button type="button" class="transaction-delete" id="deleteTransactionBtn">Delete transaction</button>':''}`,tx?'Save changes':'Save transaction',tx?'edittransaction:'+tx.id:'transaction');if(tx){document.getElementById('deleteTransactionBtn').onclick=()=>deleteTransaction(tx.id)}}
+function openTransactionModal(txId=null){const a=active(),tx=txId?a.transactions.find(t=>t.id===txId):null;if(txId&&!tx){showToast('Transaction not found.');return}const cats=['Groceries','Rent','Transport','Bills','Entertainment','Health','Shopping','Salary','Freelance','Savings','Other'];const categoryOptions=cats.map(c=>`<option ${tx&&tx.category===c?'selected':''}>${c}</option>`).join('');openModal(tx?'Edit transaction':'Add transaction',`<div class="formgrid"><div class="field"><label for="txType">Type</label><select id="txType"><option value="expense" ${tx&&tx.type==='expense'?'selected':''}>Expense</option><option value="income" ${tx&&tx.type==='income'?'selected':''}>Income</option></select></div><div class="field"><label for="txAmount">Amount (${esc(a.currency)})</label><input id="txAmount" type="number" min="0.01" step="0.01" required placeholder="0.00" inputmode="decimal" value="${tx?esc(tx.amount):''}"></div></div><div class="formgrid"><div class="field"><label for="txCategory">Category</label><select id="txCategory">${categoryOptions}</select></div><div class="field date-field" id="txDateField"><label for="txDateTrigger">Date</label><input id="txDate" class="date-native-value" type="date" required value="${tx?esc(tx.date):new Date().toISOString().slice(0,10)}" tabindex="-1" aria-hidden="true"><button type="button" class="date-trigger" id="txDateTrigger" aria-haspopup="dialog" aria-expanded="false"><span id="txDateDisplay"></span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="16" rx="2"/><path d="M7.5 3v4M16.5 3v4M3.5 9.5h17"/></svg></button><div class="date-calendar" id="txDateCalendar" role="dialog" aria-label="Choose transaction date" hidden></div></div></div><div class="field"><label for="txNote">Note (optional)</label><input id="txNote" maxlength="100" placeholder="e.g. weekly groceries" value="${tx?esc(tx.note||''):''}"></div><p class="small">This transaction is saved only to ${esc(a.name)} (${esc(a.currency)}).</p>${tx?'<button type="button" class="transaction-delete" id="deleteTransactionBtn">Delete transaction</button>':''}`,tx?'Save changes':'Save transaction',tx?'edittransaction:'+tx.id:'transaction');initTransactionDatePicker();if(tx){document.getElementById('deleteTransactionBtn').onclick=()=>deleteTransaction(tx.id)}}
+
+function initTransactionDatePicker(){
+ const field=document.getElementById('txDateField');
+ const input=document.getElementById('txDate');
+ const trigger=document.getElementById('txDateTrigger');
+ const display=document.getElementById('txDateDisplay');
+ const panel=document.getElementById('txDateCalendar');
+ if(!field||!input||!trigger||!display||!panel)return;
+ const parseISO=value=>{const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(value||'');return m?new Date(Number(m[1]),Number(m[2])-1,Number(m[3])):new Date()};
+ const fmt=value=>{const d=parseISO(value);return `${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getDate()).padStart(2,'0')}/${d.getFullYear()}`};
+ let selected=parseISO(input.value),shown=new Date(selected.getFullYear(),selected.getMonth(),1);
+ const today=new Date();today.setHours(0,0,0,0);
+ const iso=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+ const sameDay=(a,b)=>a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()&&a.getDate()===b.getDate();
+ function render(){
+  const year=shown.getFullYear(),month=shown.getMonth();
+  const first=new Date(year,month,1),start=new Date(year,month,1-first.getDay());
+  const monthName=shown.toLocaleDateString(undefined,{month:'long',year:'numeric'});
+  let days='';
+  for(let i=0;i<42;i++){
+   const d=new Date(start);d.setDate(start.getDate()+i);
+   const outside=d.getMonth()!==month,active=sameDay(d,selected),current=sameDay(d,today);
+   days+=`<button type="button" class="date-day${outside?' outside-month':''}${current?' current-day':''}${active?' selected-day':''}" data-date="${iso(d)}" aria-pressed="${active}" ${outside?'tabindex="-1"':''}>${d.getDate()}</button>`;
+  }
+  panel.innerHTML=`<div class="date-calendar-head"><button type="button" class="date-month-nav" data-cal-prev aria-label="Previous month"><svg viewBox="0 0 24 24"><path d="m15 5-7 7 7 7"/></svg></button><strong>${monthName}</strong><button type="button" class="date-month-nav" data-cal-next aria-label="Next month"><svg viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg></button></div><div class="date-weekdays">${['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(x=>`<span>${x}</span>`).join('')}</div><div class="date-days">${days}</div>`;
+  panel.querySelector('[data-cal-prev]').onclick=()=>{shown=new Date(year,month-1,1);render()};
+  panel.querySelector('[data-cal-next]').onclick=()=>{shown=new Date(year,month+1,1);render()};
+  panel.querySelectorAll('[data-date]').forEach(b=>b.onclick=()=>{
+   selected=parseISO(b.dataset.date);input.value=iso(selected);input.dispatchEvent(new Event('change',{bubbles:true}));
+   display.textContent=fmt(input.value);close();
+  });
+ }
+ function open(){selected=parseISO(input.value);shown=new Date(selected.getFullYear(),selected.getMonth(),1);render();panel.hidden=false;trigger.classList.add('calendar-open');trigger.setAttribute('aria-expanded','true')}
+ function close(){panel.hidden=true;trigger.classList.remove('calendar-open');trigger.setAttribute('aria-expanded','false')}
+ display.textContent=fmt(input.value);
+ trigger.onclick=()=>panel.hidden?open():close();
+ document.addEventListener('click',e=>{if(!field.contains(e.target))close()});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!panel.hidden){close();trigger.focus()}});
+}
+
 function deleteTransaction(txId){const a=active(),tx=a.transactions.find(t=>t.id===txId);if(!tx)return;if(!confirm(`Delete this ${tx.type} transaction for ${money(tx.amount,tx.currency)}? This cannot be undone.`))return;a.transactions=a.transactions.filter(t=>t.id!==txId);save();closeModal();renderAll()}
 function openAccountModal(editId=null){const a=state.accounts.find(x=>x.id===editId);const options=Object.entries(CURRENCIES).map(([code,c])=>`<option value="${code}" ${a&&a.currency===code?'selected':''}>${c.flag} ${code} — ${c.name}</option>`).join('');openModal(a?'Edit account':'Add account',`<div class="field"><label for="accountName">Account name</label><input id="accountName" required maxlength="32" placeholder="e.g. United States" value="${a?esc(a.name):''}"></div><div class="field"><label for="accountCurrency">Currency</label><select id="accountCurrency">${options}<option value="__custom">Other currency code…</option></select></div><div class="field" id="customCurrencyField" style="display:none"><label for="customCurrency">3-letter currency code</label><input id="customCurrency" maxlength="3" pattern="[A-Za-z]{3}" placeholder="e.g. SGD"></div>${a?'':'<div class="field"><label for="openingBalance">Opening balance</label><input id="openingBalance" type="number" step="0.01" value="0" inputmode="decimal"></div>'}<p class="small">Each account has its own balance, transactions, and budgets. Different currencies are not automatically converted.</p>`,a?'Save changes':'Create account',a?'editaccount:'+editId:'account');const sel=document.getElementById('accountCurrency');sel.onchange=()=>document.getElementById('customCurrencyField').style.display=sel.value==='__custom'?'block':'none'}
 function openBudgetModal(){const a=active(),cats=['Rent','Groceries','Transport','Bills','Entertainment','Health','Shopping','Other'];openModal('Set category budget',`<div class="field"><label for="budgetCategory">Category</label><select id="budgetCategory">${cats.map(c=>`<option>${c}</option>`).join('')}</select></div><div class="field"><label for="budgetLimit">Monthly limit (${esc(a.currency)})</label><input id="budgetLimit" type="number" min="0.01" step="0.01" required placeholder="0.00" inputmode="decimal"></div><p class="small">This limit applies to ${esc(a.name)} only.</p>`,'Save budget','budget')}
@@ -3075,6 +3115,206 @@ html body #modalBackdrop.show .modal #modalBody .app-select .app-select-option:f
 }
 html body #modalBackdrop.show .modal #modalBody .app-select .app-select-option:focus-visible {
   background: #303030 !important;
+}
+</style>
+
+
+<style id="transaction-aligned-fields-in-app-calendar">
+/* Edit transaction form: equal two-column geometry and identical control heights. */
+html body #modalBackdrop.show .modal #modalBody .formgrid {
+  display:grid !important;
+  grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  align-items:start !important;
+  column-gap:16px !important;
+  row-gap:12px !important;
+}
+html body #modalBackdrop.show .modal #modalBody .formgrid > .field {
+  min-width:0 !important;
+  width:100% !important;
+  margin:12px 0 !important;
+}
+html body #modalBackdrop.show .modal #modalBody .formgrid .app-select,
+html body #modalBackdrop.show .modal #modalBody .formgrid .app-select-trigger,
+html body #modalBackdrop.show .modal #modalBody .formgrid input#txAmount,
+html body #modalBackdrop.show .modal #modalBody .formgrid .date-trigger,
+html body #modalBackdrop.show .modal #modalBody > .field input#txNote {
+  box-sizing:border-box !important;
+  width:100% !important;
+  height:48px !important;
+  min-height:48px !important;
+  max-height:48px !important;
+}
+html body #modalBackdrop.show .modal #modalBody .app-select .app-select-trigger {
+  padding:0 18px !important;
+}
+html body #modalBackdrop.show .modal #modalBody input#txAmount {
+  padding:0 18px !important;
+  line-height:48px !important;
+}
+html body #modalBackdrop.show .modal #modalBody > .field input#txNote {
+  padding:0 18px !important;
+  line-height:48px !important;
+}
+
+/* Keep the actual ISO date input available to the existing save logic, but invisible. */
+html body #modalBackdrop.show .modal #modalBody .date-native-value {
+  position:absolute !important;
+  width:1px !important;
+  height:1px !important;
+  min-height:1px !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+  padding:0 !important;
+  border:0 !important;
+}
+
+/* Date pill matches the other fields; its icon and text are vertically centered. */
+html body #modalBackdrop.show .modal #modalBody .date-field {
+  position:relative !important;
+  min-width:0 !important;
+  z-index:1;
+}
+html body #modalBackdrop.show .modal #modalBody .date-trigger {
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  gap:12px !important;
+  padding:0 18px !important;
+  border:1px solid #3B3942 !important;
+  border-radius:999px !important;
+  background:#1B1A21 !important;
+  color:#F2F2F2 !important;
+  font:inherit !important;
+  font-weight:400 !important;
+  text-align:left !important;
+  box-shadow:none !important;
+}
+html body #modalBackdrop.show .modal #modalBody .date-trigger svg {
+  width:20px !important;
+  height:20px !important;
+  flex:0 0 20px !important;
+  fill:none !important;
+  stroke:#D0D0D0 !important;
+  stroke-width:1.8 !important;
+  stroke-linecap:round !important;
+  stroke-linejoin:round !important;
+}
+html body #modalBackdrop.show .modal #modalBody .date-trigger:focus,
+html body #modalBackdrop.show .modal #modalBody .date-trigger:focus-visible {
+  outline:2px solid #666 !important;
+  outline-offset:2px !important;
+  box-shadow:none !important;
+}
+
+/* Calendar is centered to the Date pill, with a dark surface and subtle outline. */
+html body #modalBackdrop.show .modal #modalBody .date-calendar {
+  position:absolute !important;
+  z-index:100 !important;
+  top:calc(100% + 8px) !important;
+  left:50% !important;
+  transform:translateX(-50%) !important;
+  width:min(320px,calc(100vw - 64px)) !important;
+  box-sizing:border-box !important;
+  padding:14px !important;
+  border:1px solid #3B3942 !important;
+  border-radius:20px !important;
+  background:#111114 !important;
+  color:#F2F2F2 !important;
+  box-shadow:0 16px 36px #0009 !important;
+}
+html body #modalBackdrop.show .modal #modalBody .date-calendar[hidden] {display:none !important}
+.date-calendar-head {
+  display:grid !important;
+  grid-template-columns:36px 1fr 36px !important;
+  align-items:center !important;
+  gap:6px !important;
+  margin-bottom:12px !important;
+  text-align:center !important;
+}
+.date-calendar-head strong {
+  color:#F2F2F2 !important;
+  font-size:14px !important;
+  font-weight:650 !important;
+  white-space:nowrap !important;
+}
+.date-month-nav {
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  width:36px !important;
+  height:36px !important;
+  padding:0 !important;
+  border:0 !important;
+  border-radius:50% !important;
+  background:transparent !important;
+  color:#D0D0D0 !important;
+}
+.date-month-nav svg {
+  width:18px !important;
+  height:18px !important;
+  fill:none !important;
+  stroke:currentColor !important;
+  stroke-width:2 !important;
+  stroke-linecap:round !important;
+  stroke-linejoin:round !important;
+}
+.date-weekdays,.date-days {
+  display:grid !important;
+  grid-template-columns:repeat(7,minmax(0,1fr)) !important;
+  gap:3px !important;
+  text-align:center !important;
+}
+.date-weekdays {margin-bottom:6px !important}
+.date-weekdays span {
+  color:#A3A3A3 !important;
+  font-size:11px !important;
+  font-weight:500 !important;
+  padding:5px 0 !important;
+}
+.date-day {
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  width:100% !important;
+  aspect-ratio:1 !important;
+  min-width:0 !important;
+  padding:0 !important;
+  border:1px solid transparent !important;
+  border-radius:50% !important;
+  background:transparent !important;
+  color:#F2F2F2 !important;
+  font-size:13px !important;
+  font-weight:450 !important;
+  line-height:1 !important;
+  box-shadow:none !important;
+}
+.date-day.outside-month {color:#777 !important}
+.date-day.current-day:not(.selected-day) {
+  background:#242424 !important;
+  border-color:#666 !important;
+  color:#F2F2F2 !important;
+}
+.date-day.selected-day {
+  background:#3A3A3A !important;
+  border-color:#777 !important;
+  color:#FFFFFF !important;
+  font-weight:650 !important;
+}
+.date-day:focus-visible {
+  outline:2px solid #888 !important;
+  outline-offset:1px !important;
+}
+
+/* The popup floats above the following row without changing the form's grid alignment. */
+html body #modalBackdrop.show .modal #modalBody .date-field:has(.date-calendar:not([hidden])) {
+  z-index:20 !important;
+}
+@media(max-width:390px) {
+  html body #modalBackdrop.show .modal #modalBody .formgrid {column-gap:10px !important}
+  html body #modalBackdrop.show .modal #modalBody .date-calendar {
+    width:min(300px,calc(100vw - 48px)) !important;
+    padding:11px !important;
+  }
 }
 </style>
 
