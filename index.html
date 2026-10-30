@@ -2809,3 +2809,95 @@ html body #accountSwitcher.account-switcher.open .account-switcher-head .account
 }
 </style>
 
+
+<style id="edit-transaction-preview-match-final">
+/* Match the Edit Transaction form to the latest approved visual preview.
+   Keep this final override after legacy theme rules. */
+html body #modalBackdrop.show .modal #modalBody .formgrid .field > input#txAmount,
+html body #modalBackdrop.show .modal #modalBody .formgrid .field > input#txDate,
+html body #modalBackdrop.show .modal #modalBody > .field > input#txNote {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  height: 72px !important;
+  min-height: 72px !important;
+  padding: 0 24px !important;
+  border: 1px solid #3B3942 !important;
+  border-radius: 999px !important;
+  background-color: #1B1A21 !important;
+  background-image: none !important;
+  color: #F2F2F2 !important;
+  box-shadow: none !important;
+  outline: none;
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  font: inherit !important;
+}
+
+/* The Type and Category controls are custom .app-select-trigger pills.
+   Give Amount and Date the same neutral fill, border and corner treatment. */
+html body #modalBackdrop.show .modal #modalBody .formgrid .field .app-select-trigger {
+  height: 72px !important;
+  min-height: 72px !important;
+  border: 1px solid #3B3942 !important;
+  border-radius: 999px !important;
+  background: #1B1A21 !important;
+  color: #F2F2F2 !important;
+  box-shadow: none !important;
+}
+
+/* Use a simple down-chevron in the Date field, matching the other dropdowns. */
+html body #modalBackdrop.show .modal #modalBody input#txDate {
+  padding-right: 58px !important;
+  color-scheme: dark !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23D8D8D8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 22px center !important;
+  background-size: 20px 20px !important;
+}
+html body #modalBackdrop.show .modal #modalBody input#txDate::-webkit-calendar-picker-indicator {
+  opacity: 0 !important;
+  width: 22px !important;
+  height: 22px !important;
+  margin: 0 12px 0 0 !important;
+  cursor: pointer !important;
+}
+
+/* Neutral focus state for the input pills and matching dropdowns. */
+html body #modalBackdrop.show .modal #modalBody input#txAmount:focus,
+html body #modalBackdrop.show .modal #modalBody input#txDate:focus,
+html body #modalBackdrop.show .modal #modalBody input#txNote:focus,
+html body #modalBackdrop.show .modal #modalBody .app-select-trigger:focus,
+html body #modalBackdrop.show .modal #modalBody .app-select-trigger:focus-visible {
+  border-color: #666666 !important;
+  outline: 2px solid #666666 !important;
+  outline-offset: 2px !important;
+  box-shadow: none !important;
+}
+
+/* Delete is a neutral charcoal pill, visibly darker than Save changes. */
+html body #modalBackdrop.show .modal #modalBody button#deleteTransactionBtn.transaction-delete,
+html body #modalBackdrop.show .modal #modalBody .transaction-delete {
+  display: block !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  height: 72px !important;
+  min-height: 72px !important;
+  margin: 10px 0 0 !important;
+  padding: 0 24px !important;
+  border: 1px solid #505050 !important;
+  border-radius: 999px !important;
+  background: #222222 !important;
+  background-image: none !important;
+  color: #F2F2F2 !important;
+  font: inherit !important;
+  font-weight: 650 !important;
+  box-shadow: none !important;
+}
+
+/* Preserve the existing Save button dimensions and neutral grey treatment. */
+html body #modalBackdrop.show .modal .modal-actions #modalSubmit {
+  border-radius: 999px !important;
+}
+</style>
+
