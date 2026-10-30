@@ -3026,3 +3026,55 @@ html body #modalBackdrop.show .modal #modalBody .app-select.open .app-select-men
 }
 </style>
 
+
+<style id="edit-transaction-dropdown-no-inner-borders">
+/* One continuous outline only: remove the trigger's own border/focus ring
+   and the menu's own border/shadow while the dropdown is expanded. */
+html body #modalBackdrop.show .modal #modalBody .app-select {
+  border: 1px solid #3B3942 !important;
+  background: #1B1A21 !important;
+  box-shadow: none !important;
+  outline: none !important;
+  overflow: hidden !important;
+}
+html body #modalBackdrop.show .modal #modalBody .app-select.open {
+  border: 1px solid #3B3942 !important;
+  border-radius: 24px !important;
+  background: #1B1A21 !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+html body #modalBackdrop.show .modal #modalBody .app-select .app-select-trigger,
+html body #modalBackdrop.show .modal #modalBody .app-select.open .app-select-trigger,
+html body #modalBackdrop.show .modal #modalBody .app-select .app-select-trigger:hover,
+html body #modalBackdrop.show .modal #modalBody .app-select .app-select-trigger:active,
+html body #modalBackdrop.show .modal #modalBody .app-select .app-select-trigger:focus,
+html body #modalBackdrop.show .modal #modalBody .app-select .app-select-trigger:focus-visible {
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+html body #modalBackdrop.show .modal #modalBody .app-select .app-select-menu,
+html body #modalBackdrop.show .modal #modalBody .app-select.open .app-select-menu {
+  border: 0 !important;
+  border-top: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  background: #1B1A21 !important;
+  border-radius: 0 !important;
+}
+html body #modalBackdrop.show .modal #modalBody .app-select .app-select-option,
+html body #modalBackdrop.show .modal #modalBody .app-select .app-select-option:hover,
+html body #modalBackdrop.show .modal #modalBody .app-select .app-select-option:focus,
+html body #modalBackdrop.show .modal #modalBody .app-select .app-select-option:focus-visible {
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+html body #modalBackdrop.show .modal #modalBody .app-select .app-select-option:focus-visible {
+  background: #303030 !important;
+}
+</style>
+
