@@ -671,33 +671,6 @@ button:active,a:active,[role="button"]:active{outline:none}
 }
 </style>
 
-
-<style id="amount-date-match-standard-field-style">
-/* Match Amount and Date to the same neutral pill styling as Type and Category. */
-#modalBackdrop .modal .field #txAmount,
-#modalBackdrop .modal .field #txDate {
-  box-sizing: border-box !important;
-  background: #1B1A21 !important;
-  color: #F7F6FA !important;
-  border: 1px solid #3B3942 !important;
-  border-radius: 999px !important;
-  box-shadow: none !important;
-  accent-color: #BDBDBD !important;
-}
-/* Keep focus treatment neutral rather than violet. */
-#modalBackdrop .modal .field #txAmount:focus,
-#modalBackdrop .modal .field #txDate:focus {
-  outline: 2px solid #777777 !important;
-  outline-offset: 2px !important;
-  border-color: #3B3942 !important;
-}
-/* Keep the native date indicator legible in the dark theme. */
-#modalBackdrop .modal .field #txDate::-webkit-calendar-picker-indicator {
-  opacity: 0.85;
-  filter: invert(1) grayscale(1);
-}
-</style>
-
 </head>
 <body>
 <div class="app">
@@ -2768,3 +2741,71 @@ html body #accountSwitcher.account-switcher.open .account-switcher-head .account
   letter-spacing: 0.15px !important;
 }
 </style>
+
+
+<style id="edit-transaction-field-style-final-fix">
+/*
+  Edit Transaction: normalize the native Amount and Date inputs to the same
+  neutral field treatment as the enhanced Type and Category dropdown triggers.
+  This block is deliberately last so older theme overrides cannot reintroduce
+  violet borders or focus rings.
+*/
+#modalBackdrop.show .modal #modalBody .formgrid .field > input#txAmount,
+#modalBackdrop.show .modal #modalBody .formgrid .field > input#txDate,
+#modalBackdrop.show .modal #modalBody .field > input#txNote,
+#modalBackdrop.show .modal #modalBody .formgrid .field .app-select .app-select-trigger {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 72px !important;
+  height: 72px !important;
+  padding: 0 24px !important;
+  border: 1px solid #3B3942 !important;
+  border-radius: 999px !important;
+  background: #1B1A21 !important;
+  background-image: none !important;
+  color: #F7F6FA !important;
+  box-shadow: none !important;
+  outline: none;
+  -webkit-appearance: none !important;
+  appearance: none !important;
+}
+
+/* Date text and calendar indicator stay aligned and monochrome. */
+#modalBackdrop.show .modal #modalBody input#txDate {
+  display: block !important;
+  line-height: normal !important;
+  color-scheme: dark;
+}
+#modalBackdrop.show .modal #modalBody input#txDate::-webkit-calendar-picker-indicator {
+  opacity: .85 !important;
+  filter: invert(1) grayscale(1) !important;
+}
+
+/* Neutral focus state: no violet border, glow, or outline. */
+#modalBackdrop.show .modal #modalBody input#txAmount:focus,
+#modalBackdrop.show .modal #modalBody input#txDate:focus,
+#modalBackdrop.show .modal #modalBody input#txNote:focus,
+#modalBackdrop.show .modal #modalBody .app-select-trigger:focus,
+#modalBackdrop.show .modal #modalBody .app-select-trigger:focus-visible {
+  border-color: #666666 !important;
+  outline: 2px solid #666666 !important;
+  outline-offset: 2px !important;
+  box-shadow: none !important;
+}
+
+/* Keep the enhanced dropdown chevrons and values centered in the same field height. */
+#modalBackdrop.show .modal #modalBody .app-select-trigger {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  text-align: left !important;
+}
+#modalBackdrop.show .modal #modalBody .app-select-trigger .app-select-caret {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex: 0 0 auto !important;
+}
+</style>
+
